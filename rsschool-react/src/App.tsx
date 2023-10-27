@@ -1,10 +1,12 @@
 import './App.css';
+import { Header } from './components/Header/Header';
 
 function App(): React.ReactElement {
   return (
-    <div>
+    <>
+      <Header />
       <h1>Games</h1>
-    </div>
+    </>
   );
 }
 
