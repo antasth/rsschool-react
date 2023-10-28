@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { getGames, searchGames } from '../api/games';
+import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
 import { IGame } from '../types/types';
@@ -11,25 +11,20 @@ class MainPage extends Component<
 > {
   state = {
     gamesList: [],
-    page: 1,
   };
-  getAllGamesList = async (): Promise<void> => {
-    this.setState({ gamesList: await getGames(this.state.page) });
-  };
-  getSearchGamesList = async (searchString: string): Promise<void> => {
-    this.setState({ gamesList: await searchGames(searchString) });
+
+  getGamesList = async (searchString: string): Promise<void> => {
+    this.setState({ gamesList: await getGames(searchString) });
   };
   componentDidMount(): void {
     const searchRequest = getFromLocalStorage();
-    searchRequest
-      ? this.getSearchGamesList(searchRequest)
-      : this.getAllGamesList();
+    this.getGamesList(searchRequest);
   }
 
   render(): JSX.Element {
     return (
       <>
-        <Header searchGames={this.getSearchGamesList} />
+        <Header searchGames={this.getGamesList} />
         <GamesList gamesList={this.state.gamesList} />
       </>
     );
