@@ -10,9 +10,10 @@ class MainPage extends Component<
 > {
   state = {
     gamesList: [],
+    page: 1,
   };
   getGamesList = async (): Promise<void> => {
-    this.setState({ gamesList: await getGames(1) });
+    this.setState({ gamesList: await getGames(this.state.page) });
   };
   searchGames = async (searchString: string): Promise<void> => {
     this.setState({ gamesList: await searchGames(searchString) });
