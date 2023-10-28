@@ -22,7 +22,6 @@ class MainPage extends Component<
     return (
       <>
         <Header />
-        <h1>Games</h1>
         <GamesList gamesList={this.state.gamesList} />
       </>
     );
