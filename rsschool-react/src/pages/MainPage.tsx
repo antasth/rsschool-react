@@ -4,6 +4,7 @@ import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
 import { IGame } from '../types/types';
 import { getFromLocalStorage } from '../utils/utils';
+import styles from './MainPage.module.css';
 
 class MainPage extends Component<
   Record<string, never>,
@@ -25,7 +26,9 @@ class MainPage extends Component<
     return (
       <>
         <Header searchGames={this.getGamesList} />
-        <GamesList gamesList={this.state.gamesList} />
+        <main className={styles.main}>
+          <GamesList gamesList={this.state.gamesList} />
+        </main>
       </>
     );
   }

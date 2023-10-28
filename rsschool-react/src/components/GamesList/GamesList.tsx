@@ -8,9 +8,9 @@ type PropTypes = {
 class GamesList extends Component<PropTypes> {
   render(): JSX.Element {
     return (
-      <div className={styles.main}>
-        <h1>All Games</h1>
-        <div className={styles.games}>
+      <div className={styles.games}>
+        <h1 className={styles.title}>Games List</h1>
+        <div className={styles.container}>
           {this.props.gamesList.map((game) => (
             <div key={game.id} className={styles.card}>
               <div className={styles.image}>
