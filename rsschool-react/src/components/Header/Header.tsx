@@ -1,4 +1,5 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
+import { saveToLocalStorage } from '../../utils/utils';
 import styles from './Header.module.css';
 
 type PropTypes = {
@@ -15,6 +16,7 @@ class Header extends Component<PropTypes> {
   handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     this.props.searchGames(this.state.search);
+    saveToLocalStorage(this.state.search);
   };
 
   render(): JSX.Element {
