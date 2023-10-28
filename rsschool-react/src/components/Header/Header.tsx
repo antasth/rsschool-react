@@ -1,14 +1,37 @@
-import { Component } from 'react';
+import { ChangeEvent, Component, FormEvent } from 'react';
 import styles from './Header.module.css';
 
-class Header extends Component {
+type PropTypes = {
+  searchGames: (searchString: string) => void;
+};
+
+class Header extends Component<PropTypes> {
+  state = { search: '' };
+
+  handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ search: e.target.value });
+  };
+
+  handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    this.props.searchGames(this.state.search);
+  };
+
   render(): JSX.Element {
     return (
       <header className={styles.header}>
-        <div className={styles.search}>
-          <input className={styles.input} type="text" />
-          <button className={styles.button}>Search</button>
-        </div>
+        <form className={styles.search} onSubmit={this.handleSubmit}>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="search..."
+            value={this.state.search}
+            onChange={this.handleChange}
+          />
+          <button className={styles.button} type="submit">
+            Search
+          </button>
+        </form>
       </header>
     );
   }

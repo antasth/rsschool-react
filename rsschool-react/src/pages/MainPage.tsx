@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { getGames } from '../api/games';
+import { getGames, searchGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
 import { IGame } from '../types/types';
@@ -14,6 +14,9 @@ class MainPage extends Component<
   getGamesList = async (): Promise<void> => {
     this.setState({ gamesList: await getGames(1) });
   };
+  searchGames = async (searchString: string): Promise<void> => {
+    this.setState({ gamesList: await searchGames(searchString) });
+  };
   componentDidMount(): void {
     this.getGamesList();
   }
@@ -21,7 +24,7 @@ class MainPage extends Component<
   render(): JSX.Element {
     return (
       <>
-        <Header />
+        <Header searchGames={this.searchGames} />
         <GamesList gamesList={this.state.gamesList} />
       </>
     );
