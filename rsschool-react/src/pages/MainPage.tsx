@@ -15,7 +15,7 @@ class MainPage extends Component<
     this.setState({ gamesList: await getGames(1) });
   };
   componentDidMount(): void {
-    // this.getGamesList();
+    this.getGamesList();
   }
 
   render(): JSX.Element {
@@ -23,7 +23,7 @@ class MainPage extends Component<
       <>
         <Header />
         <h1>Games</h1>
-        <GamesList />
+        <GamesList gamesList={this.state.gamesList} />
       </>
     );
   }
