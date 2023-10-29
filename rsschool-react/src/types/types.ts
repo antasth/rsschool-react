@@ -31,21 +31,10 @@ interface IYear {
 
 export interface IGame {
   added: number;
-  added_by_status: {
-    beaten: number;
-    dropped: number;
-    owned: number;
-    playing: number;
-    toplay: number;
-    yet: number;
-  };
+  added_by_status: IStatus | null;
   background_image: string;
   dominant_color: string;
-  esrb_rating: {
-    id: number;
-    name: string;
-    slug: string;
-  };
+  esrb_rating: IRating;
   genres: IGenre[];
   id: number;
   metacritic: number;
@@ -60,10 +49,7 @@ export interface IGame {
   reviews_count: number;
   reviews_text_count: number;
   saturated_color: string;
-  short_screenshots: {
-    id: number;
-    image: string;
-  };
+  short_screenshots: IScreenShot[];
   slug: string;
   stores: IStore[];
   suggestions_count: number;
@@ -71,6 +57,21 @@ export interface IGame {
   tba: boolean;
   updated: string;
   user_game: string | null;
+}
+
+interface IStatus {
+  beaten: number;
+  dropped: number;
+  owned: number;
+  playing: number;
+  toplay: number;
+  yet: number;
+}
+
+interface IRating {
+  id: number;
+  name: string;
+  slug: string;
 }
 
 interface IGenre {
@@ -93,6 +94,11 @@ interface IRating {
   title: string;
   count: number;
   percent: number;
+}
+
+interface IScreenShot {
+  id: number;
+  image: string;
 }
 
 interface IStore {
