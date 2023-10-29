@@ -19,7 +19,7 @@ class Header extends Component<PropTypes> {
     saveToLocalStorage(this.state.search);
   };
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return (
       <header className={styles.header}>
         <form className={styles.search} onSubmit={this.handleSubmit}>

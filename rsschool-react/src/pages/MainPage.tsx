@@ -37,7 +37,7 @@ class MainPage extends Component<Record<string, never>, State> {
     this.getGamesList(searchRequest);
   }
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     if (this.state.isError) {
       throw new Error('Error for test ErrorBoundary');
     }

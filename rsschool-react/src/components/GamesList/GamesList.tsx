@@ -6,7 +6,7 @@ type PropTypes = {
   gamesList: IGame[];
 };
 class GamesList extends Component<PropTypes> {
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return (
       <div className={styles.games}>
         <h1 className={styles.title}>Games List</h1>
