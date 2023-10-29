@@ -44,10 +44,14 @@ class MainPage extends Component<Record<string, never>, State> {
     return (
       <>
         <Header searchGames={this.getGamesList} />
-        <button className={styles.button} type="button" onClick={this.setError}>
-          Throw Error
-        </button>
         <main className={styles.main}>
+          <button
+            className={styles.button}
+            type="button"
+            onClick={this.setError}
+          >
+            Throw Error
+          </button>
           {this.state.isLoading ? (
             <Loader />
           ) : (
