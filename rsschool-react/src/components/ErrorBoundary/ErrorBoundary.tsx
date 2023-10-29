@@ -1,8 +1,7 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 
 interface Props {
   children?: ReactNode;
-  fallback: ReactNode;
 }
 
 interface State {
@@ -10,26 +9,20 @@ interface State {
 }
 
 class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
+  state: State = {
     hasError: false,
   };
 
-  public static getDerivedStateFromError(error: Error): State {
-    // Update state so the next render will show the fallback UI.
-    console.error('Uncaught error:', error);
-    return { hasError: true };
-  }
+  componentDidCatch = (): void => {
+    this.setState({ hasError: true });
+  };
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('Uncaught error:', error, errorInfo);
-  }
-
-  public render(): JSX.Element {
+  render(): JSX.Element {
     if (this.state.hasError) {
-      return <>this.props.fallback</>;
+      return <h1>Something went wrong</h1>;
     }
 
-    return <>this.props.children</>;
+    return <>{this.props.children}</>;
   }
 }
 

@@ -7,13 +7,17 @@ import { IGame } from '../types/types';
 import { getFromLocalStorage } from '../utils/utils';
 import styles from './MainPage.module.css';
 
-class MainPage extends Component<
-  Record<string, never>,
-  { gamesList: IGame[]; isLoading: boolean }
-> {
-  state = {
+interface State {
+  gamesList: IGame[];
+  isLoading: boolean;
+  isError: boolean;
+}
+
+class MainPage extends Component<Record<string, never>, State> {
+  state: State = {
     gamesList: [],
     isLoading: true,
+    isError: false,
   };
 
   getGamesList = async (searchString: string): Promise<void> => {
@@ -23,15 +27,26 @@ class MainPage extends Component<
       isLoading: false,
     });
   };
+
+  setError = (): void => {
+    this.setState({ isError: true });
+  };
+
   componentDidMount(): void {
     const searchRequest = getFromLocalStorage();
     this.getGamesList(searchRequest);
   }
 
   render(): JSX.Element {
+    if (this.state.isError) {
+      throw new Error('Error for test ErrorBoundary');
+    }
     return (
       <>
         <Header searchGames={this.getGamesList} />
+        <button className={styles.button} type="button" onClick={this.setError}>
+          Throw Error
+        </button>
         <main className={styles.main}>
           {this.state.isLoading ? (
             <Loader />
