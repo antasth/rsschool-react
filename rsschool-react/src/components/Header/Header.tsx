@@ -2,12 +2,15 @@ import { ChangeEvent, Component, FormEvent } from 'react';
 import { saveToLocalStorage } from '../../utils/utils';
 import styles from './Header.module.css';
 
-type PropTypes = {
+type Props = {
   searchGames: (searchString: string) => void;
 };
+type State = {
+  search: string;
+};
 
-class Header extends Component<PropTypes> {
-  state = { search: '' };
+class Header extends Component<Props, State> {
+  state: State = { search: '' };
 
   handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     this.setState({ search: e.target.value });
