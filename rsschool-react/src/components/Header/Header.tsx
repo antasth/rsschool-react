@@ -1,5 +1,5 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
-import { saveToLocalStorage } from '../../utils/utils';
+import { getFromLocalStorage, saveToLocalStorage } from '../../utils/utils';
 import styles from './Header.module.css';
 
 type Props = {
@@ -10,7 +10,7 @@ type State = {
 };
 
 class Header extends Component<Props, State> {
-  state: State = { search: '' };
+  state: State = { search: getFromLocalStorage() };
 
   handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     this.setState({ search: e.target.value });
