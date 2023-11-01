@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
@@ -7,60 +7,39 @@ import { IGame } from '../types/types';
 import { getFromLocalStorage } from '../utils/utils';
 import styles from './MainPage.module.css';
 
-interface State {
-  gamesList: IGame[];
-  isLoading: boolean;
-  isError: boolean;
-}
+const MainPage = (): React.ReactElement => {
+  const [gamesList, setGamesList] = useState<IGame[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-class MainPage extends Component<Record<string, never>, State> {
-  state: State = {
-    gamesList: [],
-    isLoading: true,
-    isError: false,
+  const getGamesList = async (searchString: string): Promise<void> => {
+    setIsLoading(true);
+    setGamesList(await getGames(searchString));
+    setIsLoading(false);
   };
 
-  getGamesList = async (searchString: string): Promise<void> => {
-    this.setState({ isLoading: true });
-    this.setState({
-      gamesList: await getGames(searchString),
-      isLoading: false,
-    });
-  };
+  const setError = (): void => setIsError(true);
 
-  setError = (): void => {
-    this.setState({ isError: true });
-  };
-
-  componentDidMount(): void {
+  useEffect(() => {
     const searchRequest = getFromLocalStorage();
-    this.getGamesList(searchRequest);
-  }
+    getGamesList(searchRequest);
+  }, []);
 
-  render(): React.ReactElement {
-    if (this.state.isError) {
-      throw new Error('Error for test ErrorBoundary');
-    }
-    return (
-      <>
-        <Header searchGames={this.getGamesList} />
-        <main className={styles.main}>
-          <button
-            className={styles.button}
-            type="button"
-            onClick={this.setError}
-          >
-            Throw Error
-          </button>
-          {this.state.isLoading ? (
-            <Loader />
-          ) : (
-            <GamesList gamesList={this.state.gamesList} />
-          )}
-        </main>
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    if (isError) throw new Error('Error for test ErrorBoundary');
+  }, [isError]);
+
+  return (
+    <>
+      <Header searchGames={getGamesList} />
+      <main className={styles.main}>
+        <button className={styles.button} type="button" onClick={setError}>
+          Throw Error
+        </button>
+        {isLoading ? <Loader /> : <GamesList gamesList={gamesList} />}
+      </main>
+    </>
+  );
+};
 
 export { MainPage };
