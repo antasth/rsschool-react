@@ -3,18 +3,22 @@ import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
 import { Loader } from '../components/Loader/Loader';
+import { Pagination } from '../components/Pagination/Pagination';
 import { IGame } from '../types/types';
 import { getFromLocalStorage } from '../utils/utils';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
   const [gamesList, setGamesList] = useState<IGame[]>([]);
+  const [gamesCount, setGamesCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const getGamesList = async (searchString: string): Promise<void> => {
     setIsLoading(true);
-    setGamesList(await getGames(searchString));
+    const response = await getGames(searchString);
+    setGamesCount(response.count);
+    setGamesList(response.results);
     setIsLoading(false);
   };
 
@@ -37,6 +41,7 @@ const MainPage = (): React.ReactElement => {
           Throw Error
         </button>
         {isLoading ? <Loader /> : <GamesList gamesList={gamesList} />}
+        {!isLoading && <Pagination gamesCount={gamesCount} />}
       </main>
     </>
   );
