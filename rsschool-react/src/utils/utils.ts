@@ -5,3 +5,13 @@ export const getFromLocalStorage = (): string => {
 export const saveToLocalStorage = (search: string): void => {
   localStorage.setItem('searchString', JSON.stringify(search.trim()));
 };
+
+export const getPagesArray = (
+  itemsCount: number,
+  itemsOnPageLimit: number
+): number[] => {
+  return Array.from(
+    { length: Math.ceil(itemsCount / itemsOnPageLimit) },
+    (_, k) => k + 1
+  );
+};
