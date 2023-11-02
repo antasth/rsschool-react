@@ -13,6 +13,7 @@ const MainPage = (): React.ReactElement => {
   const [gamesCount, setGamesCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const getGamesList = async (searchString: string): Promise<void> => {
     setIsLoading(true);
@@ -41,7 +42,13 @@ const MainPage = (): React.ReactElement => {
           Throw Error
         </button>
         {isLoading ? <Loader /> : <GamesList gamesList={gamesList} />}
-        {!isLoading && <Pagination gamesCount={gamesCount} />}
+        {!isLoading && (
+          <Pagination
+            gamesCount={gamesCount}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
       </main>
     </>
   );
