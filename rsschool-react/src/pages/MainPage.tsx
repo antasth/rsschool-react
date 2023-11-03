@@ -49,11 +49,11 @@ const MainPage = (): React.ReactElement => {
             setCurrentPage={setCurrentPage}
           />
         )}
-        {/* <Pagination
-          gamesCount={600}
+        <Pagination
+          gamesCount={250}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-        /> */}
+        />
       </main>
     </>
   );
