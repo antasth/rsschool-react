@@ -8,7 +8,7 @@ const App = (): React.ReactElement => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />}>
-          <Route path="details" element={<GameDetails />} />
+          <Route path="game/*" element={<GameDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

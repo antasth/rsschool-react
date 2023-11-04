@@ -15,7 +15,9 @@ export const getGames = async (
 };
 
 export const getGameDetails = async (id: number): Promise<IGameDetails> => {
-  const response = await fetch(`https://api.rawg.io/api/games/${id}`);
+  const response = await fetch(
+    `https://api.rawg.io/api/games/${id}?key=83b4eabf3167483aa7ee90180948e7a8`
+  );
   const gameDetails = await response.json();
   console.log(gameDetails);
 
