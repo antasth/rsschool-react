@@ -1,4 +1,4 @@
-import { IGamesResponseObject } from '../types/types';
+import { IGameDetails, IGamesResponseObject } from '../types/types';
 
 export const getGames = async (
   search: string,
@@ -12,4 +12,12 @@ export const getGames = async (
   console.log(games);
 
   return games;
+};
+
+export const getGameDetails = async (id: number): Promise<IGameDetails> => {
+  const response = await fetch(`https://api.rawg.io/api/games/${id}`);
+  const gameDetails = await response.json();
+  console.log(gameDetails);
+
+  return gameDetails;
 };

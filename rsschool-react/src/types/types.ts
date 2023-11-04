@@ -121,3 +121,13 @@ interface ITag {
   language: string;
   image_background: string;
 }
+
+export interface IGameDetails {
+  id: number;
+  slug: string;
+  name: string;
+  description: string;
+  metacritic: number;
+  released: string;
+  background_image: string;
+}
