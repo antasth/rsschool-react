@@ -11,7 +11,7 @@ const GamesList = (props: { gamesList: IGame[] }): React.ReactElement => {
       <h1 className={styles.title}>Games List</h1>
       <div className={styles.container}>
         {gamesList.map((game) => (
-          <Link to={`game/${game.id}`} key={game.id}>
+          <Link to={`games/${game.slug}`} key={game.id}>
             <div key={game.id} className={styles.card}>
               <div className={styles.image}>
                 <img
