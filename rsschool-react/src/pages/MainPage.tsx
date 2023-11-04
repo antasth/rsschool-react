@@ -21,7 +21,6 @@ const MainPage = (): React.ReactElement => {
     setGamesCount(response.count);
     setGamesList(response.results);
     setIsLoading(false);
-    setCurrentPage(1);
   };
 
   const setError = (): void => setIsError(true);
@@ -51,7 +50,7 @@ const MainPage = (): React.ReactElement => {
           />
         )}
         <Pagination
-          gamesCount={25}
+          gamesCount={150}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />

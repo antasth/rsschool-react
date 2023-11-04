@@ -18,6 +18,13 @@
   background-color: #1da365;
 }
 
-.dots {
-  align-self: end;
+.select {
+  padding: 0.5rem 0.3rem;
+  background-color: #193f4f;
+  color: whitesmoke;
+  font-family: 'Play';
+  font-size: 1.1rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
 }
