@@ -8,7 +8,6 @@ const Pagination = (props: {
   pageSize: number;
   setPageSize: (page: number) => void;
   setCurrentPage: (page: number) => void;
-  getGamesList: (searchString: string) => Promise<void>;
 }): React.ReactElement => {
   const { gamesCount, currentPage, pageSize, setPageSize, setCurrentPage } =
     props;

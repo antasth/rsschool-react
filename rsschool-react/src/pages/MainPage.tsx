@@ -17,21 +17,21 @@ const MainPage = (): React.ReactElement => {
   const [pageSize, setPageSize] = useState(20);
 
   const getGamesList = useCallback(
-    async (searchString: string): Promise<void> => {
+    async (searchString: string, page: number): Promise<void> => {
       setIsLoading(true);
-      const response = await getGames(searchString, currentPage, pageSize);
+      const response = await getGames(searchString, page, pageSize);
       setGamesCount(response.count);
       setGamesList(response.results);
       setIsLoading(false);
     },
-    [currentPage, pageSize]
+    [pageSize]
   );
 
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
     const searchRequest = getFromLocalStorage();
-    getGamesList(searchRequest);
+    getGamesList(searchRequest, currentPage);
   }, [getGamesList, currentPage]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const MainPage = (): React.ReactElement => {
 
   return (
     <>
-      <Header searchGames={getGamesList} />
+      <Header searchGames={getGamesList} setCurrentPage={setCurrentPage} />
       <main className={styles.main}>
         <button className={styles.button} type="button" onClick={setError}>
           Throw Error
@@ -57,7 +57,6 @@ const MainPage = (): React.ReactElement => {
             setCurrentPage={setCurrentPage}
             setPageSize={setPageSize}
             pageSize={pageSize}
-            getGamesList={getGamesList}
           />
         )}
         <Pagination
@@ -66,7 +65,6 @@ const MainPage = (): React.ReactElement => {
           setCurrentPage={setCurrentPage}
           setPageSize={setPageSize}
           pageSize={pageSize}
-          getGamesList={getGamesList}
         />
       </main>
     </>

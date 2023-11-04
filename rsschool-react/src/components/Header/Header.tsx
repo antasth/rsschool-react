@@ -3,10 +3,11 @@ import { getFromLocalStorage, saveToLocalStorage } from '../../utils/utils';
 import styles from './Header.module.css';
 
 const Header = (props: {
-  searchGames: (searchString: string) => void;
+  searchGames: (searchString: string, page: number) => void;
+  setCurrentPage: (page: number) => void;
 }): React.ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { searchGames } = props;
+  const { searchGames, setCurrentPage } = props;
 
   useEffect(() => {
     setSearchQuery(getFromLocalStorage());
@@ -16,8 +17,9 @@ const Header = (props: {
     setSearchQuery(e.target.value);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    setCurrentPage(1);
     e.preventDefault();
-    searchGames(searchQuery);
+    searchGames(searchQuery, 1);
     saveToLocalStorage(searchQuery);
   };
 
