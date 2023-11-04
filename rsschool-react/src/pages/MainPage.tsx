@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
@@ -15,6 +15,7 @@ const MainPage = (): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getGamesList = useCallback(
     async (searchString: string, page: number): Promise<void> => {
@@ -30,13 +31,16 @@ const MainPage = (): React.ReactElement => {
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
-    const searchRequest = getFromLocalStorage();
-    getGamesList(searchRequest, currentPage);
-  }, [getGamesList, currentPage]);
+    setSearchQuery(getFromLocalStorage());
+  }, []);
 
+  const ref = useRef(false);
   useEffect(() => {
-    setCurrentPage(1);
-  }, [pageSize]);
+    if (ref.current) {
+      getGamesList(searchQuery, currentPage);
+    }
+    ref.current = true;
+  }, [getGamesList, currentPage, searchQuery]);
 
   useEffect(() => {
     if (isError) throw new Error('Error for test ErrorBoundary');
@@ -44,7 +48,11 @@ const MainPage = (): React.ReactElement => {
 
   return (
     <>
-      <Header searchGames={getGamesList} setCurrentPage={setCurrentPage} />
+      <Header
+        setCurrentPage={setCurrentPage}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
+      />
       <main className={styles.main}>
         <button className={styles.button} type="button" onClick={setError}>
           Throw Error

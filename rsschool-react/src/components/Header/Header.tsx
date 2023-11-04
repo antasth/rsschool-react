@@ -1,25 +1,26 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { getFromLocalStorage, saveToLocalStorage } from '../../utils/utils';
+import { saveToLocalStorage } from '../../utils/utils';
 import styles from './Header.module.css';
 
 const Header = (props: {
-  searchGames: (searchString: string, page: number) => void;
+  searchQuery: string;
   setCurrentPage: (page: number) => void;
+  setSearchQuery: (search: string) => void;
 }): React.ReactElement => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const { searchGames, setCurrentPage } = props;
+  const { searchQuery, setSearchQuery, setCurrentPage } = props;
+  const [searchString, setSearchString] = useState('');
 
   useEffect(() => {
-    setSearchQuery(getFromLocalStorage());
-  }, []);
+    setSearchString(searchQuery);
+  }, [searchQuery]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
-    setSearchQuery(e.target.value);
+    setSearchString(e.target.value);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    setCurrentPage(1);
     e.preventDefault();
-    searchGames(searchQuery, 1);
+    setCurrentPage(1);
+    setSearchQuery(searchString);
     saveToLocalStorage(searchQuery);
   };
 
@@ -30,7 +31,7 @@ const Header = (props: {
           className={styles.input}
           type="text"
           placeholder="search..."
-          value={searchQuery}
+          value={searchString}
           onChange={handleChange}
         />
         <button className={styles.button} type="submit">
