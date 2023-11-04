@@ -52,7 +52,11 @@ const Pagination = (props: {
           &#x276F;
         </div>
       )}
-      <select className={styles.select} onChange={handlePageSizeChange}>
+      <select
+        className={styles.select}
+        onChange={handlePageSizeChange}
+        value={pageSize}
+      >
         <option value={20}>20</option>
         <option value={30}>30</option>
         <option value={40}>40</option>
