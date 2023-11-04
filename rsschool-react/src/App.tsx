@@ -1,8 +1,18 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { MainPage } from './pages/MainPage';
+import { GameDetails } from './components/GameDetails/GameDetails';
 
 const App = (): React.ReactElement => {
-  return <MainPage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />}>
+          <Route path="details" element={<GameDetails />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export { App };

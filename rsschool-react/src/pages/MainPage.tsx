@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
@@ -50,16 +51,23 @@ const MainPage = (): React.ReactElement => {
         <button className={styles.button} type="button" onClick={setError}>
           Throw Error
         </button>
-        {isLoading ? <Loader /> : <GamesList gamesList={gamesList} />}
-        {!isLoading && (
-          <Pagination
-            gamesCount={gamesCount}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            setPageSize={setPageSize}
-            pageSize={pageSize}
-          />
-        )}
+        <div className={styles.container}>
+          <div className={styles.content}>
+            {isLoading ? <Loader /> : <GamesList gamesList={gamesList} />}
+            {!isLoading && (
+              <Pagination
+                gamesCount={gamesCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setPageSize={setPageSize}
+                pageSize={pageSize}
+              />
+            )}
+          </div>
+          {/* <div className={styles.details}> */}
+          <Outlet />
+          {/* </div> */}
+        </div>
       </main>
     </>
   );
