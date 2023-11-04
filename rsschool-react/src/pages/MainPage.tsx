@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
@@ -17,22 +17,23 @@ const MainPage = (): React.ReactElement => {
   const [pageSize, setPageSize] = useState(20);
   const [searchQuery, setSearchQuery] = useState(getFromLocalStorage());
 
-  const getGamesList = useCallback(
-    async (searchString: string, page: number): Promise<void> => {
-      setIsLoading(true);
-      const response = await getGames(searchString, page, pageSize);
-      setGamesCount(response.count);
-      setGamesList(response.results);
-      setIsLoading(false);
-    },
-    [pageSize]
-  );
+  const getGamesList = async (
+    searchString: string,
+    page: number,
+    itemsOnPage: number
+  ): Promise<void> => {
+    setIsLoading(true);
+    const response = await getGames(searchString, page, itemsOnPage);
+    setGamesCount(response.count);
+    setGamesList(response.results);
+    setIsLoading(false);
+  };
 
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
-    getGamesList(searchQuery, currentPage);
-  }, [getGamesList, currentPage, searchQuery]);
+    getGamesList(searchQuery, currentPage, pageSize);
+  }, [currentPage, searchQuery, pageSize]);
 
   useEffect(() => {
     if (isError) throw new Error('Error for test ErrorBoundary');
