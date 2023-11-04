@@ -7,18 +7,11 @@ const Pagination = (props: {
   setCurrentPage: (page: number) => void;
 }): React.ReactElement => {
   const { gamesCount, currentPage, setCurrentPage } = props;
-  const pagesArray = getPagesArray(gamesCount, 20);
-  const pages =
-    pagesArray.length > 5
-      ? pagesArray.slice(
-          currentPage > 2 ? currentPage - 3 : 0,
-          currentPage > 2 ? currentPage + 2 : 3
-        )
-      : pagesArray;
-  console.log(pages);
+  const pagesCount = Math.ceil(gamesCount / 20);
+  const pagesArray = getPagesArray(currentPage, pagesCount);
 
   const nextPage = (): void => {
-    if (currentPage < pagesArray.length) setCurrentPage(currentPage + 1);
+    if (currentPage < pagesCount) setCurrentPage(currentPage + 1);
   };
   const prevPage = (): void => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -30,7 +23,7 @@ const Pagination = (props: {
           &#x276E;
         </div>
       )}
-      {pages.map((page) => (
+      {pagesArray.map((page) => (
         <div
           key={page}
           className={
@@ -43,7 +36,7 @@ const Pagination = (props: {
           {page}
         </div>
       ))}
-      {currentPage < pagesArray.length && (
+      {currentPage < pagesCount && (
         <div className={styles.page} onClick={nextPage}>
           &#x276F;
         </div>
