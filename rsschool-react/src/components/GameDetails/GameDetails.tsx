@@ -19,8 +19,6 @@ const GameDetails = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    console.log('useEffect');
-
     getGame(location.pathname);
   }, [location.pathname]);
 
@@ -29,9 +27,15 @@ const GameDetails = (): React.ReactElement => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div>
-          <h1 className={styles.details}>Game Details</h1>
-          <h3>{gameDetails?.description}</h3>
+        <div className={styles.game}>
+          <h1 className={styles.title}>{gameDetails?.name}</h1>
+          <img
+            src={gameDetails?.background_image}
+            className={styles.image}
+            alt="game image"
+          />
+          <h3 className={styles.description}>{gameDetails?.description_raw}</h3>
+          <h3>{gameDetails?.released}</h3>
         </div>
       )}
     </div>

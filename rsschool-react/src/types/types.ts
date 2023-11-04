@@ -126,7 +126,7 @@ export interface IGameDetails {
   id: number;
   slug: string;
   name: string;
-  description: string;
+  description_raw: string;
   metacritic: number;
   released: string;
   background_image: string;

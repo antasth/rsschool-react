@@ -10,6 +10,7 @@
 .container {
   display: flex;
   column-gap: 2rem;
+  padding: 0 1rem;
 }
 
 .content {
@@ -20,11 +21,6 @@
   align-items: center;
   row-gap: 3rem;
 }
-
-/* .details {
-  width: 100%;
-  max-width: 50%;
-} */
 
 .button {
   align-self: start;
