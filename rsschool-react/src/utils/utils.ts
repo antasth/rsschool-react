@@ -20,8 +20,6 @@ export const getPagesArray = (
 };
 
 const fillArray = (from: number, to: number): number[] => {
-  console.log(from, to);
-
   const res: number[] = [];
   for (let i = from; i <= to; i++) {
     res.push(i);

@@ -14,6 +14,7 @@ const MainPage = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const getGamesList = async (searchString: string): Promise<void> => {
     setIsLoading(true);
@@ -29,6 +30,10 @@ const MainPage = (): React.ReactElement => {
     const searchRequest = getFromLocalStorage();
     getGamesList(searchRequest);
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [pageSize]);
 
   useEffect(() => {
     if (isError) throw new Error('Error for test ErrorBoundary');
@@ -47,12 +52,16 @@ const MainPage = (): React.ReactElement => {
             gamesCount={gamesCount}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            setPageSize={setPageSize}
+            pageSize={pageSize}
           />
         )}
         <Pagination
           gamesCount={150}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          setPageSize={setPageSize}
+          pageSize={pageSize}
         />
       </main>
     </>
