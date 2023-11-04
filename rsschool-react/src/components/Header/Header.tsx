@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { saveToLocalStorage } from '../../utils/utils';
 import styles from './Header.module.css';
 
@@ -8,11 +8,7 @@ const Header = (props: {
   setSearchQuery: (search: string) => void;
 }): React.ReactElement => {
   const { searchQuery, setSearchQuery, setCurrentPage } = props;
-  const [searchString, setSearchString] = useState('');
-
-  useEffect(() => {
-    setSearchString(searchQuery);
-  }, [searchQuery]);
+  const [searchString, setSearchString] = useState(searchQuery);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
     setSearchString(e.target.value);
