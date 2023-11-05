@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getGameDetails } from '../../api/games';
 import { IGameDetails } from '../../types/types';
 import { Loader } from '../Loader/Loader';
@@ -10,6 +10,9 @@ const GameDetails = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(true);
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const gameDetailsRef = useRef<HTMLDivElement>(null);
 
   const getGame = async (path: string): Promise<void> => {
     setIsLoading(true);
@@ -22,8 +25,28 @@ const GameDetails = (): React.ReactElement => {
     getGame(location.pathname);
   }, [location.pathname]);
 
+  const handleClick = useCallback(
+    (e: MouseEvent): void => {
+      if (
+        e.target instanceof HTMLElement &&
+        gameDetailsRef.current &&
+        !gameDetailsRef.current.contains(e.target)
+      ) {
+        return navigate('/');
+      }
+    },
+    [navigate]
+  );
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [handleClick]);
+
   return (
-    <div className={styles.details}>
+    <div ref={gameDetailsRef} className={styles.details}>
       {isLoading ? (
         <Loader />
       ) : (
@@ -46,7 +69,7 @@ const GameDetails = (): React.ReactElement => {
           />
           <div className={styles.platforms}>
             {gameDetails?.platforms.map((platform) => (
-              <p key={platform.id}>{platform.platform.name}</p>
+              <p key={platform.platform.id}>{platform.platform.name}</p>
             ))}
           </div>
 
