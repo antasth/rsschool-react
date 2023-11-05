@@ -16,13 +16,14 @@ const MainPage = (): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
-  const [searchQuery, setSearchQuery] = useState(getFromLocalStorage());
+  const [searchQuery, setSearchQuery] = useState(
+    getFromLocalStorage('searchString')
+  );
   const [queryString, setQueryString] = useState('');
   const [isDescription, setIsDescription] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
 
   useEffect(() => {
     location.pathname !== '/'

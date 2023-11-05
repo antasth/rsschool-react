@@ -17,7 +17,7 @@ const Header = (props: {
     e.preventDefault();
     setCurrentPage(1);
     setSearchQuery(searchString);
-    saveToLocalStorage(searchString);
+    saveToLocalStorage('searchString', searchString);
   };
 
   return (

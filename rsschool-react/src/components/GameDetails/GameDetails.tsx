@@ -2,13 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getGameDetails } from '../../api/games';
 import { IGameDetails } from '../../types/types';
-import { reduceGameDescription } from '../../utils/utils';
+import {
+  getFromLocalStorage,
+  reduceGameDescription,
+  saveToLocalStorage,
+} from '../../utils/utils';
 import { Loader } from '../Loader/Loader';
 import styles from './GameDetails.module.css';
 
 const GameDetails = (): React.ReactElement => {
   const [gameDetails, setGameDetails] = useState<IGameDetails>();
   const [isLoading, setIsLoading] = useState(true);
+  const [prevLocation, setPrevLocation] = useState(
+    getFromLocalStorage('location')
+  );
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,7 +30,11 @@ const GameDetails = (): React.ReactElement => {
 
   useEffect(() => {
     getGame(location.pathname);
-  }, [location.pathname]);
+    if (location.state) {
+      setPrevLocation(location.state);
+      saveToLocalStorage('location', location.state);
+    }
+  }, [location.pathname, location.state, prevLocation]);
 
   const handleNavigate = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -33,7 +44,7 @@ const GameDetails = (): React.ReactElement => {
       gameDetailsRef.current &&
       !gameDetailsRef.current.contains(e.target)
     ) {
-      return navigate(`/${location.state}`);
+      return navigate(`/${prevLocation}`);
     }
   };
 
@@ -46,7 +57,7 @@ const GameDetails = (): React.ReactElement => {
           <div className={styles.game}>
             <div className={styles.title}>
               <h1>{gameDetails?.name}</h1>
-              <Link to={`/${location.state}`} className={styles.close}>
+              <Link to={`/${prevLocation}`} className={styles.close}>
                 &#10005;
               </Link>
             </div>

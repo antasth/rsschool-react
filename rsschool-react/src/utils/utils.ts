@@ -1,9 +1,11 @@
-export const getFromLocalStorage = (): string => {
-  return localStorage.searchString ? JSON.parse(localStorage.searchString) : '';
+export const getFromLocalStorage = (name: string): string => {
+  console.log(JSON.parse(localStorage[name]));
+
+  return localStorage[name] ? JSON.parse(localStorage[name]) : '';
 };
 
-export const saveToLocalStorage = (search: string): void => {
-  localStorage.setItem('searchString', JSON.stringify(search.trim()));
+export const saveToLocalStorage = (name: string, value: string): void => {
+  localStorage.setItem(name, JSON.stringify(value.trim()));
 };
 
 export const getPagesArray = (
@@ -30,5 +32,5 @@ const fillArray = (from: number, to: number): number[] => {
 export const reduceGameDescription = (
   description: string | undefined
 ): string => {
-  return description ? description.split('.').slice(0, 4).join('. ') : '';
+  return description ? description.split('.').slice(0, 8).join('. ') + '.' : '';
 };
