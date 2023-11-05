@@ -65,7 +65,7 @@ const MainPage = (): React.ReactElement => {
             ) : (
               <GamesList gamesList={gamesList} queryString={queryString} />
             )}
-            {!isLoading && (
+            {!isLoading && !!gamesCount ? (
               <Pagination
                 gamesCount={gamesCount}
                 currentPage={currentPage}
@@ -73,11 +73,11 @@ const MainPage = (): React.ReactElement => {
                 setPageSize={setPageSize}
                 pageSize={pageSize}
               />
+            ) : (
+              <h1>Nothing found</h1>
             )}
           </div>
-          {/* <div className={styles.outlet}> */}
           <Outlet />
-          {/* </div> */}
         </div>
       </main>
     </div>
