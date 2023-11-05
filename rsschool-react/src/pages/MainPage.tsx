@@ -63,18 +63,16 @@ const MainPage = (): React.ReactElement => {
             {isLoading ? (
               <Loader />
             ) : (
-              <GamesList gamesList={gamesList} queryString={queryString} />
-            )}
-            {!isLoading && !!gamesCount ? (
-              <Pagination
-                gamesCount={gamesCount}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                setPageSize={setPageSize}
-                pageSize={pageSize}
-              />
-            ) : (
-              <h1>Nothing found</h1>
+              <>
+                <GamesList gamesList={gamesList} queryString={queryString} />
+                <Pagination
+                  gamesCount={gamesCount}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  setPageSize={setPageSize}
+                  pageSize={pageSize}
+                />
+              </>
             )}
           </div>
           <Outlet />

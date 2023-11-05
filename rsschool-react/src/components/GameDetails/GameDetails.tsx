@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getGameDetails } from '../../api/games';
 import { IGameDetails } from '../../types/types';
+import { reduceGameDescription } from '../../utils/utils';
 import { Loader } from '../Loader/Loader';
 import styles from './GameDetails.module.css';
 
@@ -66,7 +67,7 @@ const GameDetails = (): React.ReactElement => {
             </div>
 
             <h3 className={styles.description}>
-              {gameDetails?.description_raw}
+              {reduceGameDescription(gameDetails?.description_raw)}
             </h3>
             <h3>{gameDetails?.released}</h3>
           </div>

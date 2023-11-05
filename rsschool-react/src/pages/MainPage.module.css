@@ -11,13 +11,10 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /* width: 100%;
-  max-width: 1440px; */
   padding-bottom: 3rem;
 }
 
 .container {
-  /* position: relative; */
   display: flex;
   column-gap: 2rem;
   padding: 0 1rem;
@@ -46,13 +43,4 @@
   &:hover {
     background-color: #fd4444;
   }
-}
-
-.outlet {
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; */
-  /* max-width: 50%; */
 }

@@ -26,3 +26,9 @@ const fillArray = (from: number, to: number): number[] => {
   }
   return res;
 };
+
+export const reduceGameDescription = (
+  description: string | undefined
+): string => {
+  return description ? description.split('.').slice(0, 4).join('. ') : '';
+};

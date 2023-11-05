@@ -52,16 +52,18 @@ const Pagination = (props: {
           &#x276F;
         </div>
       )}
-      <select
-        className={styles.select}
-        onChange={handlePageSizeChange}
-        value={pageSize}
-      >
-        <option value={12}>12</option>
-        <option value={20}>20</option>
-        <option value={28}>28</option>
-        <option value={36}>36</option>
-      </select>
+      {!!gamesCount && (
+        <select
+          className={styles.select}
+          onChange={handlePageSizeChange}
+          value={pageSize}
+        >
+          <option value={12}>12</option>
+          <option value={20}>20</option>
+          <option value={28}>28</option>
+          <option value={36}>36</option>
+        </select>
+      )}
     </div>
   );
 };
