@@ -47,12 +47,13 @@ const MainPage = (): React.ReactElement => {
   }, [isError]);
 
   return (
-    <>
+    <div className={styles.mainPage}>
       <Header
         setCurrentPage={setCurrentPage}
         setSearchQuery={setSearchQuery}
         searchQuery={searchQuery}
       />
+
       <main className={styles.main}>
         <button className={styles.button} type="button" onClick={setError}>
           Throw Error
@@ -74,12 +75,12 @@ const MainPage = (): React.ReactElement => {
               />
             )}
           </div>
-          <div className={styles.outlet}>
-            <Outlet />
-          </div>
+          {/* <div className={styles.outlet}> */}
+          <Outlet />
+          {/* </div> */}
         </div>
       </main>
-    </>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getGameDetails } from '../../api/games';
 import { IGameDetails } from '../../types/types';
@@ -24,58 +24,54 @@ const GameDetails = (): React.ReactElement => {
     getGame(location.pathname);
   }, [location.pathname]);
 
-  const handleClick = useCallback(
-    (e: MouseEvent): void => {
-      if (
-        e.target instanceof HTMLElement &&
-        gameDetailsRef.current &&
-        !gameDetailsRef.current.contains(e.target)
-      ) {
-        return navigate(`/${location.state}`);
-      }
-    },
-    [navigate, location.state]
-  );
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-    return () => {
-      document.removeEventListener('mousedown', handleClick);
-    };
-  }, [handleClick]);
+  const handleNavigate = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ): void => {
+    if (
+      e.target instanceof HTMLElement &&
+      gameDetailsRef.current &&
+      !gameDetailsRef.current.contains(e.target)
+    ) {
+      return navigate(`/${location.state}`);
+    }
+  };
 
   return (
-    <div ref={gameDetailsRef} className={styles.details}>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className={styles.game}>
-          <div className={styles.title}>
-            <h1>{gameDetails?.name}</h1>
-            <Link to={`/${location.state}`} className={styles.close}>
-              &#10005;
-            </Link>
-          </div>
-          <div className={styles.genres}>
-            {gameDetails?.genres.map((genre) => (
-              <h3 key={genre.id}>{genre.name}</h3>
-            ))}
-          </div>
-          <img
-            src={gameDetails?.background_image}
-            className={styles.image}
-            alt="game image"
-          />
-          <div className={styles.platforms}>
-            {gameDetails?.platforms.map((platform) => (
-              <p key={platform.platform.id}>{platform.platform.name}</p>
-            ))}
-          </div>
+    <div className={styles.background} onClick={(e): void => handleNavigate(e)}>
+      <div ref={gameDetailsRef} className={styles.details}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className={styles.game}>
+            <div className={styles.title}>
+              <h1>{gameDetails?.name}</h1>
+              <Link to={`/${location.state}`} className={styles.close}>
+                &#10005;
+              </Link>
+            </div>
+            <div className={styles.genres}>
+              {gameDetails?.genres.map((genre) => (
+                <h3 key={genre.id}>{genre.name}</h3>
+              ))}
+            </div>
+            <img
+              src={gameDetails?.background_image}
+              className={styles.image}
+              alt="game image"
+            />
+            <div className={styles.platforms}>
+              {gameDetails?.platforms.map((platform) => (
+                <p key={platform.platform.id}>{platform.platform.name}</p>
+              ))}
+            </div>
 
-          <h3 className={styles.description}>{gameDetails?.description_raw}</h3>
-          <h3>{gameDetails?.released}</h3>
-        </div>
-      )}
+            <h3 className={styles.description}>
+              {gameDetails?.description_raw}
+            </h3>
+            <h3>{gameDetails?.released}</h3>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
