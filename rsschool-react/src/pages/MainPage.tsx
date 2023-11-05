@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
@@ -18,8 +18,17 @@ const MainPage = (): React.ReactElement => {
   const [pageSize, setPageSize] = useState(12);
   const [searchQuery, setSearchQuery] = useState(getFromLocalStorage());
   const [queryString, setQueryString] = useState('');
+  const [isDescription, setIsDescription] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+
+  useEffect(() => {
+    location.pathname !== '/'
+      ? setIsDescription(true)
+      : setIsDescription(false);
+  }, [location.pathname]);
 
   const getGamesList = async (
     searchString: string,
@@ -54,7 +63,11 @@ const MainPage = (): React.ReactElement => {
         searchQuery={searchQuery}
       />
 
-      <main className={styles.main}>
+      <main
+        className={
+          isDescription ? `${styles.main} ${styles.small}` : styles.main
+        }
+      >
         <button className={styles.button} type="button" onClick={setError}>
           Throw Error
         </button>
