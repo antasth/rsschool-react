@@ -6,19 +6,18 @@
   padding: 1rem;
   border-radius: 1rem;
   background-color: #193f4f;
-  background-color: #1da365;
 }
 
 .game {
   display: flex;
   flex-direction: column;
-  row-gap: 2rem;
 }
 
 .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.2rem;
 }
 
 .close {
@@ -31,6 +30,27 @@
   border-radius: 1rem;
 }
 
+.platforms {
+  display: flex;
+  column-gap: 0.5rem;
+  padding: 0.5rem 0 1rem;
+}
+
+.genres {
+  align-self: end;
+  display: flex;
+  column-gap: 0.5rem;
+}
+
 .description {
   text-align: justify;
+}
+
+@media (max-width: 991.98px) {
+  .platforms {
+    display: none;
+  }
+  .game {
+    row-gap: 0.5rem;
+  }
 }

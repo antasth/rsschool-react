@@ -130,4 +130,16 @@ export interface IGameDetails {
   metacritic: number;
   released: string;
   background_image: string;
+  platforms: IPlatform[];
+  genres: IGenres[];
+}
+
+interface IPlatform {
+  id: number;
+  name: string;
+}
+
+interface IGenres {
+  id: number;
+  name: string;
 }

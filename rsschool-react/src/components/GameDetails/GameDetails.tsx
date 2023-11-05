@@ -34,11 +34,22 @@ const GameDetails = (): React.ReactElement => {
               &#10005;
             </Link>
           </div>
+          <div className={styles.genres}>
+            {gameDetails?.genres.map((genre) => (
+              <h3 key={genre.id}>{genre.name}</h3>
+            ))}
+          </div>
           <img
             src={gameDetails?.background_image}
             className={styles.image}
             alt="game image"
           />
+          <div className={styles.platforms}>
+            {gameDetails?.platforms.map((platform) => (
+              <p key={platform.id}>{platform.platform.name}</p>
+            ))}
+          </div>
+
           <h3 className={styles.description}>{gameDetails?.description_raw}</h3>
           <h3>{gameDetails?.released}</h3>
         </div>
