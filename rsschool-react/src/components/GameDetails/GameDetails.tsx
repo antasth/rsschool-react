@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getGameDetails } from '../../api/games';
 import { IGameDetails } from '../../types/types';
 import { Loader } from '../Loader/Loader';
@@ -28,7 +28,12 @@ const GameDetails = (): React.ReactElement => {
         <Loader />
       ) : (
         <div className={styles.game}>
-          <h1 className={styles.title}>{gameDetails?.name}</h1>
+          <div className={styles.title}>
+            <h1>{gameDetails?.name}</h1>
+            <Link to="/" className={styles.close}>
+              &#10005;
+            </Link>
+          </div>
           <img
             src={gameDetails?.background_image}
             className={styles.image}

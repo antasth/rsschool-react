@@ -64,9 +64,9 @@ const MainPage = (): React.ReactElement => {
               />
             )}
           </div>
-          {/* <div className={styles.details}> */}
-          <Outlet />
-          {/* </div> */}
+          <div className={styles.outlet}>
+            <Outlet />
+          </div>
         </div>
       </main>
     </>

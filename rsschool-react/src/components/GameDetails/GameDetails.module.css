@@ -1,18 +1,29 @@
 .details {
   width: 100%;
-  max-width: 50%;
   display: flex;
   justify-content: center;
   align-items: start;
   padding: 1rem;
   border-radius: 1rem;
   background-color: #193f4f;
+  background-color: #1da365;
 }
 
 .game {
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close {
+  font-size: 2rem;
+  cursor: pointer;
 }
 
 .image {
