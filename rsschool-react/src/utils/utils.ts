@@ -1,6 +1,4 @@
 export const getFromLocalStorage = (name: string): string => {
-  console.log(JSON.parse(localStorage[name]));
-
   return localStorage[name] ? JSON.parse(localStorage[name]) : '';
 };
 
@@ -32,5 +30,5 @@ const fillArray = (from: number, to: number): number[] => {
 export const reduceGameDescription = (
   description: string | undefined
 ): string => {
-  return description ? description.split('.').slice(0, 8).join('. ') + '.' : '';
+  return description ? description.split('.').slice(0, 3).join('. ') + '.' : '';
 };

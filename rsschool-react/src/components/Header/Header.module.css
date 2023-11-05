@@ -1,11 +1,10 @@
 .header {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   max-width: 1440px;
-
-  border-bottom: 1px solid wheat;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.31);
 }
 
 .search {
