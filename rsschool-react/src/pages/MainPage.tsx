@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
@@ -18,6 +18,8 @@ const MainPage = (): React.ReactElement => {
   const [pageSize, setPageSize] = useState(20);
   const [searchQuery, setSearchQuery] = useState(getFromLocalStorage());
 
+  const navigate = useNavigate();
+
   const getGamesList = async (
     searchString: string,
     page: number,
@@ -33,8 +35,10 @@ const MainPage = (): React.ReactElement => {
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
+    const queryString = `?page=${currentPage}&search=${searchQuery}&page_size=${pageSize}`;
+    navigate(queryString);
     getGamesList(searchQuery, currentPage, pageSize);
-  }, [currentPage, searchQuery, pageSize]);
+  }, [currentPage, searchQuery, pageSize, navigate]);
 
   useEffect(() => {
     if (isError) throw new Error('Error for test ErrorBoundary');
