@@ -15,8 +15,9 @@ const MainPage = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize, setPageSize] = useState(12);
   const [searchQuery, setSearchQuery] = useState(getFromLocalStorage());
+  const [queryString, setQueryString] = useState('');
 
   const navigate = useNavigate();
 
@@ -35,8 +36,9 @@ const MainPage = (): React.ReactElement => {
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
-    const queryString = `?page=${currentPage}&search=${searchQuery}&page_size=${pageSize}`;
-    navigate(queryString);
+    const url = `?page=${currentPage}&search=${searchQuery}&page_size=${pageSize}`;
+    setQueryString(url);
+    navigate(url);
     getGamesList(searchQuery, currentPage, pageSize);
   }, [currentPage, searchQuery, pageSize, navigate]);
 
@@ -57,7 +59,11 @@ const MainPage = (): React.ReactElement => {
         </button>
         <div className={styles.container}>
           <div className={styles.content}>
-            {isLoading ? <Loader /> : <GamesList gamesList={gamesList} />}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <GamesList gamesList={gamesList} queryString={queryString} />
+            )}
             {!isLoading && (
               <Pagination
                 gamesCount={gamesCount}

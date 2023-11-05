@@ -11,7 +11,6 @@ const GameDetails = (): React.ReactElement => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const gameDetailsRef = useRef<HTMLDivElement>(null);
 
   const getGame = async (path: string): Promise<void> => {
@@ -32,10 +31,10 @@ const GameDetails = (): React.ReactElement => {
         gameDetailsRef.current &&
         !gameDetailsRef.current.contains(e.target)
       ) {
-        return navigate('/');
+        return navigate(`/${location.state}`);
       }
     },
-    [navigate]
+    [navigate, location.state]
   );
 
   useEffect(() => {
@@ -53,7 +52,7 @@ const GameDetails = (): React.ReactElement => {
         <div className={styles.game}>
           <div className={styles.title}>
             <h1>{gameDetails?.name}</h1>
-            <Link to="/" className={styles.close}>
+            <Link to={`/${location.state}`} className={styles.close}>
               &#10005;
             </Link>
           </div>

@@ -57,10 +57,10 @@ const Pagination = (props: {
         onChange={handlePageSizeChange}
         value={pageSize}
       >
-        <option value={10}>10</option>
+        <option value={12}>12</option>
         <option value={20}>20</option>
-        <option value={30}>30</option>
-        <option value={40}>40</option>
+        <option value={28}>28</option>
+        <option value={36}>36</option>
       </select>
     </div>
   );

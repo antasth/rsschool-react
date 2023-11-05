@@ -38,7 +38,6 @@
 }
 
 .genres {
-  align-self: end;
   display: flex;
   column-gap: 0.5rem;
 }

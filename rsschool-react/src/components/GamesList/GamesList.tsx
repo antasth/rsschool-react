@@ -3,15 +3,17 @@ import { Link } from 'react-router-dom';
 import { IGame } from '../../types/types';
 import styles from './GamesList.module.css';
 
-const GamesList = (props: { gamesList: IGame[] }): React.ReactElement => {
-  const { gamesList } = props;
+const GamesList = (props: {
+  gamesList: IGame[];
+  queryString: string;
+}): React.ReactElement => {
+  const { gamesList, queryString } = props;
 
   return (
     <div className={styles.games}>
-      <h1 className={styles.title}>Games List</h1>
       <div className={styles.container}>
         {gamesList.map((game) => (
-          <Link to={`games/${game.slug}`} key={game.id}>
+          <Link to={`games/${game.slug}`} state={queryString} key={game.id}>
             <div key={game.id} className={styles.card}>
               <div className={styles.image}>
                 <img
