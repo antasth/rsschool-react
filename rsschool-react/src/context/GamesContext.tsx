@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import { IGame } from '../types';
 import { getFromLocalStorage } from '../utils';
 
@@ -22,12 +22,15 @@ const GamesContextProvider = ({
     getFromLocalStorage('searchString')
   );
 
-  const GamesContextValue = {
-    setSearchString,
-    searchString,
-    gamesList,
-    setGamesList,
-  };
+  const GamesContextValue = useMemo(
+    () => ({
+      setSearchString,
+      searchString,
+      gamesList,
+      setGamesList,
+    }),
+    [setSearchString, searchString, gamesList, setGamesList]
+  );
 
   return (
     <GamesContext.Provider value={GamesContextValue}>

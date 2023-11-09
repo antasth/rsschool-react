@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { IGame } from '../../types';
+import { GamesContext } from '../../context/GamesContext';
 import styles from './GamesList.module.css';
 
-const GamesList = (props: {
-  gamesList: IGame[];
-  queryString: string;
-}): React.ReactElement => {
-  const { gamesList, queryString } = props;
+const GamesList = (props: { queryString: string }): React.ReactElement => {
+  const { queryString } = props;
 
+  const games = useContext(GamesContext);
   return (
     <div className={styles.games}>
       <div className={styles.container}>
-        {gamesList.map((game) => (
+        {games.gamesList.map((game) => (
           <Link to={`games/${game.slug}`} state={queryString} key={game.id}>
             <div key={game.name} className={styles.card}>
               <div className={styles.image}>

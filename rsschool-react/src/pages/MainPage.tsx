@@ -8,11 +8,9 @@ import { Pagination } from '../components/Pagination/Pagination';
 import { DEFAULT_PAGE_SIZE } from '../constants';
 import { GamesContext } from '../context/GamesContext';
 import { useFetching } from '../hooks/useFetching';
-import { IGame } from '../types';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
-  const [gamesList, setGamesList] = useState<IGame[]>([]);
   const [gamesCount, setGamesCount] = useState(0);
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +20,7 @@ const MainPage = (): React.ReactElement => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const games = useContext(GamesContext);
+  const { searchString, setGamesList } = useContext(GamesContext);
 
   useEffect(() => {
     location.pathname !== '/'
@@ -33,21 +31,21 @@ const MainPage = (): React.ReactElement => {
   const [fetchGames, isGamesLoading, fetchError] = useFetching(
     useCallback(async (): Promise<void> => {
       const response = await GamesService.getAllGames(
-        games.searchString,
+        searchString,
         currentPage,
         pageSize
       );
       setGamesList(response.results);
       setGamesCount(response.count);
-    }, [games.searchString, currentPage, pageSize])
+    }, [currentPage, pageSize, searchString, setGamesList])
   );
 
   useEffect(() => {
     fetchGames();
-    const url = `?page=${currentPage}&search=${games.searchString}&page_size=${pageSize}`;
+    const url = `?page=${currentPage}&search=${searchString}&page_size=${pageSize}`;
     setQueryString(url);
     navigate(url);
-  }, [fetchGames, currentPage, pageSize, navigate, games.searchString]);
+  }, [fetchGames, currentPage, pageSize, navigate, searchString]);
 
   const setError = (): void => setIsError(true);
 
@@ -73,7 +71,7 @@ const MainPage = (): React.ReactElement => {
               <Loader />
             ) : (
               <>
-                <GamesList gamesList={gamesList} queryString={queryString} />
+                <GamesList queryString={queryString} />
                 <Pagination
                   gamesCount={gamesCount}
                   currentPage={currentPage}

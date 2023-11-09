@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import { getGameDetails } from '../../api/games';
 import { GamesService } from '../../api/games';
 import { useFetching } from '../../hooks/useFetching';
 import { IGameDetails } from '../../types';
