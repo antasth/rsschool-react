@@ -49,7 +49,7 @@ const GameDetails = (): React.ReactElement => {
   };
 
   return (
-    <div className={styles.background} onClick={(e): void => handleNavigate(e)}>
+    <div className={styles.background} onClick={handleNavigate}>
       <div ref={gameDetailsRef} className={styles.details}>
         {isLoading ? (
           <Loader />
