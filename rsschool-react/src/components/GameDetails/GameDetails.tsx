@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getGameDetails } from '../../api/games';
-import { IGameDetails } from '../../types/types';
+import { IGameDetails } from '../../types';
 import {
   getFromLocalStorage,
   reduceGameDescription,
   saveToLocalStorage,
-} from '../../utils/utils';
+} from '../../utils';
 import { Loader } from '../Loader/Loader';
 import styles from './GameDetails.module.css';
 

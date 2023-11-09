@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { saveToLocalStorage } from '../../utils/utils';
+import { saveToLocalStorage } from '../../utils';
 import styles from './Header.module.css';
 
 const Header = (props: {

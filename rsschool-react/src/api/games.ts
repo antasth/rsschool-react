@@ -1,4 +1,4 @@
-import { IGameDetails, IGamesResponseObject } from '../types/types';
+import { IGameDetails, IGamesResponseObject } from '../types';
 
 export const getGames = async (
   search: string,

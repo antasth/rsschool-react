@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IGame } from '../../types/types';
+import { IGame } from '../../types';
 import styles from './GamesList.module.css';
 
 const GamesList = (props: {

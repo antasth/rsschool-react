@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { getPagesArray } from '../../utils/utils';
+import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
 
 const Pagination = (props: {

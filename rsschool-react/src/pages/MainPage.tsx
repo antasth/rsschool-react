@@ -5,10 +5,10 @@ import { GamesList } from '../components/GamesList/GamesList';
 import { Header } from '../components/Header/Header';
 import { Loader } from '../components/Loader/Loader';
 import { Pagination } from '../components/Pagination/Pagination';
-import { IGame } from '../types/types';
-import { getFromLocalStorage } from '../utils/utils';
-import styles from './MainPage.module.css';
 import { DEFAULT_PAGE_SIZE } from '../constants';
+import { IGame } from '../types';
+import { getFromLocalStorage } from '../utils';
+import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
   const [gamesList, setGamesList] = useState<IGame[]>([]);
