@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { getGameDetails } from '../../api/games';
+// import { getGameDetails } from '../../api/games';
+import { GamesService } from '../../api/games';
+import { useFetching } from '../../hooks/useFetching';
 import { IGameDetails } from '../../types';
 import {
   getFromLocalStorage,
@@ -12,7 +14,6 @@ import styles from './GameDetails.module.css';
 
 const GameDetails = (): React.ReactElement => {
   const [gameDetails, setGameDetails] = useState<IGameDetails>();
-  const [isLoading, setIsLoading] = useState(true);
   const [prevLocation, setPrevLocation] = useState(
     getFromLocalStorage('location')
   );
@@ -21,20 +22,20 @@ const GameDetails = (): React.ReactElement => {
   const navigate = useNavigate();
   const gameDetailsRef = useRef<HTMLDivElement>(null);
 
-  const getGame = async (path: string): Promise<void> => {
-    setIsLoading(true);
-    const game = await getGameDetails(path);
-    setGameDetails(game);
-    setIsLoading(false);
-  };
+  const [fetchGameDetails, isLoading, fetchError] = useFetching(
+    useCallback(async () => {
+      const response = await GamesService.getGameDetails(location.pathname);
+      setGameDetails(response);
+    }, [location.pathname])
+  );
 
   useEffect(() => {
-    getGame(location.pathname);
+    fetchGameDetails();
     if (location.state) {
       setPrevLocation(location.state);
       saveToLocalStorage('location', location.state);
     }
-  }, [location.pathname, location.state, prevLocation]);
+  }, [location.pathname, location.state, prevLocation, fetchGameDetails]);
 
   const handleNavigate = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -47,6 +48,10 @@ const GameDetails = (): React.ReactElement => {
       return navigate(`/${prevLocation}`);
     }
   };
+
+  useEffect(() => {
+    if (fetchError) throw new Error('Game Details Fetch Error');
+  }, [fetchError]);
 
   return (
     <div className={styles.background} onClick={handleNavigate}>

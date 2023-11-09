@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 const App = (): React.ReactElement => {
   return (
     <GamesContextProvider>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </GamesContextProvider>
   );
 };
