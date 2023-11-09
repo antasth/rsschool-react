@@ -14,7 +14,7 @@ const GamesList = (props: {
       <div className={styles.container}>
         {gamesList.map((game) => (
           <Link to={`games/${game.slug}`} state={queryString} key={game.id}>
-            <div key={game.id} className={styles.card}>
+            <div key={game.name} className={styles.card}>
               <div className={styles.image}>
                 <img
                   className={styles.img}
