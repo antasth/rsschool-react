@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  column-gap: 0.7rem;
+}
+
+.page {
+  padding: 0.5rem 1rem;
+  background-color: #193f4f;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    background-color: #1da365;
+  }
+}
+
+.active {
+  background-color: #1da365;
+}
+
+.select {
+  padding: 0.5rem 0.3rem;
+  background-color: #193f4f;
+  color: whitesmoke;
+  font-family: 'Play';
+  font-size: 1.1rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
