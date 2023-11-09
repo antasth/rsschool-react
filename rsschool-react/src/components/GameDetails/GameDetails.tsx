@@ -1,21 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GamesService } from '../../api/games';
 import { useFetching } from '../../hooks/useFetching';
 import { IGameDetails } from '../../types';
-import {
-  getFromLocalStorage,
-  reduceGameDescription,
-  saveToLocalStorage,
-} from '../../utils';
+import { reduceGameDescription } from '../../utils';
 import { Loader } from '../Loader/Loader';
 import styles from './GameDetails.module.css';
 
 const GameDetails = (): React.ReactElement => {
   const [gameDetails, setGameDetails] = useState<IGameDetails>();
-  const [prevLocation, setPrevLocation] = useState(
-    getFromLocalStorage('location')
-  );
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,22 +23,19 @@ const GameDetails = (): React.ReactElement => {
 
   useEffect(() => {
     fetchGameDetails();
-    if (location.state) {
-      setPrevLocation(location.state);
-      saveToLocalStorage('location', location.state);
-    }
-  }, [location.pathname, location.state, prevLocation, fetchGameDetails]);
+  }, [fetchGameDetails]);
 
-  const handleNavigate = (
+  const navigateBack = (): void => navigate(-1);
+
+  const handleBackgroundClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void => {
     if (
       e.target instanceof HTMLElement &&
       gameDetailsRef.current &&
       !gameDetailsRef.current.contains(e.target)
-    ) {
-      return navigate(`/${prevLocation}`);
-    }
+    )
+      navigateBack();
   };
 
   useEffect(() => {
@@ -53,7 +43,7 @@ const GameDetails = (): React.ReactElement => {
   }, [fetchError]);
 
   return (
-    <div className={styles.background} onClick={handleNavigate}>
+    <div className={styles.background} onClick={handleBackgroundClick}>
       <div ref={gameDetailsRef} className={styles.details}>
         {isLoading ? (
           <Loader />
@@ -61,9 +51,9 @@ const GameDetails = (): React.ReactElement => {
           <div className={styles.game}>
             <div className={styles.title}>
               <h1>{gameDetails?.name}</h1>
-              <Link to={`/${prevLocation}`} className={styles.close}>
+              <div onClick={navigateBack} className={styles.close}>
                 &#10005;
-              </Link>
+              </div>
             </div>
             <div className={styles.genres}>
               {gameDetails?.genres.map((genre) => (

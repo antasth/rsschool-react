@@ -2,14 +2,11 @@ import { Link } from 'react-router-dom';
 import { IGame } from '../../types';
 import styles from './GameCard.module.css';
 
-const GameCard = (props: {
-  game: IGame;
-  queryString: string;
-}): React.ReactElement => {
-  const { game, queryString } = props;
+const GameCard = (props: { game: IGame }): React.ReactElement => {
+  const { game } = props;
 
   return (
-    <Link to={`games/${game.slug}`} state={queryString}>
+    <Link to={`games/${game.slug}`}>
       <div className={styles.card}>
         <div className={styles.image}>
           <img

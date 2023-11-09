@@ -15,7 +15,6 @@ const MainPage = (): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const [queryString, setQueryString] = useState('');
   const [isDescription, setIsDescription] = useState(false);
 
   const navigate = useNavigate();
@@ -43,7 +42,6 @@ const MainPage = (): React.ReactElement => {
   useEffect(() => {
     fetchGames();
     const url = `?page=${currentPage}&search=${searchString}&page_size=${pageSize}`;
-    setQueryString(url);
     navigate(url);
   }, [fetchGames, currentPage, pageSize, navigate, searchString]);
 
@@ -71,7 +69,7 @@ const MainPage = (): React.ReactElement => {
               <Loader />
             ) : (
               <>
-                <GamesList queryString={queryString} />
+                <GamesList />
                 <Pagination
                   gamesCount={gamesCount}
                   currentPage={currentPage}
