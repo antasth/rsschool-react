@@ -8,6 +8,7 @@ import { Pagination } from '../components/Pagination/Pagination';
 import { IGame } from '../types/types';
 import { getFromLocalStorage } from '../utils/utils';
 import styles from './MainPage.module.css';
+import { DEFAULT_PAGE_SIZE } from '../constants';
 
 const MainPage = (): React.ReactElement => {
   const [gamesList, setGamesList] = useState<IGame[]>([]);
@@ -15,7 +16,7 @@ const MainPage = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(12);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [searchQuery, setSearchQuery] = useState(
     getFromLocalStorage('searchString')
   );
