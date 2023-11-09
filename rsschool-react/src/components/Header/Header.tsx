@@ -1,23 +1,24 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { GamesContext } from '../../context/GamesContext';
 import { saveToLocalStorage } from '../../utils';
 import styles from './Header.module.css';
 
 const Header = (props: {
-  searchQuery: string;
   setCurrentPage: (page: number) => void;
-  setSearchQuery: (search: string) => void;
 }): React.ReactElement => {
-  const { searchQuery, setSearchQuery, setCurrentPage } = props;
-  const [searchString, setSearchString] = useState(searchQuery);
+  const { setCurrentPage } = props;
+  const games = useContext(GamesContext);
+
+  const [searchInputValue, setSearchInputValue] = useState(games.searchString);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
-    setSearchString(e.target.value);
+    setSearchInputValue(e.target.value);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setCurrentPage(1);
-    setSearchQuery(searchString);
-    saveToLocalStorage('searchString', searchString);
+    games.setSearchString(searchInputValue);
+    saveToLocalStorage('searchString', searchInputValue);
   };
 
   return (
@@ -27,7 +28,7 @@ const Header = (props: {
           className={styles.input}
           type="text"
           placeholder="search..."
-          value={searchString}
+          value={searchInputValue}
           onChange={handleChange}
         />
         <button className={styles.button} type="submit">

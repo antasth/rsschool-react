@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getGames } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
@@ -6,8 +6,8 @@ import { Header } from '../components/Header/Header';
 import { Loader } from '../components/Loader/Loader';
 import { Pagination } from '../components/Pagination/Pagination';
 import { DEFAULT_PAGE_SIZE } from '../constants';
+import { GamesContext } from '../context/GamesContext';
 import { IGame } from '../types';
-import { getFromLocalStorage } from '../utils';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
@@ -17,14 +17,12 @@ const MainPage = (): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const [searchQuery, setSearchQuery] = useState(
-    getFromLocalStorage('searchString')
-  );
   const [queryString, setQueryString] = useState('');
   const [isDescription, setIsDescription] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
+  const games = useContext(GamesContext);
 
   useEffect(() => {
     location.pathname !== '/'
@@ -47,11 +45,11 @@ const MainPage = (): React.ReactElement => {
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
-    const url = `?page=${currentPage}&search=${searchQuery}&page_size=${pageSize}`;
+    const url = `?page=${currentPage}&search=${games.searchString}&page_size=${pageSize}`;
     setQueryString(url);
     navigate(url);
-    getGamesList(searchQuery, currentPage, pageSize);
-  }, [currentPage, searchQuery, pageSize, navigate]);
+    getGamesList(games.searchString, currentPage, pageSize);
+  }, [currentPage, games.searchString, pageSize, navigate]);
 
   useEffect(() => {
     if (isError) throw new Error('Error for test ErrorBoundary');
@@ -59,11 +57,7 @@ const MainPage = (): React.ReactElement => {
 
   return (
     <div className={styles.mainPage}>
-      <Header
-        setCurrentPage={setCurrentPage}
-        setSearchQuery={setSearchQuery}
-        searchQuery={searchQuery}
-      />
+      <Header setCurrentPage={setCurrentPage} />
 
       <main
         className={

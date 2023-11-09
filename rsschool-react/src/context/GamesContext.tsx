@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import { getFromLocalStorage } from '../utils';
 
 type GameContextProviderProps = {
   children: React.ReactNode;
@@ -13,7 +14,9 @@ const GamesContext = createContext({} as GamesContextProps);
 const GamesContextProvider = ({
   children,
 }: GameContextProviderProps): React.ReactElement => {
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState(
+    getFromLocalStorage('searchString')
+  );
 
   const GamesContextValue = { setSearchString, searchString };
 

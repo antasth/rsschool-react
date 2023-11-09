@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import { GameDetails } from './components/GameDetails/GameDetails';
+import { GamesContextProvider } from './context/GamesContext';
 import { MainPage } from './pages/MainPage';
 
 const router = createBrowserRouter([
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = (): React.ReactElement => {
-  return <RouterProvider router={router} />;
+  return (
+    <GamesContextProvider>
+      <RouterProvider router={router} />;
+    </GamesContextProvider>
+  );
 };
 
 export { App };
