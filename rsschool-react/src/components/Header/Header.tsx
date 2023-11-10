@@ -7,9 +7,9 @@ const Header = (props: {
   setCurrentPage: (page: number) => void;
 }): React.ReactElement => {
   const { setCurrentPage } = props;
-  const games = useContext(GamesContext);
+  const { searchString, setSearchString } = useContext(GamesContext);
 
-  const [searchInputValue, setSearchInputValue] = useState(games.searchString);
+  const [searchInputValue, setSearchInputValue] = useState(searchString);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
     setSearchInputValue(e.target.value);
@@ -17,7 +17,7 @@ const Header = (props: {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setCurrentPage(1);
-    games.setSearchString(searchInputValue);
+    setSearchString(searchInputValue);
     saveToLocalStorage('searchString', searchInputValue);
   };
 

@@ -4,12 +4,12 @@ import { GameCard } from '../GameCard/GameCard';
 import styles from './GamesList.module.css';
 
 const GamesList = (): React.ReactElement => {
-  const games = useContext(GamesContext);
+  const { gamesList } = useContext(GamesContext);
 
   return (
     <div className={styles.games}>
       <div className={styles.container}>
-        {games.gamesList.map((game) => (
+        {gamesList.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
       </div>
