@@ -2,9 +2,9 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { GamesService } from '../api/games';
 import { GamesList } from '../components/GamesList/GamesList';
-import { Header } from '../components/Header/Header';
 import { Loader } from '../components/Loader/Loader';
 import { Pagination } from '../components/Pagination/Pagination';
+import { Search } from '../components/Search/Search';
 import { DEFAULT_PAGE_SIZE } from '../constants';
 import { GamesContext } from '../context/GamesContext';
 import { useFetching } from '../hooks/useFetching';
@@ -53,7 +53,7 @@ const MainPage = (): React.ReactElement => {
 
   return (
     <div className={styles.mainPage}>
-      <Header setCurrentPage={setCurrentPage} />
+      <Search setCurrentPage={setCurrentPage} />
 
       <main
         className={

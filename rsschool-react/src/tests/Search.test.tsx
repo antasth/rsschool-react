@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, it } from 'vitest';
-import { Header } from '../components/Header/Header';
+import { Search } from '../components/Search/Search';
 
 describe('Render Header component', () => {
   it('Shoud render Header component correctly'),
@@ -12,7 +12,7 @@ describe('Render Header component', () => {
 
       render(
         <BrowserRouter>
-          <Header setCurrentPage={setCurrentPageMock} />
+          <Search setCurrentPage={setCurrentPageMock} />
         </BrowserRouter>
       );
     };

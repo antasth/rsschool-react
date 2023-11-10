@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { GamesContext } from '../../context/GamesContext';
 import { saveToLocalStorage } from '../../utils';
-import styles from './Header.module.css';
+import styles from './Search.module.css';
 
-const Header = (props: {
+const Search = (props: {
   setCurrentPage: (page: number) => void;
 }): React.ReactElement => {
   const { setCurrentPage } = props;
@@ -39,4 +39,4 @@ const Header = (props: {
   );
 };
 
-export { Header };
+export { Search };
