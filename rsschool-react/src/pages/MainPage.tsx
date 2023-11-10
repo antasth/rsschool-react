@@ -13,13 +13,13 @@ import styles from './MainPage.module.css';
 const MainPage = (): React.ReactElement => {
   const [gamesCount, setGamesCount] = useState(0);
   const [isError, setIsError] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [isDescription, setIsDescription] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { searchString, setGamesList } = useContext(GamesContext);
+  const { searchString, currentPage, setGamesList, setCurrentPage } =
+    useContext(GamesContext);
 
   useEffect(() => {
     location.pathname !== '/'
@@ -53,8 +53,7 @@ const MainPage = (): React.ReactElement => {
 
   return (
     <div className={styles.mainPage}>
-      <Search setCurrentPage={setCurrentPage} />
-
+      <Search />
       <main
         className={
           isDescription ? `${styles.main} ${styles.small}` : styles.main

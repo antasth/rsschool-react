@@ -1,19 +1,13 @@
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { describe, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { Search } from '../components/Search/Search';
 
-describe('Render Header component', () => {
-  it('Shoud render Header component correctly'),
-    (): void => {
-      const setCurrentPageMock = (): void => {
-        1;
-      };
+describe('Tests for the Search component:', () => {
+  render(<Search />);
+  const input = screen.getByLabelText('search-input');
 
-      render(
-        <BrowserRouter>
-          <Search setCurrentPage={setCurrentPageMock} />
-        </BrowserRouter>
-      );
+  it('Shoud Search component correctly '),
+    (): void => {
+      expect(input).toBeInTheDocument();
     };
 });

@@ -8,7 +8,9 @@ type GameContextProviderProps = {
 
 type GamesContextProps = {
   searchString: string;
+  currentPage: number;
   gamesList: IGame[];
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setGamesList: React.Dispatch<React.SetStateAction<IGame[]>>;
   setSearchString: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -18,6 +20,7 @@ const GamesContextProvider = ({
   children,
 }: GameContextProviderProps): React.ReactElement => {
   const [gamesList, setGamesList] = useState<IGame[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchString, setSearchString] = useState(
     getFromLocalStorage('searchString')
   );
@@ -28,8 +31,17 @@ const GamesContextProvider = ({
       searchString,
       gamesList,
       setGamesList,
+      currentPage,
+      setCurrentPage,
     }),
-    [setSearchString, searchString, gamesList, setGamesList]
+    [
+      setSearchString,
+      searchString,
+      gamesList,
+      currentPage,
+      setGamesList,
+      setCurrentPage,
+    ]
   );
 
   return (

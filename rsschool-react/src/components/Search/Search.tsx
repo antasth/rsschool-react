@@ -3,11 +3,9 @@ import { GamesContext } from '../../context/GamesContext';
 import { saveToLocalStorage } from '../../utils';
 import styles from './Search.module.css';
 
-const Search = (props: {
-  setCurrentPage: (page: number) => void;
-}): React.ReactElement => {
-  const { setCurrentPage } = props;
-  const { searchString, setSearchString } = useContext(GamesContext);
+const Search = (): React.ReactElement => {
+  const { searchString, setSearchString, setCurrentPage } =
+    useContext(GamesContext);
 
   const [searchInputValue, setSearchInputValue] = useState(searchString);
 
@@ -25,6 +23,8 @@ const Search = (props: {
     <header className={styles.header}>
       <form className={styles.search} onSubmit={handleSubmit}>
         <input
+          aria-label="search-input"
+          id="search"
           className={styles.input}
           type="text"
           placeholder="search..."

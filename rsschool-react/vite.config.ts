@@ -10,6 +10,8 @@ export default defineConfig({
       reporter: ['text'],
     },
     watch: false,
+    globals: true,
     environment: 'jsdom',
+    setupFiles: './src/tests/setup.ts',
   },
 });
