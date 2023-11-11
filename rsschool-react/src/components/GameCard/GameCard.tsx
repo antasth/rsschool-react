@@ -7,7 +7,7 @@ const GameCard = (props: { game: IGame }): React.ReactElement => {
 
   return (
     <Link to={`games/${game.slug}`}>
-      <div className={styles.card}>
+      <div className={styles.card} data-testid="game-card">
         <div className={styles.image}>
           <img
             className={styles.img}

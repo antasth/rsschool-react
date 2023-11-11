@@ -44,7 +44,11 @@ const GameDetails = (): React.ReactElement => {
 
   return (
     <div className={styles.background} onClick={handleBackgroundClick}>
-      <div ref={gameDetailsRef} className={styles.details}>
+      <div
+        ref={gameDetailsRef}
+        className={styles.details}
+        data-testid="details"
+      >
         {isLoading ? (
           <Loader />
         ) : (

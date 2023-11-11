@@ -161,13 +161,8 @@ export interface IGameDetails {
   metacritic: number;
   released: string;
   background_image: string;
-  platforms: IDetailsPlatform[];
+  platforms: IPlatform[];
   genres: IGenres[];
-}
-
-interface IDetailsPlatform {
-  id: number;
-  name: string;
 }
 
 interface IGenres {
