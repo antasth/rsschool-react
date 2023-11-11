@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Search } from '../components/Search/Search';
-import { getFromLocalStorage } from '../utils';
+import { Search } from '../src/components/Search/Search';
+import { getFromLocalStorage } from '../src/utils';
 
 const GAMES_KEY = 'searchString';
 

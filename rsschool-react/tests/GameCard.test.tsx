@@ -10,12 +10,12 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-import { GameCard } from '../components/GameCard/GameCard';
-import { GameDetails } from '../components/GameDetails/GameDetails';
-import { GamesList } from '../components/GamesList/GamesList';
-import { GamesContextProvider } from '../context/GamesContext';
-import { MainPage } from '../pages/MainPage';
-import { IGame } from '../types';
+import { GameCard } from '../src/components/GameCard/GameCard';
+import { GameDetails } from '../src/components/GameDetails/GameDetails';
+import { GamesList } from '../src/components/GamesList/GamesList';
+import { GamesContextProvider } from '../src/context/GamesContext';
+import { MainPage } from '../src/pages/MainPage';
+import { IGame } from '../src/types';
 import { gamesData } from './mockData';
 
 describe('Tests for the Card component:', () => {
@@ -73,5 +73,6 @@ describe('Tests for the Card component:', () => {
     fireEvent.click(card);
     expect(screen.getByTestId('details')).toBeInTheDocument();
   });
-  // it('Check that clicking triggers an additional API call to fetch detailed information.', () => {});
+
+  it('Check that clicking triggers an additional API call to fetch detailed information.', () => {});
 });
