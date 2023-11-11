@@ -1,4 +1,5 @@
 import { createContext, useMemo, useState } from 'react';
+import { DEFAULT_PAGE_SIZE } from '../constants';
 import { IGame } from '../types';
 import { getFromLocalStorage } from '../utils';
 
@@ -9,10 +10,12 @@ type GameContextProviderProps = {
 type GamesContextProps = {
   currentPage: number;
   gamesCount: number;
+  pageSize: number;
   searchString: string;
   gamesList: IGame[];
   setGamesCount: React.Dispatch<React.SetStateAction<number>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setPageSize: React.Dispatch<React.SetStateAction<number>>;
   setGamesList: React.Dispatch<React.SetStateAction<IGame[]>>;
   setSearchString: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -24,30 +27,35 @@ const GamesContextProvider = ({
   const [gamesList, setGamesList] = useState<IGame[]>([]);
   const [gamesCount, setGamesCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [searchString, setSearchString] = useState(
     getFromLocalStorage('searchString')
   );
 
   const GamesContextValue = useMemo(
     () => ({
-      setSearchString,
       searchString,
       gamesList,
-      setGamesList,
       currentPage,
-      setCurrentPage,
       gamesCount,
+      pageSize,
+      setGamesList,
+      setCurrentPage,
+      setSearchString,
       setGamesCount,
+      setPageSize,
     }),
     [
       setSearchString,
       searchString,
       gamesList,
+      pageSize,
       currentPage,
       gamesCount,
       setGamesCount,
       setGamesList,
       setCurrentPage,
+      setPageSize,
     ]
   );
 

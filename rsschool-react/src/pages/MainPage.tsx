@@ -5,26 +5,18 @@ import { GamesList } from '../components/GamesList/GamesList';
 import { Loader } from '../components/Loader/Loader';
 import { Pagination } from '../components/Pagination/Pagination';
 import { Search } from '../components/Search/Search';
-import { DEFAULT_PAGE_SIZE } from '../constants';
 import { GamesContext } from '../context/GamesContext';
 import { useFetching } from '../hooks/useFetching';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
   const [isError, setIsError] = useState(false);
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [isDescription, setIsDescription] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    searchString,
-    currentPage,
-    setGamesList,
-    setCurrentPage,
-    gamesCount,
-    setGamesCount,
-  } = useContext(GamesContext);
+  const { searchString, currentPage, pageSize, setGamesList, setGamesCount } =
+    useContext(GamesContext);
 
   useEffect(() => {
     location.pathname !== '/'
@@ -74,13 +66,7 @@ const MainPage = (): React.ReactElement => {
             ) : (
               <>
                 <GamesList />
-                <Pagination
-                  gamesCount={gamesCount}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  setPageSize={setPageSize}
-                  pageSize={pageSize}
-                />
+                <Pagination />
               </>
             )}
           </div>

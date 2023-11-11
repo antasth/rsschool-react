@@ -1,16 +1,11 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useContext } from 'react';
+import { GamesContext } from '../../context/GamesContext';
 import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
 
-const Pagination = (props: {
-  gamesCount: number;
-  currentPage: number;
-  pageSize: number;
-  setPageSize: (page: number) => void;
-  setCurrentPage: (page: number) => void;
-}): React.ReactElement => {
+const Pagination = (): React.ReactElement => {
   const { gamesCount, currentPage, pageSize, setPageSize, setCurrentPage } =
-    props;
+    useContext(GamesContext);
   const pagesCount = Math.ceil(gamesCount / pageSize);
   const pagesArray = getPagesArray(currentPage, pagesCount);
 
