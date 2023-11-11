@@ -34,12 +34,13 @@ export interface IGame {
   added_by_status: IStatus | null;
   background_image: string;
   dominant_color: string;
-  esrb_rating: IRating;
+  esrb_rating: IEsrbRating;
   genres: IGenre[];
   id: number;
   metacritic: number;
   name: string;
-  parent_platforms: IPlatform[];
+  platforms: IPlatform[];
+  parent_platforms: IParentPlatform[];
   playtime: number;
   rating: number;
   rating_top: number;
@@ -53,6 +54,7 @@ export interface IGame {
   slug: string;
   stores: IStore[];
   suggestions_count: number;
+  clip: string | null;
   tags: ITag[];
   tba: boolean;
   updated: string;
@@ -70,18 +72,47 @@ interface IStatus {
 
 interface IRating {
   id: number;
+  title: string;
+  count: number;
+  percent: number;
+}
+
+interface IEsrbRating {
+  id: number;
   name: string;
   slug: string;
 }
 
 interface IGenre {
-  games_count: number;
-  image_background: string;
+  id: number;
   name: string;
   slug: string;
+  games_count: number;
+  image_background: string;
 }
 
 interface IPlatform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+    image: string | null;
+    year_end: number | null;
+    year_start: number | null;
+    games_count: number;
+    image_background: string;
+  };
+  released_at: string;
+  requirements_en?: null | IRequipments;
+  requirements_ru?: null | IRequipments;
+}
+
+interface IRequipments {
+  minimum?: string;
+  recommended?: string;
+}
+
+interface IParentPlatform {
   platform: {
     id: number;
     name: string;
@@ -130,11 +161,11 @@ export interface IGameDetails {
   metacritic: number;
   released: string;
   background_image: string;
-  platforms: IPlatform[];
+  platforms: IDetailsPlatform[];
   genres: IGenres[];
 }
 
-interface IPlatform {
+interface IDetailsPlatform {
   id: number;
   name: string;
 }
