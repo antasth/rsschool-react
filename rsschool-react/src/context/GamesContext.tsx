@@ -5,6 +5,7 @@ import { getFromLocalStorage } from '../utils';
 
 type GameContextProviderProps = {
   children: React.ReactNode;
+  count?: number;
 };
 
 type GamesContextProps = {
@@ -23,9 +24,10 @@ const GamesContext = createContext({} as GamesContextProps);
 
 const GamesContextProvider = ({
   children,
+  count = 0,
 }: GameContextProviderProps): React.ReactElement => {
   const [gamesList, setGamesList] = useState<IGame[]>([]);
-  const [gamesCount, setGamesCount] = useState(0);
+  const [gamesCount, setGamesCount] = useState(count);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [searchString, setSearchString] = useState(
