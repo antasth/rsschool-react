@@ -9,7 +9,8 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { Mock, describe, expect, it, vi } from 'vitest';
+import { GamesService } from '../src/api/games';
 import { GameCard } from '../src/components/GameCard/GameCard';
 import { GameDetails } from '../src/components/GameDetails/GameDetails';
 import { GamesList } from '../src/components/GamesList/GamesList';
@@ -74,5 +75,50 @@ describe('Tests for the Card component:', () => {
     expect(screen.getByTestId('details')).toBeInTheDocument();
   });
 
-  it('Check that clicking triggers an additional API call to fetch detailed information.', () => {});
+  it('Check that clicking triggers an additional API call to fetch detailed information.', async () => {
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        json: () => new Promise((resolve) => resolve(gamesData[0])),
+      })
+    ) as Mock;
+
+    const customRender = (
+      children: React.ReactElement,
+      { providerProps }: { providerProps: { games: IGame[]; count: number } }
+    ): RenderResult => {
+      return render(
+        <BrowserRouter>
+          <GamesContextProvider {...providerProps}>
+            {children}
+          </GamesContextProvider>
+        </BrowserRouter>
+      );
+    };
+
+    const providerProps = {
+      games: gamesData,
+      count: 12,
+    };
+
+    const router = createBrowserRouter([
+      {
+        path: '/',
+        element: <MainPage />,
+        children: [
+          {
+            element: <GameDetails />,
+            index: true,
+          },
+        ],
+      },
+    ]);
+    render(<RouterProvider router={router} />);
+
+    customRender(<GamesList />, { providerProps });
+    const card = screen.getAllByTestId('game-card')[0];
+    fireEvent.click(card);
+    const game = await GamesService.getGameDetails(gamesData[0].slug);
+    expect(game).toEqual(gamesData[0]);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
 });
