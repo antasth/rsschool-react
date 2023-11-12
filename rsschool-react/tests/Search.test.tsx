@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Search } from '../src/components/Search/Search';
+import { GamesContextProvider } from '../src/context/GamesContext';
 import { getFromLocalStorage } from '../src/utils';
 
 const GAMES_KEY = 'searchString';
@@ -15,19 +16,19 @@ describe('Tests for the Search component:', () => {
     setItemSpy.mockClear();
   });
 
-  // it('Verify that clicking the Search button saves the entered value to the local storage.', (): void => {
-  //   render(<Search />);
+  it('Verify that clicking the Search button saves the entered value to the local storage.', (): void => {
+    render(<Search />, { wrapper: GamesContextProvider });
 
-  //   const button = screen.getByRole('button');
-  //   const input: HTMLInputElement = screen.getByLabelText('search-input');
-  //   expect(button).toBeInTheDocument();
-  //   expect(input).toBeInTheDocument();
+    const button = screen.getByRole('button');
+    const input: HTMLInputElement = screen.getByLabelText('search-input');
+    expect(button).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
 
-  //   fireEvent.change(input, { target: { value: 'some test value' } });
-  //   fireEvent.click(button);
+    fireEvent.change(input, { target: { value: 'some test value' } });
+    fireEvent.click(button);
 
-  //   expect(getFromLocalStorage(GAMES_KEY)).toEqual(input.value);
-  // });
+    expect(getFromLocalStorage(GAMES_KEY)).toEqual(input.value);
+  });
 
   it('Check that the component retrieves the value from the local storage upon mounting.', (): void => {
     render(<Search />);
