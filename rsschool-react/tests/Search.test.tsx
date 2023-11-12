@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Search } from '../src/components/Search/Search';
 import { GamesContextProvider } from '../src/context/GamesContext';
 import { getFromLocalStorage } from '../src/utils';
@@ -16,9 +16,11 @@ describe('Tests for the Search component:', () => {
     setItemSpy.mockClear();
   });
 
-  it('Verify that clicking the Search button saves the entered value to the local storage.', (): void => {
+  beforeEach(() => {
     render(<Search />, { wrapper: GamesContextProvider });
+  });
 
+  it('Verify that clicking the Search button saves the entered value to the local storage.', (): void => {
     const button = screen.getByRole('button');
     const input: HTMLInputElement = screen.getByLabelText('search-input');
     expect(button).toBeInTheDocument();
@@ -31,7 +33,6 @@ describe('Tests for the Search component:', () => {
   });
 
   it('Check that the component retrieves the value from the local storage upon mounting.', (): void => {
-    render(<Search />);
     const input: HTMLInputElement = screen.getByLabelText('search-input');
     expect(getFromLocalStorage(GAMES_KEY)).toEqual(input.value);
   });
