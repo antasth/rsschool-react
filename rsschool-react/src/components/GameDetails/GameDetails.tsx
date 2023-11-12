@@ -55,7 +55,11 @@ const GameDetails = (): React.ReactElement => {
           <div className={styles.game}>
             <div className={styles.title}>
               <h1 data-testid="game-name">{gameDetails?.name}</h1>
-              <div onClick={navigateBack} className={styles.close}>
+              <div
+                onClick={navigateBack}
+                className={styles.close}
+                data-testid="close"
+              >
                 &#10005;
               </div>
             </div>

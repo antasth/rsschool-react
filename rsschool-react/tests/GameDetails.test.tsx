@@ -94,5 +94,34 @@ describe('Tests for the Detailed Card component:', () => {
       expect(screen.getByTestId('game-platforms')).toBeInTheDocument();
     });
   });
-  it('Ensure that clicking the close button hides the component', () => {});
+  it('Ensure that clicking the close button hides the component', async () => {
+    const customRender = (
+      children: React.ReactElement,
+      { providerProps }: { providerProps: { games: IGame[]; count: number } }
+    ): RenderResult => {
+      return render(
+        <BrowserRouter>
+          <GamesContextProvider {...providerProps}>
+            {children}
+          </GamesContextProvider>
+        </BrowserRouter>
+      );
+    };
+    const providerProps = {
+      games: gamesData,
+      count: 1,
+    };
+    customRender(<GameDetails />, { providerProps });
+    await waitFor(() => {
+      screen.getByTestId('details');
+      const closeButton = screen.getByTestId('close');
+      const detailsCard = screen.getByTestId('details');
+      expect(detailsCard).toBeInTheDocument();
+      expect(closeButton).toBeInTheDocument();
+      fireEvent.click(closeButton);
+      waitFor(() => {
+        expect(detailsCard).not.toBeInTheDocument();
+      });
+    });
+  });
 });
