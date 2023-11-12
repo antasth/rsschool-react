@@ -1,20 +1,41 @@
 import { ChangeEvent, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GamesContext } from '../../context/GamesContext';
 import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
 
 const Pagination = (): React.ReactElement => {
-  const { gamesCount, currentPage, pageSize, setPageSize, setCurrentPage } =
-    useContext(GamesContext);
+  const {
+    gamesCount,
+    currentPage,
+    pageSize,
+    setPageSize,
+    setCurrentPage,
+    searchString,
+  } = useContext(GamesContext);
   const pagesCount = Math.ceil(gamesCount / pageSize);
   const pagesArray = getPagesArray(currentPage, pagesCount);
 
+  const navigate = useNavigate();
+
   const nextPage = (): void => {
-    if (currentPage < pagesCount) setCurrentPage(currentPage + 1);
+    if (currentPage < pagesCount) {
+      setCurrentPage(currentPage + 1);
+      const url = `?page=${
+        currentPage + 1
+      }&search=${searchString}&page_size=${pageSize}`;
+      navigate(url);
+    }
   };
 
   const prevPage = (): void => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      const url = `?page=${
+        currentPage - 1
+      }&search=${searchString}&page_size=${pageSize}`;
+      navigate(url);
+    }
   };
 
   const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>): void => {
@@ -25,7 +46,7 @@ const Pagination = (): React.ReactElement => {
   return (
     <div className={styles.pagination}>
       {currentPage > 1 && (
-        <div className={styles.page} onClick={prevPage}>
+        <div className={styles.page} onClick={prevPage} data-testid="prev">
           &#x276E;
         </div>
       )}
@@ -43,7 +64,7 @@ const Pagination = (): React.ReactElement => {
         </div>
       ))}
       {currentPage < pagesCount && (
-        <div className={styles.page} onClick={nextPage}>
+        <div className={styles.page} onClick={nextPage} data-testid="next">
           &#x276F;
         </div>
       )}
