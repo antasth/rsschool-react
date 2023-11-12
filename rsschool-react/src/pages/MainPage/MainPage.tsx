@@ -1,12 +1,12 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { GamesService } from '../api/games';
-import { GamesList } from '../components/GamesList/GamesList';
-import { Loader } from '../components/Loader/Loader';
-import { Pagination } from '../components/Pagination/Pagination';
-import { Search } from '../components/Search/Search';
-import { GamesContext } from '../context/GamesContext';
-import { useFetching } from '../hooks/useFetching';
+import { GamesService } from '../../api/games';
+import { GamesList } from '../../components/GamesList/GamesList';
+import { Loader } from '../../components/Loader/Loader';
+import { Pagination } from '../../components/Pagination/Pagination';
+import { Search } from '../../components/Search/Search';
+import { GamesContext } from '../../context/GamesContext';
+import { useFetching } from '../../hooks/useFetching';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {

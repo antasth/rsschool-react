@@ -2,7 +2,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import { GameDetails } from './components/GameDetails/GameDetails';
 import { GamesContextProvider } from './context/GamesContext';
-import { MainPage } from './pages/MainPage';
+import { MainPage } from './pages/MainPage/MainPage';
+import { NotFound } from './pages/NotFound/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
         element: <GameDetails />,
       },
     ],
+    errorElement: <NotFound />,
   },
 ]);
 

@@ -15,7 +15,7 @@ import { GameCard } from '../src/components/GameCard/GameCard';
 import { GameDetails } from '../src/components/GameDetails/GameDetails';
 import { GamesList } from '../src/components/GamesList/GamesList';
 import { GamesContextProvider } from '../src/context/GamesContext';
-import { MainPage } from '../src/pages/MainPage';
+import { MainPage } from '../src/pages/MainPage/MainPage';
 import { IGame } from '../src/types';
 import { gamesData } from './mockData';
 
