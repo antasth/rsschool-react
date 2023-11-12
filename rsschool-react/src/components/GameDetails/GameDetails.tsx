@@ -54,12 +54,12 @@ const GameDetails = (): React.ReactElement => {
         ) : (
           <div className={styles.game}>
             <div className={styles.title}>
-              <h1>{gameDetails?.name}</h1>
+              <h1 data-testid="game-name">{gameDetails?.name}</h1>
               <div onClick={navigateBack} className={styles.close}>
                 &#10005;
               </div>
             </div>
-            <div className={styles.genres}>
+            <div className={styles.genres} data-testid="game-genres">
               {gameDetails?.genres.map((genre) => (
                 <h3 key={genre.id}>{genre.name}</h3>
               ))}
@@ -69,13 +69,13 @@ const GameDetails = (): React.ReactElement => {
               className={styles.image}
               alt="game image"
             />
-            <div className={styles.platforms}>
+            <div className={styles.platforms} data-testid="game-platforms">
               {gameDetails?.platforms.map((platform) => (
                 <p key={platform.platform.id}>{platform.platform.name}</p>
               ))}
             </div>
 
-            <h3 className={styles.description}>
+            <h3 className={styles.description} data-testid="game-description">
               {reduceGameDescription(gameDetails?.description_raw)}
             </h3>
             <h3>{gameDetails?.released}</h3>
