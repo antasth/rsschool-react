@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint --fix \"**/*.{js,ts,tsx}\"",
     "format:fix": "prettier --write .",
-    "test": "vitest",
-    "test-coverage": "vitest --coverage",
+    "test": "vitest --coverage",
+    "test-only": "vitest",
     "prepare": "cd .. && husky install rsschool-react/.husky"
   },
   "dependencies": {
