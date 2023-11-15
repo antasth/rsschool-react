@@ -7,6 +7,7 @@ import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
 import { GamesContext } from '../../context/GamesContext';
 import { useFetching } from '../../hooks/useFetching';
+import { useSearch } from '../../hooks/useSearch';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
@@ -15,8 +16,10 @@ const MainPage = (): React.ReactElement => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { searchString, currentPage, pageSize, setGamesList, setGamesCount } =
+  const { currentPage, pageSize, setGamesList, setGamesCount } =
     useContext(GamesContext);
+
+  const { searchString } = useSearch();
 
   useEffect(() => {
     location.pathname !== '/'

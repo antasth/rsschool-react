@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ISearchSlice } from '../../types';
 
-interface ISearchSlice {
-  value: string;
-}
 const initialState: ISearchSlice = { value: '' };
 
 export const searchSlice = createSlice({

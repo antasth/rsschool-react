@@ -169,3 +169,7 @@ interface IGenres {
   id: number;
   name: string;
 }
+
+export interface ISearchSlice {
+  value: string;
+}

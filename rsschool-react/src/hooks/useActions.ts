@@ -1,10 +1,10 @@
 import { ActionCreatorWithPayload, bindActionCreators } from '@reduxjs/toolkit';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { actions } from '../store/search/search.slice';
+import { actions as searchActions } from '../store/search/search.slice';
 
 const rootActions = {
-  ...actions,
+  ...searchActions,
 };
 
 export const useActions = (): {

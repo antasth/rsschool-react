@@ -5,8 +5,7 @@ import { saveToLocalStorage } from '../../utils';
 import styles from './Search.module.css';
 
 const Search = (): React.ReactElement => {
-  const { searchString, setSearchString, setCurrentPage } =
-    useContext(GamesContext);
+  const { searchString, setCurrentPage } = useContext(GamesContext);
 
   const [searchInputValue, setSearchInputValue] = useState(searchString);
 
@@ -18,7 +17,6 @@ const Search = (): React.ReactElement => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setCurrentPage(1);
-    setSearchString(searchInputValue);
     saveToLocalStorage('searchString', searchInputValue);
     saveSearchString(searchInputValue);
   };
