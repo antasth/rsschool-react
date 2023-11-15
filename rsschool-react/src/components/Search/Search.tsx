@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { GamesContext } from '../../context/GamesContext';
+import { useActions } from '../../hooks/useActions';
 import { saveToLocalStorage } from '../../utils';
 import styles from './Search.module.css';
 
@@ -9,6 +10,8 @@ const Search = (): React.ReactElement => {
 
   const [searchInputValue, setSearchInputValue] = useState(searchString);
 
+  const { saveSearchString } = useActions();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
     setSearchInputValue(e.target.value);
 
@@ -17,6 +20,7 @@ const Search = (): React.ReactElement => {
     setCurrentPage(1);
     setSearchString(searchInputValue);
     saveToLocalStorage('searchString', searchInputValue);
+    saveSearchString(searchInputValue);
   };
 
   return (
