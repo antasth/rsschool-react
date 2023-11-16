@@ -8,9 +8,9 @@ export const gamesSlice = createSlice({
   initialState,
   reducers: {
     saveGamesList: (state, { payload }: PayloadAction<IGame[]>) => {
-      console.log(payload);
+      console.log('payload', payload);
 
-      // state.push(payload.value);
+      state = payload;
     },
   },
 });

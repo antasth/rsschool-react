@@ -6,6 +6,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
 import { GamesContext } from '../../context/GamesContext';
+import { useActions } from '../../hooks/useActions';
 import { useFetching } from '../../hooks/useFetching';
 import { useSearch } from '../../hooks/useSearch';
 import styles from './MainPage.module.css';
@@ -20,6 +21,8 @@ const MainPage = (): React.ReactElement => {
     useContext(GamesContext);
 
   const { searchString } = useSearch();
+
+  const { saveGamesList } = useActions();
 
   useEffect(() => {
     location.pathname !== '/'
@@ -36,6 +39,7 @@ const MainPage = (): React.ReactElement => {
       );
       setGamesList(response.results);
       setGamesCount(response.count);
+      saveGamesList(response.results);
     }, [currentPage, pageSize, searchString, setGamesList, setGamesCount])
   );
 
