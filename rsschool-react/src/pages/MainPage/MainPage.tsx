@@ -17,8 +17,7 @@ const MainPage = (): React.ReactElement => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentPage, pageSize, setGamesList, setGamesCount } =
-    useContext(GamesContext);
+  const { currentPage, pageSize, setGamesCount } = useContext(GamesContext);
 
   const { searchString } = useSearch();
 
@@ -37,10 +36,9 @@ const MainPage = (): React.ReactElement => {
         currentPage,
         pageSize
       );
-      setGamesList(response.results);
       setGamesCount(response.count);
       saveGamesList(response.results);
-    }, [currentPage, pageSize, searchString, setGamesList, setGamesCount])
+    }, [currentPage, pageSize, searchString, setGamesCount, saveGamesList])
   );
 
   useEffect(() => {

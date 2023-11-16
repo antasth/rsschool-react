@@ -1,16 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IGame } from '../../types';
+import { IGame, IGamesSlice } from '../../types';
 
-const initialState: IGame[] = [];
+const initialState: IGamesSlice = { value: [] };
 
 export const gamesSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
     saveGamesList: (state, { payload }: PayloadAction<IGame[]>) => {
-      console.log('payload', payload);
-
-      state = payload;
+      state.value = payload;
     },
   },
 });

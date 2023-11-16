@@ -173,3 +173,7 @@ interface IGenres {
 export interface ISearchSlice {
   value: string;
 }
+
+export interface IGamesSlice {
+  value: IGame[];
+}
