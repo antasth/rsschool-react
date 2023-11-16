@@ -1,15 +1,17 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { GamesContext } from '../../context/GamesContext';
 import { useActions } from '../../hooks/useActions';
+import { useSearch } from '../../hooks/useSearch';
 import { saveToLocalStorage } from '../../utils';
 import styles from './Search.module.css';
 
 const Search = (): React.ReactElement => {
-  const { searchString, setCurrentPage } = useContext(GamesContext);
-
-  const [searchInputValue, setSearchInputValue] = useState(searchString);
+  const { setCurrentPage } = useContext(GamesContext);
 
   const { saveSearchString } = useActions();
+  const { searchString } = useSearch();
+
+  const [searchInputValue, setSearchInputValue] = useState(searchString);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
     setSearchInputValue(e.target.value);

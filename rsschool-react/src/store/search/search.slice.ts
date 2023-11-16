@@ -1,7 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ISearchSlice } from '../../types';
+import { getFromLocalStorage } from '../../utils';
 
-const initialState: ISearchSlice = { value: '' };
+const initialState: ISearchSlice = {
+  value: getFromLocalStorage('searchString'),
+};
 
 export const searchSlice = createSlice({
   name: 'search',
