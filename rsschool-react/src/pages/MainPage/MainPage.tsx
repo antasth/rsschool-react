@@ -9,6 +9,7 @@ import { GamesContext } from '../../context/GamesContext';
 import { useActions } from '../../hooks/useActions';
 import { useFetching } from '../../hooks/useFetching';
 import { useSearch } from '../../hooks/useSearch';
+import { useGetGamesQuery } from '../../store/api/api';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
@@ -22,6 +23,14 @@ const MainPage = (): React.ReactElement => {
   const { searchString } = useSearch();
 
   const { saveGamesList } = useActions();
+
+  const { isLoading, data } = useGetGamesQuery({
+    currentPage,
+    searchString,
+    pageSize,
+  });
+
+  console.log('data', data, isLoading);
 
   useEffect(() => {
     location.pathname !== '/'
