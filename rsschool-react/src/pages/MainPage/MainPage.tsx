@@ -5,6 +5,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
 import { GamesContext } from '../../context/GamesContext';
+import { usePageSize } from '../../hooks/usePageSize';
 import { useSearch } from '../../hooks/useSearch';
 import { useGetGamesQuery } from '../../store/api/api';
 import styles from './MainPage.module.css';
@@ -15,9 +16,10 @@ const MainPage = (): React.ReactElement => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentPage, pageSize, setGamesCount } = useContext(GamesContext);
+  const { currentPage, setGamesCount } = useContext(GamesContext);
 
   const { searchString } = useSearch();
+  const { pageSize } = usePageSize();
 
   const { data, isFetching } = useGetGamesQuery({
     currentPage,

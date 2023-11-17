@@ -1,13 +1,17 @@
 import { ChangeEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GamesContext } from '../../context/GamesContext';
+import { useActions } from '../../hooks/useActions';
+import { usePageSize } from '../../hooks/usePageSize';
 import { useSearch } from '../../hooks/useSearch';
 import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
 
 const Pagination = (): React.ReactElement => {
-  const { gamesCount, currentPage, pageSize, setPageSize, setCurrentPage } =
-    useContext(GamesContext);
+  const { gamesCount, currentPage, setCurrentPage } = useContext(GamesContext);
+
+  const { pageSize } = usePageSize();
+  const { savePageSize } = useActions();
 
   const { searchString } = useSearch();
   const pagesCount = Math.ceil(gamesCount / pageSize);
@@ -36,7 +40,7 @@ const Pagination = (): React.ReactElement => {
   };
 
   const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>): void => {
-    setPageSize(+e.target.value);
+    savePageSize(+e.target.value);
     setCurrentPage(1);
   };
 
