@@ -8,8 +8,10 @@ export const PageSize = createSlice({
   name: 'pageSize',
   initialState,
   reducers: {
-    setPageSize: (state, { payload }: PayloadAction<number>) => {
+    savePageSize: (state, { payload }: PayloadAction<number>) => {
       state.value = payload;
     },
   },
 });
+
+export const { actions, reducer } = PageSize;
