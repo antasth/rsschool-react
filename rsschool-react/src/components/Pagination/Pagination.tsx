@@ -3,20 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useActions } from '../../hooks/useActions';
 import { usePageSize } from '../../hooks/usePageSize';
 import { useSearch } from '../../hooks/useSearch';
+import { IPaginationProps } from '../../types';
 import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
 
-const Pagination = (props: {
-  gamesCount: number;
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}): React.ReactElement => {
-  const { gamesCount, currentPage, setCurrentPage } = props;
-
+const Pagination = ({
+  gamesCount,
+  currentPage,
+  setCurrentPage,
+}: IPaginationProps): React.ReactElement => {
   const { pageSize } = usePageSize();
   const { savePageSize } = useActions();
-
   const { searchString } = useSearch();
+
   const pagesCount = Math.ceil(gamesCount / pageSize);
   const pagesArray = getPagesArray(currentPage, pagesCount);
 

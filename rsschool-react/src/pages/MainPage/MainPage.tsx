@@ -50,7 +50,7 @@ const MainPage = (): React.ReactElement => {
 
   return (
     <div className={styles.mainPage}>
-      <Search />
+      <Search setCurrentPage={setCurrentPage} />
       <main
         className={
           isDescription ? `${styles.main} ${styles.small}` : styles.main

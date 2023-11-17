@@ -177,3 +177,24 @@ export interface ISearchSlice {
 export interface IGamesSlice {
   value: IGame[];
 }
+
+export interface IPageSizeSlice {
+  value: number;
+}
+
+export interface IPaginationProps {
+  gamesCount: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface ISearchProps {
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface IGamesListProps {
+  games: IGame[];
+}
+export interface IGameCardProps {
+  game: IGame;
+}

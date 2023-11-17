@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
-import { IGame } from '../../types';
+import { IGameCardProps } from '../../types';
 import styles from './GameCard.module.css';
 
-const GameCard = (props: { game: IGame }): React.ReactElement => {
-  const { game } = props;
-
+const GameCard = ({ game }: IGameCardProps): React.ReactElement => {
   return (
     <Link to={`games/${game.slug}`}>
       <div className={styles.card} data-testid="game-card">

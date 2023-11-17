@@ -1,13 +1,11 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import { GamesContext } from '../../context/GamesContext';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useActions } from '../../hooks/useActions';
 import { useSearch } from '../../hooks/useSearch';
+import { ISearchProps } from '../../types';
 import { saveToLocalStorage } from '../../utils';
 import styles from './Search.module.css';
 
-const Search = (): React.ReactElement => {
-  const { setCurrentPage } = useContext(GamesContext);
-
+const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
   const { saveSearchString } = useActions();
   const { searchString } = useSearch();
 

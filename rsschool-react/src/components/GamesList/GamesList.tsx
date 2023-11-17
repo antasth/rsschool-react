@@ -1,11 +1,9 @@
 import React from 'react';
-import { IGame } from '../../types';
+import { IGamesListProps } from '../../types';
 import { GameCard } from '../GameCard/GameCard';
 import styles from './GamesList.module.css';
 
-const GamesList = (props: { games: IGame[] }): React.ReactElement => {
-  const { games } = props;
-
+const GamesList = ({ games }: IGamesListProps): React.ReactElement => {
   return (
     <div className={styles.games}>
       <div className={styles.container}>

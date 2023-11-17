@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { DEFAULT_PAGE_SIZE } from '../../constants';
+import { IPageSizeSlice } from '../../types';
 
-const initialState: { value: number } = {
+const initialState: IPageSizeSlice = {
   value: DEFAULT_PAGE_SIZE,
 };
 
