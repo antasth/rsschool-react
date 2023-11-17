@@ -1,13 +1,11 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { GamesService } from '../../api/games';
 import { GamesList } from '../../components/GamesList/GamesList';
 import { Loader } from '../../components/Loader/Loader';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
 import { GamesContext } from '../../context/GamesContext';
 import { useActions } from '../../hooks/useActions';
-import { useFetching } from '../../hooks/useFetching';
 import { useSearch } from '../../hooks/useSearch';
 import { useGetGamesQuery } from '../../store/api/api';
 import styles from './MainPage.module.css';
@@ -21,7 +19,6 @@ const MainPage = (): React.ReactElement => {
   const { currentPage, pageSize, setGamesCount } = useContext(GamesContext);
 
   const { searchString } = useSearch();
-
   const { saveGamesList } = useActions();
 
   const { isLoading, data } = useGetGamesQuery({
@@ -30,37 +27,36 @@ const MainPage = (): React.ReactElement => {
     pageSize,
   });
 
-  console.log('data', data, isLoading);
-
   useEffect(() => {
     location.pathname !== '/'
       ? setIsDescription(true)
       : setIsDescription(false);
   }, [location.pathname]);
 
-  const [fetchGames, isGamesLoading, fetchError] = useFetching(
-    useCallback(async (): Promise<void> => {
-      const response = await GamesService.getAllGames(
-        searchString,
-        currentPage,
-        pageSize
-      );
-      setGamesCount(response.count);
-      saveGamesList(response.results);
-    }, [currentPage, pageSize, searchString, setGamesCount, saveGamesList])
-  );
-
   useEffect(() => {
-    fetchGames();
+    console.log('data', data);
+
+    if (data) {
+      setGamesCount(data.count);
+      saveGamesList(data.results);
+    }
     const url = `?page=${currentPage}&search=${searchString}&page_size=${pageSize}`;
     navigate(url);
-  }, [fetchGames, currentPage, pageSize, navigate, searchString]);
+  }, [
+    data,
+    currentPage,
+    pageSize,
+    navigate,
+    searchString,
+    setGamesCount,
+    saveGamesList,
+  ]);
 
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
-    if (isError || fetchError) throw new Error('Error for test ErrorBoundary');
-  }, [isError, fetchError]);
+    if (isError) throw new Error('Error for test ErrorBoundary');
+  }, [isError]);
 
   return (
     <div className={styles.mainPage}>
@@ -75,7 +71,7 @@ const MainPage = (): React.ReactElement => {
         </button>
         <div className={styles.container}>
           <div className={styles.content}>
-            {isGamesLoading ? (
+            {isLoading ? (
               <Loader />
             ) : (
               <>

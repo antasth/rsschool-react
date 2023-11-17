@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_KEY, API_URL } from '../../constants';
-import { IGame } from '../../types';
+import { IGamesResponseObject } from '../../types';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -10,16 +10,12 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     getGames: builder.query<
-      IGame[],
+      IGamesResponseObject,
       { currentPage: number; searchString: string; pageSize: number }
     >({
-      query: (args) => {
-        const { currentPage, searchString, pageSize } = args;
-        return {
-          url: `/games?page=${currentPage}&search=${searchString}&page_size=${pageSize}&key=${API_KEY}`,
-          params: { currentPage, searchString, pageSize },
-        };
-      },
+      query: ({ currentPage, searchString, pageSize }) => ({
+        url: `/games?page=${currentPage}&search=${searchString}&page_size=${pageSize}&key=${API_KEY}`,
+      }),
     }),
   }),
 });
