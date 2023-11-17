@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_KEY, API_URL } from '../../constants';
-import { IGamesResponseObject } from '../../types';
+import { IGameDetails, IGamesResponseObject } from '../../types';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -8,8 +8,8 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
   }),
-  endpoints: (builder) => ({
-    getGames: builder.query<
+  endpoints: (build) => ({
+    getGames: build.query<
       IGamesResponseObject,
       { currentPage: number; searchString: string; pageSize: number }
     >({
@@ -17,7 +17,12 @@ export const api = createApi({
         url: `/games?page=${currentPage}&search=${searchString}&page_size=${pageSize}&key=${API_KEY}`,
       }),
     }),
+    getGameDetails: build.query<IGameDetails, { slug: string }>({
+      query: ({ slug }) => ({
+        url: `${slug}?key=${API_KEY}`,
+      }),
+    }),
   }),
 });
 
-export const { useGetGamesQuery } = api;
+export const { useGetGamesQuery, useGetGameDetailsQuery } = api;

@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { GamesService } from '../../api/games';
-import { useFetching } from '../../hooks/useFetching';
+import { useGetGameDetailsQuery } from '../../store/api/api';
 import { IGameDetails } from '../../types';
 import { reduceGameDescription } from '../../utils';
 import { Loader } from '../Loader/Loader';
@@ -13,17 +12,13 @@ const GameDetails = (): React.ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
   const gameDetailsRef = useRef<HTMLDivElement>(null);
+  const slug = location.pathname;
 
-  const [fetchGameDetails, isLoading, fetchError] = useFetching(
-    useCallback(async () => {
-      const response = await GamesService.getGameDetails(location.pathname);
-      setGameDetails(response);
-    }, [location.pathname])
-  );
+  const { isLoading, data } = useGetGameDetailsQuery({ slug });
 
   useEffect(() => {
-    fetchGameDetails();
-  }, [fetchGameDetails]);
+    if (data) setGameDetails(data);
+  }, [data]);
 
   const navigateBack = (): void => navigate(-1);
 
@@ -37,10 +32,6 @@ const GameDetails = (): React.ReactElement => {
     )
       navigateBack();
   };
-
-  useEffect(() => {
-    if (fetchError) throw new Error('Game Details Fetch Error');
-  }, [fetchError]);
 
   return (
     <div className={styles.background} onClick={handleBackgroundClick}>
