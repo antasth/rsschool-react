@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { GamesList } from '../../components/GamesList/GamesList';
 import { Loader } from '../../components/Loader/Loader';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
-import { GamesContext } from '../../context/GamesContext';
 import { usePageSize } from '../../hooks/usePageSize';
 import { useSearch } from '../../hooks/useSearch';
 import { useGetGamesQuery } from '../../store/api/api';
@@ -13,10 +12,11 @@ import styles from './MainPage.module.css';
 const MainPage = (): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   const [isDescription, setIsDescription] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [gamesCount, setGamesCount] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentPage, setGamesCount } = useContext(GamesContext);
 
   const { searchString } = useSearch();
   const { pageSize } = usePageSize();
@@ -66,7 +66,11 @@ const MainPage = (): React.ReactElement => {
             ) : (
               <>
                 <GamesList games={games} />
-                <Pagination />
+                <Pagination
+                  currentPage={currentPage}
+                  gamesCount={gamesCount}
+                  setCurrentPage={setCurrentPage}
+                />
               </>
             )}
           </div>

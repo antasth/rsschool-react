@@ -1,14 +1,17 @@
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GamesContext } from '../../context/GamesContext';
 import { useActions } from '../../hooks/useActions';
 import { usePageSize } from '../../hooks/usePageSize';
 import { useSearch } from '../../hooks/useSearch';
 import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
 
-const Pagination = (): React.ReactElement => {
-  const { gamesCount, currentPage, setCurrentPage } = useContext(GamesContext);
+const Pagination = (props: {
+  gamesCount: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}): React.ReactElement => {
+  const { gamesCount, currentPage, setCurrentPage } = props;
 
   const { pageSize } = usePageSize();
   const { savePageSize } = useActions();
