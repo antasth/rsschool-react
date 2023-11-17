@@ -5,7 +5,6 @@ import { Loader } from '../../components/Loader/Loader';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
 import { GamesContext } from '../../context/GamesContext';
-import { useActions } from '../../hooks/useActions';
 import { useSearch } from '../../hooks/useSearch';
 import { useGetGamesQuery } from '../../store/api/api';
 import styles from './MainPage.module.css';
@@ -19,13 +18,13 @@ const MainPage = (): React.ReactElement => {
   const { currentPage, pageSize, setGamesCount } = useContext(GamesContext);
 
   const { searchString } = useSearch();
-  const { saveGamesList } = useActions();
 
-  const { isLoading, data } = useGetGamesQuery({
+  const { data, isFetching } = useGetGamesQuery({
     currentPage,
     searchString,
     pageSize,
   });
+  const games = data ? data.results : [];
 
   useEffect(() => {
     location.pathname !== '/'
@@ -34,23 +33,12 @@ const MainPage = (): React.ReactElement => {
   }, [location.pathname]);
 
   useEffect(() => {
-    console.log('data', data);
-
     if (data) {
       setGamesCount(data.count);
-      saveGamesList(data.results);
     }
     const url = `?page=${currentPage}&search=${searchString}&page_size=${pageSize}`;
     navigate(url);
-  }, [
-    data,
-    currentPage,
-    pageSize,
-    navigate,
-    searchString,
-    setGamesCount,
-    saveGamesList,
-  ]);
+  }, [currentPage, pageSize, navigate, searchString, setGamesCount, data]);
 
   const setError = (): void => setIsError(true);
 
@@ -71,11 +59,11 @@ const MainPage = (): React.ReactElement => {
         </button>
         <div className={styles.container}>
           <div className={styles.content}>
-            {isLoading ? (
+            {isFetching ? (
               <Loader />
             ) : (
               <>
-                <GamesList />
+                <GamesList games={games} />
                 <Pagination />
               </>
             )}

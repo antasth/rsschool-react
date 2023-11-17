@@ -1,10 +1,10 @@
 import React from 'react';
-import { useGames } from '../../hooks/useGames';
+import { IGame } from '../../types';
 import { GameCard } from '../GameCard/GameCard';
 import styles from './GamesList.module.css';
 
-const GamesList = (): React.ReactElement => {
-  const { games } = useGames();
+const GamesList = (props: { games: IGame[] }): React.ReactElement => {
+  const { games } = props;
 
   return (
     <div className={styles.games}>
