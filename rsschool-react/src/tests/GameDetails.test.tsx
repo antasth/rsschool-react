@@ -12,11 +12,11 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import { GameDetails } from '../src/components/GameDetails/GameDetails';
-import { GamesList } from '../src/components/GamesList/GamesList';
+import { GameDetails } from '../components/GameDetails/GameDetails';
+import { GamesList } from '../components/GamesList/GamesList';
+import { MainPage } from '../pages/MainPage/MainPage';
 import { GamesContextProvider } from '../src/context/GamesContext';
-import { MainPage } from '../src/pages/MainPage/MainPage';
-import { IGame } from '../src/types';
+import { IGame } from '../types';
 import { gamesData } from './mockData';
 
 describe('Tests for the Detailed Card component:', () => {

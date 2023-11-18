@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Search } from '../src/components/Search/Search';
+import { Search } from '../components/Search/Search';
 import { GamesContextProvider } from '../src/context/GamesContext';
-import { getFromLocalStorage } from '../src/utils';
+import { getFromLocalStorage } from '../utils';
 
 const GAMES_KEY = 'searchString';
 

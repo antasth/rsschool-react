@@ -1,4 +1,4 @@
-import { IGame } from '../src/types';
+import { IGame } from '../types';
 
 export const gamesData: IGame[] = [
   {

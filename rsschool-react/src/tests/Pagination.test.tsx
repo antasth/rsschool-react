@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
-import { Pagination } from '../src/components/Pagination/Pagination';
+import { Pagination } from '../components/Pagination/Pagination';
 import { GamesContext } from '../src/context/GamesContext';
 import { gamesData } from './mockData';
 

@@ -1,9 +1,9 @@
 import { RenderResult, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-import { GamesList } from '../src/components/GamesList/GamesList';
+import { GamesList } from '../components/GamesList/GamesList';
 import { GamesContextProvider } from '../src/context/GamesContext';
-import { IGame } from '../src/types';
+import { IGame } from '../types';
 import { gamesData } from './mockData';
 
 describe('Tests for the Card List component', () => {

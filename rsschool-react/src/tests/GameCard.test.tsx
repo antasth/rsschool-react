@@ -10,13 +10,13 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { Mock, describe, expect, it, vi } from 'vitest';
+import { GameCard } from '../components/GameCard/GameCard';
+import { GameDetails } from '../components/GameDetails/GameDetails';
+import { GamesList } from '../components/GamesList/GamesList';
+import { MainPage } from '../pages/MainPage/MainPage';
 import { GamesService } from '../src/api/games';
-import { GameCard } from '../src/components/GameCard/GameCard';
-import { GameDetails } from '../src/components/GameDetails/GameDetails';
-import { GamesList } from '../src/components/GamesList/GamesList';
 import { GamesContextProvider } from '../src/context/GamesContext';
-import { MainPage } from '../src/pages/MainPage/MainPage';
-import { IGame } from '../src/types';
+import { IGame } from '../types';
 import { gamesData } from './mockData';
 
 describe('Tests for the Card component:', () => {
