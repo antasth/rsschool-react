@@ -1,10 +1,9 @@
 export interface IGamesResponseObject {
   count: number;
   description: string;
-  filters: IFilter[];
+  filters: IFilter;
   next: string | null;
   nofollow: boolean;
-  nofollow_collections: [];
   noindex: boolean;
   previous: string | null;
   results: IGame[];
@@ -12,15 +11,21 @@ export interface IGamesResponseObject {
   seo_h1: string;
   seo_keywords: string;
   seo_title: string;
+  nofollow_collections: string[];
 }
+
 interface IFilter {
-  count: number;
-  decade: number;
-  filter: string;
+  years: IYears[];
+}
+
+interface IYears {
   from: number;
-  nofollow: boolean;
   to: number;
+  filter: string;
+  decade: number;
   years: IYear[];
+  nofollow: boolean;
+  count: number;
 }
 
 interface IYear {
