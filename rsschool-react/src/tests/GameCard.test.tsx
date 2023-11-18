@@ -43,7 +43,7 @@ describe('Tests for the Card component:', () => {
         ],
       },
     ]);
-    // const router = createMemoryRouter(routerConfig);
+
     render(
       <Provider store={store}>
         <RouterProvider router={router} />
