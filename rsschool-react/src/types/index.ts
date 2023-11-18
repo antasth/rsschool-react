@@ -181,6 +181,9 @@ export interface IGamesSlice {
 export interface IPageSizeSlice {
   value: number;
 }
+export interface ILoadingFlagSlice {
+  value: boolean;
+}
 
 export interface IPaginationProps {
   gamesCount: number;
