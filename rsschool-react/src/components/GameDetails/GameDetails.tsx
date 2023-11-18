@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useActions } from '../../hooks/useActions';
 import { useGetGameDetailsQuery } from '../../store/api/api';
 import { IGameDetails } from '../../types';
 import { reduceGameDescription } from '../../utils';
@@ -14,11 +15,17 @@ const GameDetails = (): React.ReactElement => {
   const gameDetailsRef = useRef<HTMLDivElement>(null);
   const slug = location.pathname;
 
-  const { isLoading, data } = useGetGameDetailsQuery({ slug });
+  const { isFetching, data } = useGetGameDetailsQuery({ slug });
+
+  const { setIsLoading } = useActions();
 
   useEffect(() => {
     if (data) setGameDetails(data);
   }, [data]);
+
+  useEffect(() => {
+    setIsLoading(isFetching);
+  }, [isFetching, setIsLoading]);
 
   const navigateBack = (): void => navigate(-1);
 
@@ -40,7 +47,7 @@ const GameDetails = (): React.ReactElement => {
         className={styles.details}
         data-testid="details"
       >
-        {isLoading ? (
+        {isFetching ? (
           <Loader />
         ) : (
           <div className={styles.game}>

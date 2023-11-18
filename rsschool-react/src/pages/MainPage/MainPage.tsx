@@ -4,6 +4,7 @@ import { GamesList } from '../../components/GamesList/GamesList';
 import { Loader } from '../../components/Loader/Loader';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { Search } from '../../components/Search/Search';
+import { useActions } from '../../hooks/useActions';
 import { usePageSize } from '../../hooks/usePageSize';
 import { useSearch } from '../../hooks/useSearch';
 import { useGetGamesQuery } from '../../store/api/api';
@@ -21,12 +22,18 @@ const MainPage = (): React.ReactElement => {
   const { searchString } = useSearch();
   const { pageSize } = usePageSize();
 
+  const { setIsLoading } = useActions();
+
   const { data, isFetching } = useGetGamesQuery({
     currentPage,
     searchString,
     pageSize,
   });
   const games = data ? data.results : [];
+
+  useEffect(() => {
+    setIsLoading(isFetching);
+  }, [isFetching, setIsLoading]);
 
   useEffect(() => {
     location.pathname !== '/'
