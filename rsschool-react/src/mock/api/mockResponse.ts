@@ -1,4 +1,4 @@
-import { IGamesResponseObject } from '../types';
+import { IGamesResponseObject } from '../../types';
 
 export const MockData: IGamesResponseObject = {
   count: 859299,

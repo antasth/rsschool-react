@@ -6,15 +6,14 @@ import {
   createMemoryRouter,
 } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
+import { appRouter } from '../app/routes/router';
 import { GameCard } from '../components/GameCard/GameCard';
-import { GameDetails } from '../components/GameDetails/GameDetails';
-import { MainPage } from '../pages/MainPage/MainPage';
+import { MockData } from '../mock/api/mockResponse';
 import { store } from '../store/store';
-import { gamesData } from './mockData';
 
 describe('Tests for the Card component:', () => {
   it('Ensure that the card component renders the relevant card data', () => {
-    const mockGame = gamesData[0];
+    const mockGame = MockData.results[0];
 
     const { getByText } = render(
       <BrowserRouter>
@@ -30,19 +29,7 @@ describe('Tests for the Card component:', () => {
   });
 
   it('Validate that clicking on a card opens a detailed card component', async () => {
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <MainPage />,
-        children: [
-          {
-            path: '/games/*',
-            element: <GameDetails />,
-            index: true,
-          },
-        ],
-      },
-    ]);
+    const router = createMemoryRouter(appRouter);
 
     render(
       <Provider store={store}>
@@ -50,14 +37,10 @@ describe('Tests for the Card component:', () => {
       </Provider>
     );
 
-    // customRender(<GamesList />, { providerProps });
     const card = await screen.findAllByTestId('game-card');
     fireEvent.click(card[0]);
     const detailsCard = await screen.findByTestId('details');
     expect(detailsCard).toBeInTheDocument();
-    // expect(
-    //   await screen.findByRole('heading', { name: CHECKED_VALUE, level: 2 })
-    // ).toBeDefined();
   });
 
   // it('Check that clicking triggers an additional API call to fetch detailed information.', async () => {

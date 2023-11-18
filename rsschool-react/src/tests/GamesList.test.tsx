@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { GamesList } from '../components/GamesList/GamesList';
 import { GamesContextProvider } from '../src/context/GamesContext';
 import { IGame } from '../types';
-import { gamesData } from './mockData';
+import { gamesData } from './mockData____';
 
 describe('Tests for the Card List component', () => {
   it('Verify that the component renders the specified number of cards.', async () => {

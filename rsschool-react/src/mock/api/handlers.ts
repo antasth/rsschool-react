@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { MockData } from '../../tests/mockResponse';
+import { MockData } from './mockResponse';
 
 export const handlers = [
   http.get(

@@ -1,9 +1,8 @@
-import { createBrowserRouter } from 'react-router-dom';
 import { GameDetails } from '../../components/GameDetails/GameDetails';
 import { MainPage } from '../../pages/MainPage/MainPage';
 import { NotFound } from '../../pages/NotFound/NotFound';
 
-export const router = createBrowserRouter([
+export const appRouter = [
   {
     path: '/',
     element: <MainPage />,
@@ -15,4 +14,4 @@ export const router = createBrowserRouter([
     ],
     errorElement: <NotFound />,
   },
-]);
+];

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { Pagination } from '../components/Pagination/Pagination';
 import { GamesContext } from '../src/context/GamesContext';
-import { gamesData } from './mockData';
+import { gamesData } from './mockData____';
 
 describe('Tests for the Pagination component:', () => {
   vi.mock('../contexts/GamesContext', () => ({

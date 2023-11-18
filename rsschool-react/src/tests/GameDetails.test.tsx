@@ -17,7 +17,7 @@ import { GamesList } from '../components/GamesList/GamesList';
 import { MainPage } from '../pages/MainPage/MainPage';
 import { GamesContextProvider } from '../src/context/GamesContext';
 import { IGame } from '../types';
-import { gamesData } from './mockData';
+import { gamesData } from './mockData____';
 
 describe('Tests for the Detailed Card component:', () => {
   afterEach(() => {
