@@ -1,5 +1,21 @@
 import { IGamesResponseObject } from '../../types';
-
+export const EmptyMockData: IGamesResponseObject = {
+  count: 0,
+  next: '',
+  previous: null,
+  results: [],
+  seo_title: '',
+  seo_description: '',
+  seo_keywords: '',
+  seo_h1: '',
+  noindex: false,
+  nofollow: false,
+  description: '',
+  filters: {
+    years: [],
+  },
+  nofollow_collections: [''],
+};
 export const MockData: IGamesResponseObject = {
   count: 859299,
   next: 'https://api.rawg.io/api/games?key=83b4eabf3167483aa7ee90180948e7a8&page=2&page_size=12&search=',

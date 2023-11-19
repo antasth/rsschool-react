@@ -33,7 +33,7 @@ const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
           value={searchInputValue}
           onChange={handleChange}
         />
-        <button className={styles.button} type="submit">
+        <button className={styles.button} type="submit" data-testid="submit">
           Search
         </button>
       </form>
