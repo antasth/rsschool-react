@@ -13,6 +13,7 @@ export const handlers = [
   http.get(`${API_URL}/games/:slug`, ({ params }) => {
     const { slug } = params;
     isApiCall = true;
+
     return HttpResponse.json(
       MockData.results.filter((game) => game.slug === slug),
       { status: 200 }

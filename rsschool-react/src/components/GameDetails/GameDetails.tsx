@@ -62,7 +62,7 @@ const GameDetails = (): React.ReactElement => {
               </div>
             </div>
             <div className={styles.genres} data-testid="game-genres">
-              {gameDetails?.genres.map((genre) => (
+              {gameDetails?.genres?.map((genre) => (
                 <h3 key={genre.id}>{genre.name}</h3>
               ))}
             </div>
@@ -72,7 +72,7 @@ const GameDetails = (): React.ReactElement => {
               alt="game image"
             />
             <div className={styles.platforms} data-testid="game-platforms">
-              {gameDetails?.platforms.map((platform) => (
+              {gameDetails?.platforms?.map((platform) => (
                 <p key={platform.platform.id}>{platform.platform.name}</p>
               ))}
             </div>
