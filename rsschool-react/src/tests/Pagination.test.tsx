@@ -1,51 +1,38 @@
+import { createMemoryHistory } from '@remix-run/router';
 import { fireEvent, render, screen } from '@testing-library/react';
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
-import { Pagination } from '../components/Pagination/Pagination';
-import { GamesContext } from '../src/context/GamesContext';
-import { gamesData } from './mockData____';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { describe, expect, it } from 'vitest';
+import { MainPage } from '../pages/MainPage/MainPage';
+import { store } from '../store/store';
 
 describe('Tests for the Pagination component:', () => {
-  vi.mock('../contexts/GamesContext', () => ({
-    __esModule: true,
-    default: React.createContext({}),
-  }));
+  const route = '/';
+  const history = createMemoryHistory();
+  history.push(route);
+  window.history.pushState({}, '', route);
 
-  const mockValue = {
-    currentPage: 2,
-    gamesCount: 100,
-    pageSize: 12,
-    searchString: 'test',
-    gamesList: gamesData,
-    setGamesCount: vi.fn(),
-    setCurrentPage: vi.fn(),
-    setPageSize: vi.fn(),
-    setGamesList: vi.fn(),
-    setSearchString: vi.fn(),
-  };
-  it('Make sure the component updates URL query parameter when page changes', () => {
-    render(
-      <GamesContext.Provider value={mockValue}>
-        <BrowserRouter>
-          <Pagination />
-        </BrowserRouter>
-      </GamesContext.Provider>
-    );
-    const prevBtn = screen.getByTestId('prev');
-    const nextBtn = screen.getByTestId('next');
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={route} element={<MainPage />} />
+          <Route
+            path="/games?page=2&search=page_size=12"
+            element={<MainPage />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  );
 
-    expect(prevBtn).toBeInTheDocument();
-    expect(nextBtn).toBeInTheDocument();
+  it('Make sure the component updates URL query parameter when page changes', async () => {
+    const nextButton = await screen.findByTestId('next');
+    fireEvent.click(nextButton);
+    expect(global.window.location.href).toContain('?page=2');
 
-    fireEvent.click(nextBtn);
-    expect(global.window.location.href).toContain(
-      `page=${mockValue.currentPage + 1}`
-    );
-
-    fireEvent.click(prevBtn);
-    expect(global.window.location.href).toContain(
-      `page=${mockValue.currentPage - 1}`
-    );
+    const prevButton = await screen.findByTestId('prev');
+    fireEvent.click(prevButton);
+    expect(global.window.location.href).toContain('?page=1');
   });
 });
