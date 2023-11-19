@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import {
   BrowserRouter,
@@ -8,6 +8,7 @@ import {
 import { describe, expect, it } from 'vitest';
 import { appRouter } from '../app/routes/router';
 import { GameCard } from '../components/GameCard/GameCard';
+import { isApiCall, isApiCallClear } from '../mock/api/handlers';
 import { MockData } from '../mock/api/mockResponse';
 import { store } from '../store/store';
 
@@ -38,55 +39,24 @@ describe('Tests for the Card component:', () => {
     );
 
     const card = await screen.findAllByTestId('game-card');
-    fireEvent.click(card[0]);
+    fireEvent.click(card[2]);
     const detailsCard = await screen.findByTestId('details');
     expect(detailsCard).toBeInTheDocument();
   });
 
-  // it('Check that clicking triggers an additional API call to fetch detailed information.', async () => {
-  //   global.fetch = vi.fn(() =>
-  //     Promise.resolve({
-  //       json: () => new Promise((resolve) => resolve(gamesData[0])),
-  //     })
-  //   ) as Mock;
+  it('Check that clicking triggers an additional API call to fetch detailed information.', async () => {
+    const router = createMemoryRouter(appRouter);
 
-  //   const customRender = (
-  //     children: React.ReactElement,
-  //     { providerProps }: { providerProps: { games: IGame[]; count: number } }
-  //   ): RenderResult => {
-  //     return render(
-  //       <BrowserRouter>
-  //         <GamesContextProvider {...providerProps}>
-  //           {children}
-  //         </GamesContextProvider>
-  //       </BrowserRouter>
-  //     );
-  //   };
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
 
-  //   const providerProps = {
-  //     games: gamesData,
-  //     count: 12,
-  //   };
-
-  //   const router = createBrowserRouter([
-  //     {
-  //       path: '/',
-  //       element: <MainPage />,
-  //       children: [
-  //         {
-  //           element: <GameDetails />,
-  //           index: true,
-  //         },
-  //       ],
-  //     },
-  //   ]);
-  //   render(<RouterProvider router={router} />);
-
-  //   customRender(<GamesList />, { providerProps });
-  //   const card = screen.getAllByTestId('game-card')[0];
-  //   fireEvent.click(card);
-  //   const game = await GamesService.getGameDetails(gamesData[0].slug);
-  //   expect(game).toEqual(gamesData[0]);
-  //   expect(fetch).toHaveBeenCalledTimes(1);
-  // });
+    isApiCallClear();
+    const card = await screen.findAllByTestId('game-card');
+    fireEvent.click(card[0]);
+    await waitFor(() => {});
+    expect(isApiCall).toBe(true);
+  });
 });
