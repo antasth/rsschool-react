@@ -23,7 +23,7 @@ describe('Tests for the Card List component', () => {
 
   it('Check that an appropriate message is displayed if no cards are present.', async () => {
     const button = screen.getByTestId('submit');
-    const input: HTMLInputElement = screen.getByLabelText('search-input');
+    const input: HTMLInputElement = screen.getByTestId('search-input');
     expect(button).toBeInTheDocument();
     expect(input).toBeInTheDocument();
 
