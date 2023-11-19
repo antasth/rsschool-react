@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { RouterProvider, createMemoryRouter } from 'react-router';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { appRouter } from '../app/routes/router';
 import { store } from '../store/store';
 import { getFromLocalStorage } from '../utils';
@@ -9,14 +9,6 @@ import { getFromLocalStorage } from '../utils';
 const GAMES_KEY = 'searchString';
 
 describe('Tests for the Search component:', () => {
-  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-
-  afterEach(() => {
-    getItemSpy.mockClear();
-    setItemSpy.mockClear();
-  });
-
   it('Verify that clicking the Search button saves the entered value to the local storage.', async () => {
     const router = createMemoryRouter(appRouter);
 
