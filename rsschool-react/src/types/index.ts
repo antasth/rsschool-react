@@ -206,3 +206,9 @@ export interface IGamesListProps {
 export interface IGameCardProps {
   game: IGame;
 }
+
+export interface IGetGamesQueryProps {
+  currentPage: number;
+  searchString: string;
+  pageSize: number;
+}
