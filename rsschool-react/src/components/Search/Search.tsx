@@ -25,7 +25,7 @@ const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
     <header className={styles.header}>
       <form className={styles.search} onSubmit={handleSubmit}>
         <input
-          aria-label="search-input"
+          data-testid="search-input"
           id="search"
           className={styles.input}
           type="text"

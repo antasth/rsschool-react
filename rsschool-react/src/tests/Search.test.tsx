@@ -1,7 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Search } from '../components/Search/Search';
-import { GamesContextProvider } from '../src/context/GamesContext';
+import { Provider } from 'react-redux';
+import { RouterProvider, createMemoryRouter } from 'react-router';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { appRouter } from '../app/routes/router';
+import { store } from '../store/store';
 import { getFromLocalStorage } from '../utils';
 
 const GAMES_KEY = 'searchString';
@@ -11,18 +13,20 @@ describe('Tests for the Search component:', () => {
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
   afterEach(() => {
-    localStorage.clear();
     getItemSpy.mockClear();
     setItemSpy.mockClear();
   });
 
-  beforeEach(() => {
-    render(<Search />, { wrapper: GamesContextProvider });
-  });
+  it('Verify that clicking the Search button saves the entered value to the local storage.', async () => {
+    const router = createMemoryRouter(appRouter);
 
-  it('Verify that clicking the Search button saves the entered value to the local storage.', (): void => {
-    const button = screen.getByRole('button');
-    const input: HTMLInputElement = screen.getByLabelText('search-input');
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
+    const button = await screen.findByTestId('submit');
+    const input: HTMLInputElement = screen.getByTestId('search-input');
     expect(button).toBeInTheDocument();
     expect(input).toBeInTheDocument();
 
@@ -32,8 +36,16 @@ describe('Tests for the Search component:', () => {
     expect(getFromLocalStorage(GAMES_KEY)).toEqual(input.value);
   });
 
-  it('Check that the component retrieves the value from the local storage upon mounting.', (): void => {
-    const input: HTMLInputElement = screen.getByLabelText('search-input');
+  it('Check that the component retrieves the value from the local storage upon mounting.', async () => {
+    const router = createMemoryRouter(appRouter);
+
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
+
+    const input: HTMLInputElement = screen.getByTestId('search-input');
     expect(getFromLocalStorage(GAMES_KEY)).toEqual(input.value);
   });
 });
