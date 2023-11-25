@@ -1,4 +1,4 @@
-import styles from './NotFound.module.css';
+import styles from '@/styles/NotFound.module.css';
 
 const NotFound = (): React.ReactElement => {
   return (
@@ -8,4 +8,4 @@ const NotFound = (): React.ReactElement => {
   );
 };
 
-export { NotFound };
+export default NotFound;

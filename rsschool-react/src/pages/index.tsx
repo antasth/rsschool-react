@@ -1,7 +1,7 @@
 import { GamesList } from '@/components/GamesList/GamesList';
 import { Pagination } from '@/components/Pagination/Pagination';
 import { Search } from '@/components/Search/Search';
-import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants';
 import { api } from '@/store/api/api';
 import { store } from '@/store/store';
 import styles from '@/styles/MainPage.module.css';
@@ -21,7 +21,7 @@ export const getServerSideProps = async (
   const { page, page_size, search } = context.query;
 
   const queryProps = {
-    currentPage: page ? +page : 1,
+    currentPage: page ? +page : DEFAULT_PAGE,
     searchString: search ? search.toString() : '',
     pageSize: page_size ? +page_size : DEFAULT_PAGE_SIZE,
   };
@@ -33,6 +33,7 @@ export const getServerSideProps = async (
 
   return { props: { games } };
 };
+
 const MainPage = ({
   games,
 }: {
@@ -41,7 +42,7 @@ const MainPage = ({
   const [isError, setIsError] = useState(false);
   const { query } = useRouter();
   const { page = 1 } = query;
-  // page.toString();
+
   console.log('games', games);
 
   const setError = (): void => setIsError(true);
@@ -53,11 +54,7 @@ const MainPage = ({
   return (
     <div className={styles.mainPage}>
       <Search />
-      <main
-      // className={
-      //   isDescription ? `${styles.main} ${styles.small}` : styles.main
-      // }
-      >
+      <main className={styles.main}>
         <button className={styles.button} type="button" onClick={setError}>
           Throw Error
         </button>
