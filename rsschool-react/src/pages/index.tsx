@@ -7,8 +7,7 @@ import { store } from '@/store/store';
 import styles from '@/styles/MainPage.module.css';
 import { IGamesResponseObject } from '@/types';
 import { GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface IGetServerSideProps {
   props: {
@@ -44,21 +43,7 @@ const MainPage = ({
   // const [isDescription, setIsDescription] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log('games', games);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    // Always do navigations after the first render
-  }, []);
-  const changeQueryParams = (param: string, value: string): void => {
-    // let { query } = router;
-    // query[param]: value;
-
-    router.push(`/?${param}=${value}`, undefined, { shallow: true });
-    console.log(router);
-    // router.push(`/?${param}=${value}`, undefined, { shallow: true });
-  };
+  // console.log('games', games);
 
   // useEffect(() => {
   //   setIsLoading(isFetching);
@@ -95,20 +80,6 @@ const MainPage = ({
         {/* <button className={styles.button} type="button" onClick={setError}>
           Throw Error
         </button> */}
-        <button
-          className={styles.button}
-          type="button"
-          onClick={(): void => changeQueryParams('page', '5')}
-        >
-          changeQueryParams
-        </button>
-        <button
-          className={styles.button}
-          type="button"
-          onClick={(): void => changeQueryParams('search', 'gta')}
-        >
-          changeQueryParams2
-        </button>
         <div className={styles.container}>
           <div className={styles.content}>
             {
