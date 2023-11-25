@@ -9,19 +9,17 @@ import styles from './Pagination.module.css';
 const Pagination = ({
   gamesCount,
   currentPage,
-  setCurrentPage,
 }: IPaginationProps): React.ReactElement => {
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-
+  const page = Number(currentPage);
   const pagesCount = Math.ceil(gamesCount / pageSize);
-  const pagesArray = getPagesArray(currentPage, pagesCount);
+  const pagesArray = getPagesArray(page, pagesCount);
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const handleCurrentPageChange = (page: number): void => {
-    setCurrentPage(page);
     if (searchParams) {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
       current.set('page', page.toString());
@@ -39,7 +37,6 @@ const Pagination = ({
       current.set('page_size', event.target.value);
       current.set('page', '1');
       setPageSize(+event.target.value);
-      setCurrentPage(1);
 
       const query = `?${current.toString()}`;
 
@@ -48,11 +45,10 @@ const Pagination = ({
   };
 
   const nextPage = (): void => {
-    if (currentPage < pagesCount) {
-      setCurrentPage(currentPage + 1);
+    if (page < pagesCount) {
       if (searchParams) {
         const current = new URLSearchParams(Array.from(searchParams.entries()));
-        current.set('page', (currentPage + 1).toString());
+        current.set('page', (page + 1).toString());
         const query = `?${current.toString()}`;
         router.push(`${pathname}${query}`);
       }
@@ -60,11 +56,10 @@ const Pagination = ({
   };
 
   const prevPage = (): void => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    if (page > 1) {
       if (searchParams) {
         const current = new URLSearchParams(Array.from(searchParams.entries()));
-        current.set('page', (currentPage - 1).toString());
+        current.set('page', (page - 1).toString());
         const query = `?${current.toString()}`;
         router.push(`${pathname}${query}`);
       }
@@ -73,25 +68,25 @@ const Pagination = ({
 
   return (
     <div className={styles.pagination}>
-      {currentPage > 1 && (
+      {page > 1 && (
         <div className={styles.page} onClick={prevPage} data-testid="prev">
           &#x276E;
         </div>
       )}
-      {pagesArray.map((page) => (
+      {pagesArray.map((pageNumber) => (
         <div
-          key={page}
+          key={pageNumber}
           className={
-            currentPage === page
+            page === pageNumber
               ? `${styles.page} ${styles.active}`
               : styles.page
           }
-          onClick={(): void => handleCurrentPageChange(page)}
+          onClick={(): void => handleCurrentPageChange(pageNumber)}
         >
-          {page}
+          {pageNumber}
         </div>
       ))}
-      {currentPage < pagesCount && (
+      {page < pagesCount && (
         <div className={styles.page} onClick={nextPage} data-testid="next">
           &#x276F;
         </div>

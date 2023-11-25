@@ -192,8 +192,7 @@ export interface ILoadingFlagSlice {
 
 export interface IPaginationProps {
   gamesCount: number;
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: string;
 }
 
 export interface ISearchProps {

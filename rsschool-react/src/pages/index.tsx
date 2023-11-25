@@ -7,6 +7,7 @@ import { store } from '@/store/store';
 import styles from '@/styles/MainPage.module.css';
 import { IGamesResponseObject } from '@/types';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 interface IGetServerSideProps {
@@ -41,8 +42,9 @@ const MainPage = ({
 }): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   // const [isDescription, setIsDescription] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const { query } = useRouter();
+  const { page = '1' } = query;
+  page.toString();
   // console.log('games', games);
 
   // useEffect(() => {
@@ -71,7 +73,7 @@ const MainPage = ({
 
   return (
     <div className={styles.mainPage}>
-      <Search setCurrentPage={setCurrentPage} />
+      <Search />
       <main
       // className={
       //   isDescription ? `${styles.main} ${styles.small}` : styles.main
@@ -86,9 +88,8 @@ const MainPage = ({
               <>
                 <GamesList games={games.results} />
                 <Pagination
-                  currentPage={currentPage}
+                  currentPage={page as string}
                   gamesCount={games.count}
-                  setCurrentPage={setCurrentPage}
                 />
               </>
             }

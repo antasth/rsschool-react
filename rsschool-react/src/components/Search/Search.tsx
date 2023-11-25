@@ -1,17 +1,16 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent } from 'react';
-import { ISearchProps } from '../../types';
 import styles from './Search.module.css';
 
-const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
+const Search = (): React.ReactElement => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    setCurrentPage(1);
+    // setCurrentPage(1);
     if (searchParams) {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
       const inputValue = new FormData(e.target).get('search');
