@@ -11,9 +11,8 @@ const Pagination = ({
   currentPage,
 }: IPaginationProps): React.ReactElement => {
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const page = Number(currentPage);
   const pagesCount = Math.ceil(gamesCount / pageSize);
-  const pagesArray = getPagesArray(page, pagesCount);
+  const pagesArray = getPagesArray(currentPage, pagesCount);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -45,10 +44,10 @@ const Pagination = ({
   };
 
   const nextPage = (): void => {
-    if (page < pagesCount) {
+    if (currentPage < pagesCount) {
       if (searchParams) {
         const current = new URLSearchParams(Array.from(searchParams.entries()));
-        current.set('page', (page + 1).toString());
+        current.set('page', (currentPage + 1).toString());
         const query = `?${current.toString()}`;
         router.push(`${pathname}${query}`);
       }
@@ -56,10 +55,10 @@ const Pagination = ({
   };
 
   const prevPage = (): void => {
-    if (page > 1) {
+    if (currentPage > 1) {
       if (searchParams) {
         const current = new URLSearchParams(Array.from(searchParams.entries()));
-        current.set('page', (page - 1).toString());
+        current.set('page', (currentPage - 1).toString());
         const query = `?${current.toString()}`;
         router.push(`${pathname}${query}`);
       }
@@ -68,25 +67,25 @@ const Pagination = ({
 
   return (
     <div className={styles.pagination}>
-      {page > 1 && (
+      {currentPage > 1 && (
         <div className={styles.page} onClick={prevPage} data-testid="prev">
           &#x276E;
         </div>
       )}
-      {pagesArray.map((pageNumber) => (
+      {pagesArray.map((page) => (
         <div
-          key={pageNumber}
+          key={page}
           className={
-            page === pageNumber
+            currentPage === page
               ? `${styles.page} ${styles.active}`
               : styles.page
           }
-          onClick={(): void => handleCurrentPageChange(pageNumber)}
+          onClick={(): void => handleCurrentPageChange(page)}
         >
-          {pageNumber}
+          {page}
         </div>
       ))}
-      {page < pagesCount && (
+      {currentPage < pagesCount && (
         <div className={styles.page} onClick={nextPage} data-testid="next">
           &#x276F;
         </div>

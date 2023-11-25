@@ -40,8 +40,8 @@ const MainPage = ({
 }): React.ReactElement => {
   const [isError, setIsError] = useState(false);
   const { query } = useRouter();
-  const { page = '1' } = query;
-  page.toString();
+  const { page = 1 } = query;
+  // page.toString();
   console.log('games', games);
 
   const setError = (): void => setIsError(true);
@@ -66,10 +66,7 @@ const MainPage = ({
             {
               <>
                 <GamesList games={games.results} />
-                <Pagination
-                  currentPage={page as string}
-                  gamesCount={games.count}
-                />
+                <Pagination currentPage={+page} gamesCount={games.count} />
               </>
             }
           </div>

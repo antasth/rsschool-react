@@ -192,7 +192,7 @@ export interface ILoadingFlagSlice {
 
 export interface IPaginationProps {
   gamesCount: number;
-  currentPage: string;
+  currentPage: number;
 }
 
 export interface ISearchProps {
