@@ -19,7 +19,6 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<IGetServerSideProps> => {
   const { page, page_size, search } = context.query;
-  // const currentState = store.getState();
 
   const queryProps = {
     currentPage: page ? +page : 1,
@@ -30,7 +29,6 @@ export const getServerSideProps = async (
     api.endpoints.getGames.initiate(queryProps)
   );
 
-  // await waitForAll([api.endpoints.getGames.initiate(queryProps)]);
   const games = data;
 
   return { props: { games } };
@@ -41,29 +39,10 @@ const MainPage = ({
   games: IGamesResponseObject;
 }): React.ReactElement => {
   const [isError, setIsError] = useState(false);
-  // const [isDescription, setIsDescription] = useState(false);
   const { query } = useRouter();
   const { page = '1' } = query;
   page.toString();
-  // console.log('games', games);
-
-  // useEffect(() => {
-  //   setIsLoading(isFetching);
-  // }, [isFetching, setIsLoading]);
-
-  // useEffect(() => {
-  //   location.pathname !== '/'
-  //     ? setIsDescription(true)
-  //     : setIsDescription(false);
-  // }, [location.pathname]);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setGamesCount(data.count);
-  //   }
-  //   const url = `?page=${currentPage}&search=${searchString}&page_size=${pageSize}`;
-  //   navigate(url);
-  // }, [currentPage, pageSize, navigate, searchString, setGamesCount, data]);
+  console.log('games', games);
 
   const setError = (): void => setIsError(true);
 

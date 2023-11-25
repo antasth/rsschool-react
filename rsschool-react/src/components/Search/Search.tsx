@@ -10,14 +10,16 @@ const Search = (): React.ReactElement => {
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // setCurrentPage(1);
     if (searchParams) {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
       const inputValue = new FormData(e.target).get('search');
       if (inputValue !== null) {
         current.set('page', '1');
         current.set('search', inputValue.toString());
-        const query = `?${current.toString()}`;
+        let query = `?${current.toString()}`;
+        if (!String(inputValue).length) {
+          query = query.replace('&search=', '');
+        }
         router.push(`${pathname}${query}`);
       }
     }
