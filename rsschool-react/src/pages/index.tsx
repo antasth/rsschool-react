@@ -19,11 +19,11 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<IGetServerSideProps> => {
   const { page, page_size, search } = context.query;
-  const currentState = store.getState();
+  // const currentState = store.getState();
 
   const queryProps = {
     currentPage: page ? +page : 1,
-    searchString: search ? search.toString() : currentState.search.value,
+    searchString: search ? search.toString() : '',
     pageSize: page_size ? +page_size : DEFAULT_PAGE_SIZE,
   };
   const { data } = await store.dispatch(

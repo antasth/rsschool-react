@@ -1,22 +1,27 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useActions } from '../../hooks/useActions';
-import { useSearch } from '../../hooks/useSearch';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent } from 'react';
 import { ISearchProps } from '../../types';
 import styles from './Search.module.css';
 
 const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
-  const { saveSearchString } = useActions();
-  const { searchString } = useSearch();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [searchInputValue, setSearchInputValue] = useState(searchString);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void =>
-    setSearchInputValue(e.target.value);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setCurrentPage(1);
-    saveSearchString(searchInputValue);
+    if (searchParams) {
+      const current = new URLSearchParams(Array.from(searchParams.entries()));
+      const inputValue = new FormData(e.target).get('search');
+      if (inputValue !== null) {
+        current.set('page', '1');
+        current.set('search', inputValue.toString());
+        const query = `?${current.toString()}`;
+        router.push(`${pathname}${query}`);
+      }
+    }
   };
 
   return (
@@ -25,11 +30,10 @@ const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
         <input
           data-testid="search-input"
           id="search"
+          name="search"
           className={styles.input}
           type="text"
           placeholder="search..."
-          value={searchInputValue}
-          onChange={handleChange}
         />
         <button className={styles.button} type="submit" data-testid="submit">
           Search
