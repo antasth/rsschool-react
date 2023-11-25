@@ -7,7 +7,7 @@ import { store } from '@/store/store';
 import styles from '@/styles/MainPage.module.css';
 import { IGamesResponseObject } from '@/types';
 import { GetServerSidePropsContext } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface IGetServerSideProps {
   props: {
@@ -39,7 +39,7 @@ const MainPage = ({
 }: {
   games: IGamesResponseObject;
 }): React.ReactElement => {
-  // const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState(false);
   // const [isDescription, setIsDescription] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -63,11 +63,11 @@ const MainPage = ({
   //   navigate(url);
   // }, [currentPage, pageSize, navigate, searchString, setGamesCount, data]);
 
-  // const setError = (): void => setIsError(true);
+  const setError = (): void => setIsError(true);
 
-  // useEffect(() => {
-  //   if (isError) throw new Error('Error for test ErrorBoundary');
-  // }, [isError]);
+  useEffect(() => {
+    if (isError) throw new Error('Error for test ErrorBoundary');
+  }, [isError]);
 
   return (
     <div className={styles.mainPage}>
@@ -77,9 +77,9 @@ const MainPage = ({
       //   isDescription ? `${styles.main} ${styles.small}` : styles.main
       // }
       >
-        {/* <button className={styles.button} type="button" onClick={setError}>
+        <button className={styles.button} type="button" onClick={setError}>
           Throw Error
-        </button> */}
+        </button>
         <div className={styles.container}>
           <div className={styles.content}>
             {
