@@ -2,7 +2,6 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useActions } from '../../hooks/useActions';
 import { useSearch } from '../../hooks/useSearch';
 import { ISearchProps } from '../../types';
-import { saveToLocalStorage } from '../../utils';
 import styles from './Search.module.css';
 
 const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
@@ -17,7 +16,6 @@ const Search = ({ setCurrentPage }: ISearchProps): React.ReactElement => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setCurrentPage(1);
-    saveToLocalStorage('searchString', searchInputValue);
     saveSearchString(searchInputValue);
   };
 

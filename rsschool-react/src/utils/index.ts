@@ -1,11 +1,3 @@
-export const getFromLocalStorage = (name: string): string => {
-  return localStorage[name] ? JSON.parse(localStorage[name]) : '';
-};
-
-export const saveToLocalStorage = (name: string, value: string): void => {
-  localStorage.setItem(name, JSON.stringify(value.trim()));
-};
-
 export const getPagesArray = (
   currentPage: number,
   pagesCount: number

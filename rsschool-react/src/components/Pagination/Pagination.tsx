@@ -1,8 +1,7 @@
-import { ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useActions } from '../../hooks/useActions';
-import { usePageSize } from '../../hooks/usePageSize';
-import { useSearch } from '../../hooks/useSearch';
+import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import { ChangeEvent, useState } from 'react';
 import { IPaginationProps } from '../../types';
 import { getPagesArray } from '../../utils';
 import styles from './Pagination.module.css';
@@ -12,38 +11,64 @@ const Pagination = ({
   currentPage,
   setCurrentPage,
 }: IPaginationProps): React.ReactElement => {
-  const { pageSize } = usePageSize();
-  const { savePageSize } = useActions();
-  const { searchString } = useSearch();
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
 
   const pagesCount = Math.ceil(gamesCount / pageSize);
   const pagesArray = getPagesArray(currentPage, pagesCount);
 
-  const navigate = useNavigate();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const handleCurrentPageChange = (page: number): void => {
+    setCurrentPage(page);
+    if (searchParams) {
+      const current = new URLSearchParams(Array.from(searchParams.entries()));
+      current.set('page', page.toString());
+      const query = `?${current.toString()}`;
+      router.push(`${pathname}${query}`);
+    }
+  };
+
+  const handlePageSizeChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ): void => {
+    if (searchParams) {
+      const current = new URLSearchParams(Array.from(searchParams.entries()));
+
+      current.set('page_size', event.target.value);
+      current.set('page', '1');
+      setPageSize(+event.target.value);
+      setCurrentPage(1);
+
+      const query = `?${current.toString()}`;
+
+      router.push(`${pathname}${query}`);
+    }
+  };
 
   const nextPage = (): void => {
     if (currentPage < pagesCount) {
       setCurrentPage(currentPage + 1);
-      const url = `?page=${
-        currentPage + 1
-      }&search=${searchString}&page_size=${pageSize}`;
-      navigate(url);
+      if (searchParams) {
+        const current = new URLSearchParams(Array.from(searchParams.entries()));
+        current.set('page', (currentPage + 1).toString());
+        const query = `?${current.toString()}`;
+        router.push(`${pathname}${query}`);
+      }
     }
   };
 
   const prevPage = (): void => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      const url = `?page=${
-        currentPage - 1
-      }&search=${searchString}&page_size=${pageSize}`;
-      navigate(url);
+      if (searchParams) {
+        const current = new URLSearchParams(Array.from(searchParams.entries()));
+        current.set('page', (currentPage - 1).toString());
+        const query = `?${current.toString()}`;
+        router.push(`${pathname}${query}`);
+      }
     }
-  };
-
-  const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>): void => {
-    savePageSize(+e.target.value);
-    setCurrentPage(1);
   };
 
   return (
@@ -61,7 +86,7 @@ const Pagination = ({
               ? `${styles.page} ${styles.active}`
               : styles.page
           }
-          onClick={(): void => setCurrentPage(page)}
+          onClick={(): void => handleCurrentPageChange(page)}
         >
           {page}
         </div>

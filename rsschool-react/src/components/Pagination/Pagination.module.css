@@ -9,9 +9,9 @@
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
-  &:hover {
-    background-color: #1da365;
-  }
+}
+.page &:hover {
+  background-color: #1da365;
 }
 
 .active {
