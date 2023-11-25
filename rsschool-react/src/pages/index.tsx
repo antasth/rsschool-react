@@ -5,16 +5,11 @@ import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants';
 import { api } from '@/store/api/api';
 import { store } from '@/store/store';
 import styles from '@/styles/MainPage.module.css';
-import { IGamesResponseObject } from '@/types';
+import { IGamesResponseObject, IGetServerSideProps } from '@/types';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-interface IGetServerSideProps {
-  props: {
-    games: IGamesResponseObject | undefined;
-  };
-}
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<IGetServerSideProps> => {

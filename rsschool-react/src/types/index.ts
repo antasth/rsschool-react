@@ -211,3 +211,9 @@ export interface IGetGamesQueryProps {
   searchString: string;
   pageSize: number;
 }
+
+export interface IGetServerSideProps {
+  props: {
+    games: IGamesResponseObject | undefined;
+  };
+}
