@@ -42,24 +42,6 @@ export const getServerSideProps = async (
 
   return { props: { games, gameDetails } };
 };
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ): Promise<IGetServerSideProps> => {
-//   const { page, page_size, search } = context.query;
-
-//   const queryProps = {
-//     currentPage: page ? +page : DEFAULT_PAGE,
-//     searchString: search ? search.toString() : '',
-//     pageSize: page_size ? +page_size : DEFAULT_PAGE_SIZE,
-//   };
-//   const { data } = await store.dispatch(
-//     api.endpoints.getGames.initiate(queryProps)
-//   );
-
-//   const games = data;
-
-//   return { props: { games } };
-// };
 
 const MainPage = ({
   games,
@@ -71,7 +53,6 @@ const MainPage = ({
   const [isError, setIsError] = useState(false);
   const { query } = useRouter();
   const { page = 1 } = query;
-  console.log(query);
 
   console.log('games', games);
   console.log('gameDetails', gameDetails);
@@ -81,17 +62,10 @@ const MainPage = ({
   useEffect(() => {
     if (isError) throw new Error('Error for test ErrorBoundary');
   }, [isError]);
-  // const [showModal, setShowModal] = useState(false);
 
   return (
     <div className={styles.mainPage}>
       <Search />
-      {/* <button onClick={() => setShowModal(true)}>Open Modal</button>
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)} title="Modal">
-          Modal112
-        </Modal>
-      )} */}
       {gameDetails && <GameDetails game={gameDetails} />}
       <main className={styles.main}>
         <button className={styles.button} type="button" onClick={setError}>
@@ -106,7 +80,6 @@ const MainPage = ({
               </>
             }
           </div>
-          {/* <Outlet /> */}
         </div>
       </main>
     </div>
