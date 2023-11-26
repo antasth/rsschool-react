@@ -28,7 +28,6 @@ export const getServerSideProps = async (
   const { data } = await store.dispatch(
     api.endpoints.getGames.initiate(queryProps)
   );
-
   const games = data;
 
   const slug = details;
