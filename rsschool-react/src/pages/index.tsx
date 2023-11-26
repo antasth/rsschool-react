@@ -54,9 +54,6 @@ const MainPage = ({
   const { query } = useRouter();
   const { page = 1 } = query;
 
-  // console.log('games', games);
-  // console.log('gameDetails', gameDetails);
-
   const setError = (): void => setIsError(true);
 
   useEffect(() => {
