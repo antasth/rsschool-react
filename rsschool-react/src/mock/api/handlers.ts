@@ -13,13 +13,13 @@ export const handlers = [
       ? HttpResponse.json(EmptyMockData, { status: 200 })
       : HttpResponse.json(MockData, { status: 200 });
   }),
-  http.get(`${API_URL}/games/:slug`, ({ params }) => {
-    const { slug } = params;
-    isApiCall = true;
+  // http.get(`${API_URL}/games/:slug`, ({ params }) => {
+  //   const { slug } = params;
+  //   isApiCall = true;
 
-    return HttpResponse.json(
-      MockData.results.filter((game) => game.slug === slug),
-      { status: 200 }
-    );
-  }),
+  //   return HttpResponse.json(
+  //     MockData.results.filter((game) => game.slug === slug),
+  //     { status: 200 }
+  //   );
+  // }),
 ];

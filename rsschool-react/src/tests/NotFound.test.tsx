@@ -1,30 +1,27 @@
-import { render, screen } from '@testing-library/react';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
-import { GameDetails } from '../components/GameDetails/GameDetails';
-import { NotFound } from '../pages/404';
-import { MainPage } from '../pages/MainPage/MainPage';
+import { MockData } from '@/mock/api/mockResponse';
+import { createMockRouter } from '@/mock/api/mockRouter';
+import MainPage from '@/pages';
+import { IGameDetails } from '@/types';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import mockRouter from 'next-router-mock';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import React from 'react';
+import { describe, expect, it, vi } from 'vitest';
+global.React = React;
 
 describe('Tests for the 404 Page component:', () => {
-  it('Ensure that the 404 page is displayed when navigating to an invalid route', () => {
-    const routes = [
-      {
-        path: '/',
-        element: <MainPage />,
-        children: [
-          {
-            path: 'games/*',
-            element: <GameDetails />,
-          },
-        ],
-        errorElement: <NotFound />,
-      },
-    ];
-    const router = createMemoryRouter(routes, {
-      initialEntries: ['/posts'],
+  it('Ensure that the 404 page is displayed when navigating to an invalid route', async () => {
+    act(() => {
+      render(
+        <RouterContext.Provider value={createMockRouter({})}>
+          <MainPage games={MockData} gameDetails={{} as IGameDetails} />
+        </RouterContext.Provider>
+      );
+      vi.mock('next/router', () => vi.importActual('next-router-mock'));
+      mockRouter.push('/invalid-path');
+      waitFor(() => {
+        expect(screen.getByText('PAGE NOT FOUND')).toBeInTheDocument();
+      });
     });
-
-    render(<RouterProvider router={router} />);
-    expect(screen.getByText('PAGE NOT FOUND')).toBeInTheDocument();
   });
 });
