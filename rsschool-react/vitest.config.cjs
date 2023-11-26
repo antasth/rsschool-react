@@ -6,7 +6,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text'],
     },
-    // watch: false,
+    watch: false,
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/tests/setup.ts',

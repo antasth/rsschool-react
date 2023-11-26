@@ -32,9 +32,5 @@ export const api = createApi({
   }),
 });
 
-export const {
-  useGetGamesQuery,
-  useGetGameDetailsQuery,
-  util: { getRunningQueriesThunk },
-} = api;
+export const { useGetGamesQuery, useGetGameDetailsQuery } = api;
 export const { getGames, getGameDetails } = api.endpoints;

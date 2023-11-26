@@ -12,7 +12,6 @@ const GameCard = ({ game }: IGameCardProps): React.ReactElement => {
     if (searchParams) {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
       current.set('details', game.slug);
-      console.log(current);
       const query = `?${current}`;
       router.push(`${pathname}${query}`);
     }

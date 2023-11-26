@@ -13,7 +13,7 @@ import {
 } from '@/types';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -50,24 +50,14 @@ const MainPage = ({
   games: IGamesResponseObject;
   gameDetails: IGameDetails;
 }): React.ReactElement => {
-  const [isError, setIsError] = useState(false);
   const { query } = useRouter();
   const { page = 1 } = query;
-
-  const setError = (): void => setIsError(true);
-
-  useEffect(() => {
-    if (isError) throw new Error('Error for test ErrorBoundary');
-  }, [isError]);
 
   return (
     <div className={styles.mainPage}>
       <Search />
       {gameDetails && <GameDetails game={gameDetails} />}
       <main className={styles.main}>
-        <button className={styles.button} type="button" onClick={setError}>
-          Throw Error
-        </button>
         <div className={styles.container}>
           <div className={styles.content}>
             {
