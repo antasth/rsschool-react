@@ -215,6 +215,7 @@ export interface IGetGamesQueryProps {
 export interface IGetServerSideProps {
   props: {
     games: IGamesResponseObject | undefined;
+    gameDetails: IGameDetails | null;
   };
 }
 export interface IGetDetailsServerSideProps {

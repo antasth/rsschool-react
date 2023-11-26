@@ -6,6 +6,7 @@
   background-color: #193f4f;
   border-radius: 1rem;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .image {

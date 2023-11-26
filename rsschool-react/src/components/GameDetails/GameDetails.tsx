@@ -1,38 +1,21 @@
-import { api } from '@/store/api/api';
-import { store } from '@/store/store';
-import styles from '@/styles/GameDetails.module.css';
-import { IGameDetails, IGetDetailsServerSideProps } from '@/types';
-import { GetServerSidePropsContext } from 'next';
+import { IGameDetails } from '@/types';
+import { reduceGameDescription } from '@/utils';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
-import { reduceGameDescription } from '../../utils';
+import ReactDOM from 'react-dom';
+import styles from './GameDetails.module.css';
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-): Promise<IGetDetailsServerSideProps> => {
-  const slug = context.params?.slug;
-
-  const queryProps = {
-    slug: slug ? slug.toString() : '',
-  };
-  const { data } = await store.dispatch(
-    api.endpoints.getGameDetails.initiate(queryProps)
-  );
-
-  const game = data;
-
-  return { props: { game } };
-};
-
-const GameDetails = ({ game }: { game: IGameDetails }): React.ReactElement => {
+export const GameDetails = ({
+  game,
+}: {
+  game: IGameDetails;
+}): React.ReactElement => {
   const gameDetailsRef = useRef<HTMLDivElement>(null);
-
-  console.log('game', game);
   const router = useRouter();
 
   const navigateBack = (): void => router.back();
 
-  const handleBackgroundClick = (
+  const handleClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void => {
     if (
@@ -43,8 +26,8 @@ const GameDetails = ({ game }: { game: IGameDetails }): React.ReactElement => {
       navigateBack();
   };
 
-  return (
-    <div className={styles.background} onClick={handleBackgroundClick}>
+  const gameDetailsContent = (
+    <div className={styles.background} onClick={handleClose}>
       <div
         ref={gameDetailsRef}
         className={styles.details}
@@ -83,6 +66,16 @@ const GameDetails = ({ game }: { game: IGameDetails }): React.ReactElement => {
       </div>
     </div>
   );
+  const contentWrapper = (
+    <div className={styles.content_overlay}>
+      <div className={styles.content_wrapper}>
+        <div className={styles.content}>
+          <div className={styles.content_body}>{gameDetailsContent}</div>
+        </div>
+      </div>
+    </div>
+  );
+  return ReactDOM.createPortal(contentWrapper, document.body);
 };
 
 export default GameDetails;
