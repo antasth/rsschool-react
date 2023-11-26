@@ -217,3 +217,8 @@ export interface IGetServerSideProps {
     games: IGamesResponseObject | undefined;
   };
 }
+export interface IGetDetailsServerSideProps {
+  props: {
+    game: IGameDetails | undefined;
+  };
+}

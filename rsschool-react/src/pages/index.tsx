@@ -10,6 +10,26 @@ import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
+// export const getServerSideProps = async (
+//   context: GetServerSidePropsContext
+// ): Promise<IGetServerSideProps> => {
+//   const { page, page_size, search } = context.query;
+
+//   const queryProps = {
+//     currentPage: page ? +page : DEFAULT_PAGE,
+//     searchString: search ? search.toString() : '',
+//     pageSize: page_size ? +page_size : DEFAULT_PAGE_SIZE,
+//   };
+//   const { data } = await store.dispatch(
+//     api.endpoints.getGameDetails.initiate({
+//       slug: 'the-elder-scrolls-v-skyrim',
+//     })
+//   );
+
+//   const games = data;
+
+//   return { props: { games } };
+// };
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<IGetServerSideProps> => {

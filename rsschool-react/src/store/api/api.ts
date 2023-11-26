@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 import { API_KEY, API_URL } from '../../constants';
 import {
   IGameDetails,
@@ -12,6 +13,11 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (build) => ({
     getGames: build.query<IGamesResponseObject, IGetGamesQueryProps>({
       query: ({ currentPage, searchString, pageSize }) => ({
@@ -20,10 +26,15 @@ export const api = createApi({
     }),
     getGameDetails: build.query<IGameDetails, { slug: string }>({
       query: ({ slug }) => ({
-        url: `${slug}?key=${API_KEY}`,
+        url: `/games/${slug}?key=${API_KEY}`,
       }),
     }),
   }),
 });
 
-export const { useGetGamesQuery, useGetGameDetailsQuery } = api;
+export const {
+  useGetGamesQuery,
+  useGetGameDetailsQuery,
+  util: { getRunningQueriesThunk },
+} = api;
+export const { getGames, getGameDetails } = api.endpoints;
