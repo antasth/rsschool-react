@@ -1,5 +1,9 @@
 const ReactHookFormPage = (): React.ReactElement => {
-  return <h1>ReactHookFormPage</h1>;
+  return (
+    <main>
+      <h1>ReactHookFormPage</h1>
+    </main>
+  );
 };
 
 export { ReactHookFormPage };

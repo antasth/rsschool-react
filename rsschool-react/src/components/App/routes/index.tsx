@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <MainPage />,
   },
   {
-    path: '/uncontrolled-form',
+    path: 'uncontrolled-form',
     element: <UncontrolledFormPage />,
   },
   {
