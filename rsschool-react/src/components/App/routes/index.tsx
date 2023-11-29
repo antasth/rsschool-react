@@ -1,6 +1,6 @@
-import { MainPage } from '@/pages/MainPage/MainPage';
-import { ReactHookFormPage } from '@/pages/ReactHookFormPage/ReactHookFormPage';
-import { UncontrolledFormPage } from '@/pages/UncontrolledFormPage/UncontrolledFormPage';
+import { MainPage } from '@/pages/MainPage';
+import { ReactHookFormPage } from '@/pages/ReactHookFormPage';
+import { UncontrolledFormPage } from '@/pages/UncontrolledFormPage';
 import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
