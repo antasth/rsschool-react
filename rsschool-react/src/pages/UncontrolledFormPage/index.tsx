@@ -3,6 +3,7 @@ import styles from './UncontrolledFormPage.module.css';
 const UncontrolledFormPage = (): React.ReactElement => {
   return (
     <main className={styles.main}>
+      <h1 className={styles.title}>Uncontrolled form</h1>
       <div className={styles.content}>
         <form action="" className={styles.form}>
           <label htmlFor="name">name: </label>
@@ -28,13 +29,17 @@ const UncontrolledFormPage = (): React.ReactElement => {
           <label htmlFor="gender">gender: </label>
           <input type="select" placeholder="gender" name="gender" />
           <div className={styles.terms}>
-            <label htmlFor="terms">T&C: </label>
             <input type="checkbox" name="terms" />
+            <label htmlFor="terms">I am agree to Terms and Conditions</label>
           </div>
           <input type="file" />
           <input type="select" placeholder="country" />
+          <button type="submit" className={styles.button}>
+            Submit
+          </button>
         </form>
       </div>
+      <div className={styles.background}></div>
     </main>
   );
 };

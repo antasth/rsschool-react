@@ -1,42 +1,194 @@
 .main {
   flex-grow: 1;
+  padding: 1rem;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        100.31% 38.81% at 50% 61.19%,
+        rgba(75, 113, 250, 0.06) 0,
+        rgba(5, 5, 11, 0) 100%
+      ),
+      radial-gradient(
+        94.23% 36.46% at 50% 36.46%,
+        rgba(75, 113, 250, 0.12) 0,
+        rgba(5, 5, 11, 0) 100%
+      );
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: radial-gradient(
+        50% 64.48% at 50% 35.52%,
+        rgba(21, 61, 204, 0.08) 14.36%,
+        rgba(5, 5, 11, 0) 100%
+      ),
+      radial-gradient(
+        50% 67.94% at 50% 32.06%,
+        rgba(216, 236, 248, 0.04) 0,
+        rgba(152, 192, 239, 0.01) 50%,
+        rgba(5, 5, 11, 0) 100%
+      );
+    background-size: cover;
+    pointer-events: none;
+  }
 }
+
 .content {
+  position: relative;
   display: flex;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  padding: 42px 36px;
+  min-height: 100%;
+  padding: 1rem;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  font-size: 1.8rem;
+  background: linear-gradient(0deg, #d8ecf8, #98c0ef);
+  text-shadow: 0 2px 16px rgba(174, 207, 242, 0.24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  &:before,
+  &:after {
+    content: '';
+    height: 1px;
+    width: 86px;
+    background: linear-gradient(
+      90deg,
+      rgba(216, 236, 248, 0),
+      rgba(184, 216, 254, 0.32)
+    );
+  }
+  &::after {
+    transform: rotate(180deg);
+  }
 }
 .form {
-  /* position: absolute; */
   display: flex;
   flex-direction: column;
-  max-width: 375px;
   row-gap: 0.5rem;
   align-items: start;
-  padding: 3rem;
+  padding: 42px 46px;
   border-radius: 1rem;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.214);
   width: 100%;
+  min-width: 500px;
+  color: white;
   background: linear-gradient(
       0deg,
       rgba(186, 207, 247, 0.04),
       rgba(186, 207, 247, 0.04)
     ),
     rgba(5, 6, 15, 0.97);
+  transition:
+    background-color 0.45s cubic-bezier(0.6, 0.6, 0, 1),
+    box-shadow 0.45s cubic-bezier(0.6, 0.6, 0, 1);
+  &:hover,
+  &:focus-within {
+    background-color: rgba(10, 11, 13, 0.04);
+    box-shadow:
+      inset 0 1px 1px 0 rgba(216, 236, 248, 0.16),
+      inset 0 32px 48px 0 rgba(46, 56, 62, 0.16);
+  }
 }
+
+label {
+  font-size: 14px;
+}
+
 input {
   width: 100%;
   padding: 0 10px;
   height: 2rem;
-  border-radius: 20px;
+  border-radius: 6px;
   outline: none;
-  border: none;
+  border: 1px solid rgba(186, 215, 247, 0.12);
+  background-color: rgba(199, 211, 234, 0.06);
   &:focus {
     background-color: #22293c;
+  }
+  &:hover {
+    border-color: rgba(186, 215, 247, 0.22);
   }
 }
 
 .terms {
   display: flex;
+  align-items: center;
+  column-gap: 0.3rem;
+}
+.terms label {
+  font-size: 12px;
+  text-wrap: nowrap;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:
+    Russo One,
+    sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  height: 32px;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(186, 215, 247, 0.12);
+  transition:
+    all 0.2s ease-out,
+    outline 0s,
+    outline-offset 0s;
+  cursor: pointer;
+  background: radial-gradient(
+      31.2% 40.91% at 50% 151.14%,
+      rgba(186, 214, 247, 0.08) 0,
+      rgba(186, 214, 247, 0) 100%
+    ),
+    rgba(186, 214, 247, 0.06);
+  &:hover {
+    background-color: #22293c;
+  }
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(#d1e4fa 2%, transparent 3%),
+    radial-gradient(#d1e4fa 2%, transparent 0);
+  background-position:
+    0 0,
+    35px 35px;
+  background-size: 70px 70px;
+  background-repeat: repeat;
+  -webkit-mask-image: radial-gradient(
+      farthest-corner at 50% 0,
+      #000,
+      transparent
+    ),
+    url(/noiseTexture3.png);
+  mask-image: radial-gradient(farthest-corner at 50% 0, #000, transparent),
+    url(/noiseTexture3.png);
+  -webkit-mask-repeat: no-repeat, repeat;
+  mask-repeat: no-repeat, repeat;
+  -webkit-mask-composite: source-in, xor;
+  mask-composite: intersect;
+  -webkit-mask-size:
+    100% 100%,
+    500px 500px;
+  mask-size:
+    100% 100%,
+    500px 500px;
+  pointer-events: none;
 }
