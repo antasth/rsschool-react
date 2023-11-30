@@ -1,3 +1,4 @@
+import { IUncontrolledForm } from '@/types';
 import { FormEvent, useRef } from 'react';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
@@ -16,18 +17,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const getCharacterValidationError = (str: string): string => {
     return `Your password must have at least 1 ${str} character`;
   };
-
-  interface IUncontrolledForm {
-    name: string;
-    age: number;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    gender: string;
-    terms: boolean;
-    country: string;
-    file: string;
-  }
 
   const formSchema: ObjectSchema<IUncontrolledForm> = object({
     name: string().required(),
