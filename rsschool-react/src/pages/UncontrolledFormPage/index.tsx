@@ -35,7 +35,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
 
   const formSchema: ObjectSchema<IUncontrolledForm> = object({
     name: string().required(),
-    age: number().required().positive().integer(),
+    age: number().positive().typeError('Age must be a number').required(),
     email: string().required().email(),
     password: string()
       .required('Please enter a password')
@@ -102,11 +102,19 @@ const UncontrolledFormPage = (): React.ReactElement => {
         >
           <label htmlFor="name">name: </label>
           <input type="text" placeholder="name" name="name" ref={nameRef} />
-          {validationErrors.name && <p>{validationErrors.name}</p>}
+          {validationErrors.name && (
+            <p className={styles.error}>{validationErrors.name}</p>
+          )}
           <label htmlFor="age">age: </label>
           <input type="text" placeholder="age" name="age" ref={ageRef} />
+          {validationErrors.age && (
+            <p className={styles.error}>{validationErrors.age}</p>
+          )}
           <label htmlFor="email">email: </label>
           <input type="text" placeholder="email" name="email" ref={emailRef} />
+          {validationErrors.email && (
+            <p className={styles.error}>{validationErrors.email}</p>
+          )}
           <label htmlFor="password">password: </label>
           <input
             type="password"
@@ -115,6 +123,9 @@ const UncontrolledFormPage = (): React.ReactElement => {
             autoComplete="on"
             ref={passwordRef}
           />
+          {validationErrors.password && (
+            <p className={styles.error}>{validationErrors.password}</p>
+          )}
           <label htmlFor="confirm">confirm password: </label>
           <input
             type="password"
@@ -123,6 +134,10 @@ const UncontrolledFormPage = (): React.ReactElement => {
             autoComplete="on"
             ref={confirmPasswordRef}
           />
+          {validationErrors.confirmPassword && (
+            <p className={styles.error}>{validationErrors.confirmPassword}</p>
+          )}
+
           <label htmlFor="gender">gender: </label>
           <input
             type="select"
@@ -130,12 +145,23 @@ const UncontrolledFormPage = (): React.ReactElement => {
             name="gender"
             ref={genderRef}
           />
+          {validationErrors.gender && (
+            <p className={styles.error}>{validationErrors.gender}</p>
+          )}
+
           <div className={styles.terms}>
             <input type="checkbox" name="terms" ref={termsRef} />
             <label htmlFor="terms">I am agree to Terms and Conditions</label>
+            {validationErrors.terms && (
+              <p className={styles.error}>{validationErrors.terms}</p>
+            )}
           </div>
           <input type="text" ref={fileRef} />
           <input type="select" placeholder="country" ref={countryRef} />
+          {validationErrors.country && (
+            <p className={styles.error}>{validationErrors.country}</p>
+          )}
+
           <button type="submit" className={styles.button}>
             Submit
           </button>

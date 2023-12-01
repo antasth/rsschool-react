@@ -192,3 +192,11 @@ input {
     500px 500px;
   pointer-events: none;
 }
+
+.error {
+  font-family:
+    Titillium Web,
+    sans-serif;
+  font-weight: 400;
+  color: rgb(252, 6, 100);
+}
