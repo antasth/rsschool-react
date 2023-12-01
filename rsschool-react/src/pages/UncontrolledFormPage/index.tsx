@@ -1,9 +1,24 @@
 import { IUncontrolledForm } from '@/types';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
+import * as Yup from 'yup';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
 
+interface IValidationErrors {
+  name?: string;
+  age?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  gender?: string;
+  terms?: string;
+  country?: string;
+  file?: string;
+}
 const UncontrolledFormPage = (): React.ReactElement => {
+  const [validationErrors, setValidationErrors] = useState<IValidationErrors>(
+    {}
+  );
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -27,10 +42,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
       .matches(/[0-9]/, getCharacterValidationError('digit'))
       .matches(/[a-z]/, getCharacterValidationError('lowercase'))
       .matches(/[A-Z]/, getCharacterValidationError('uppercase'))
-      .matches(
-        /[^(A-Za-z0-9 )]/,
-        getCharacterValidationError('special character')
-      ),
+      .matches(/[^(A-Za-z0-9 )]/, getCharacterValidationError('special')),
     confirmPassword: string()
       .required('Please confirm a password')
       .oneOf([ref('password')], 'Passwords does not match'),
@@ -39,10 +51,9 @@ const UncontrolledFormPage = (): React.ReactElement => {
     country: string().required(),
     file: string().required(),
   });
-
   const handleFormSubmit = async (
     e: FormEvent<HTMLFormElement>
-  ): Promise<IUncontrolledForm> => {
+  ): Promise<void> => {
     e.preventDefault();
 
     const formInputs = {
@@ -56,19 +67,42 @@ const UncontrolledFormPage = (): React.ReactElement => {
       file: fileRef.current?.value,
       country: countryRef.current?.value,
     };
-    const formErrors = await formSchema.validate(formInputs);
-
-    return formErrors;
+    try {
+      await formSchema.validate(formInputs, { abortEarly: false });
+      console.log('Form is valid');
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors: { [key: string]: string } = error.inner.reduce(
+          (acc, err) => {
+            return err.path
+              ? {
+                  ...acc,
+                  [err.path]: err.message,
+                }
+              : acc;
+          },
+          {}
+        );
+        setValidationErrors(errors);
+        console.log('Validation errors:', errors);
+      }
+    }
     // dispatch(setFormData({ ...formData, [e.target.name]: e.target.value }));
   };
+
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Uncontrolled form</h1>
       <div className={styles.content}>
-        <form action="" className={styles.form} onSubmit={handleFormSubmit}>
+        <form
+          action=""
+          className={styles.form}
+          onSubmit={handleFormSubmit}
+          noValidate
+        >
           <label htmlFor="name">name: </label>
           <input type="text" placeholder="name" name="name" ref={nameRef} />
-          {/* {formErrors.name} */}
+          {validationErrors.name && <p>{validationErrors.name}</p>}
           <label htmlFor="age">age: </label>
           <input type="text" placeholder="age" name="age" ref={ageRef} />
           <label htmlFor="email">email: </label>
@@ -100,7 +134,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
             <input type="checkbox" name="terms" ref={termsRef} />
             <label htmlFor="terms">I am agree to Terms and Conditions</label>
           </div>
-          <input type="file" ref={fileRef} />
+          <input type="text" ref={fileRef} />
           <input type="select" placeholder="country" ref={countryRef} />
           <button type="submit" className={styles.button}>
             Submit
