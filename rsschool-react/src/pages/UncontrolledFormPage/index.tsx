@@ -1,3 +1,4 @@
+import { emailRegExp } from '@/constants';
 import { IUncontrolledForm } from '@/types';
 import { FormEvent, useRef, useState } from 'react';
 import * as Yup from 'yup';
@@ -34,9 +35,11 @@ const UncontrolledFormPage = (): React.ReactElement => {
   };
 
   const formSchema: ObjectSchema<IUncontrolledForm> = object({
-    name: string().required(),
+    name: string()
+      .required()
+      .matches(/^[A-Z]/, 'First letter must be in uppercase'),
     age: number().positive().typeError('Age must be a number').required(),
-    email: string().required().email(),
+    email: string().required().matches(emailRegExp, 'Must be valid email'),
     password: string()
       .required('Please enter a password')
       .matches(/[0-9]/, getCharacterValidationError('digit'))
