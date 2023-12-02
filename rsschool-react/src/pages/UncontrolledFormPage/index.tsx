@@ -1,6 +1,6 @@
 import { emailRegExp } from '@/constants';
 import { IUncontrolledForm } from '@/types';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import * as Yup from 'yup';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
@@ -27,7 +27,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
-  const genderRef = useRef<HTMLInputElement>(null);
+  const genderRef = useRef<HTMLSelectElement>(null);
   const termsRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
@@ -35,7 +35,10 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const getCharacterValidationError = (str: string): string => {
     return `Your password must have at least 1 ${str} character`;
   };
-
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const handleGenderChange = (): void => {
+    forceUpdate();
+  };
   const formSchema: ObjectSchema<IUncontrolledForm> = object({
     name: string()
       .required()
@@ -51,7 +54,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
     confirmPassword: string()
       .required('Please confirm a password')
       .oneOf([ref('password')], 'Passwords does not match'),
-    gender: string().required(),
+    gender: string().oneOf(['male', 'female'], 'Select your gender').required(),
     terms: boolean()
       .oneOf([true], 'You must accept our Terms and Conditions to proceed!')
       .required()
@@ -190,13 +193,26 @@ const UncontrolledFormPage = (): React.ReactElement => {
             ) : (
               <label htmlFor="gender">gender: </label>
             )}
-            <input
-              className={styles.input}
-              type="select"
-              placeholder="gender"
+
+            <select
+              className={`${styles.input} ${styles.gender}`}
               name="gender"
+              defaultValue="default"
               ref={genderRef}
-            />
+              style={
+                !genderRef.current?.value ||
+                genderRef.current?.value === 'default'
+                  ? { opacity: '0.5' }
+                  : { opacity: '1' }
+              }
+              onChange={handleGenderChange}
+            >
+              <option value="default" disabled>
+                Select your gender
+              </option>
+              <option value="male">male</option>
+              <option value="female">female</option>
+            </select>
           </div>
 
           <div className={styles.formField}>
