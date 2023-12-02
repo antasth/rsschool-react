@@ -1,6 +1,7 @@
 import { emailRegExp } from '@/constants';
 import { IUncontrolledForm } from '@/types';
 import { FormEvent, useRef, useState } from 'react';
+import { MdCloudUpload } from 'react-icons/md';
 import * as Yup from 'yup';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
@@ -17,6 +18,7 @@ interface IValidationErrors {
   file?: string;
 }
 const UncontrolledFormPage = (): React.ReactElement => {
+  const [fileName, setFileName] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<IValidationErrors>(
     {}
   );
@@ -38,7 +40,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
     name: string()
       .required()
       .matches(/^[A-Z]/, 'First letter must be in uppercase'),
-    age: number().positive().typeError('Age must be a number').required(),
+    age: number().required().positive().typeError('Age must be a number'),
     email: string().required().matches(emailRegExp, 'Must be valid email'),
     password: string()
       .required('Please enter a password')
@@ -50,7 +52,10 @@ const UncontrolledFormPage = (): React.ReactElement => {
       .required('Please confirm a password')
       .oneOf([ref('password')], 'Passwords does not match'),
     gender: string().required(),
-    terms: boolean().required(),
+    terms: boolean()
+      .oneOf([true], 'You must accept our Terms and Conditions to proceed!')
+      .required()
+      .default(false),
     country: string().required(),
     file: string().required(),
   });
@@ -103,68 +108,144 @@ const UncontrolledFormPage = (): React.ReactElement => {
           onSubmit={handleFormSubmit}
           noValidate
         >
-          <label htmlFor="name">name: </label>
-          <input type="text" placeholder="name" name="name" ref={nameRef} />
-          {validationErrors.name && (
-            <p className={styles.error}>{validationErrors.name}</p>
-          )}
-          <label htmlFor="age">age: </label>
-          <input type="text" placeholder="age" name="age" ref={ageRef} />
-          {validationErrors.age && (
-            <p className={styles.error}>{validationErrors.age}</p>
-          )}
-          <label htmlFor="email">email: </label>
-          <input type="text" placeholder="email" name="email" ref={emailRef} />
-          {validationErrors.email && (
-            <p className={styles.error}>{validationErrors.email}</p>
-          )}
-          <label htmlFor="password">password: </label>
-          <input
-            type="password"
-            placeholder="password"
-            name="password"
-            autoComplete="on"
-            ref={passwordRef}
-          />
-          {validationErrors.password && (
-            <p className={styles.error}>{validationErrors.password}</p>
-          )}
-          <label htmlFor="confirm">confirm password: </label>
-          <input
-            type="password"
-            placeholder="confirm password"
-            name="confirm"
-            autoComplete="on"
-            ref={confirmPasswordRef}
-          />
-          {validationErrors.confirmPassword && (
-            <p className={styles.error}>{validationErrors.confirmPassword}</p>
-          )}
+          <div className={styles.formField}>
+            {validationErrors.name ? (
+              <p className={styles.error}>{validationErrors.name}</p>
+            ) : (
+              <label htmlFor="name">name: </label>
+            )}
 
-          <label htmlFor="gender">gender: </label>
-          <input
-            type="select"
-            placeholder="gender"
-            name="gender"
-            ref={genderRef}
-          />
-          {validationErrors.gender && (
-            <p className={styles.error}>{validationErrors.gender}</p>
-          )}
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="name"
+              name="name"
+              ref={nameRef}
+            />
+          </div>
+          <div className={styles.formField}>
+            {validationErrors.age ? (
+              <p className={styles.error}>{validationErrors.age}</p>
+            ) : (
+              <label htmlFor="age">age: </label>
+            )}
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="age"
+              name="age"
+              ref={ageRef}
+            />
+          </div>
+          <div className={styles.formField}>
+            {validationErrors.email ? (
+              <p className={styles.error}>{validationErrors.email}</p>
+            ) : (
+              <label htmlFor="email">email: </label>
+            )}
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="email"
+              name="email"
+              ref={emailRef}
+            />
+          </div>
 
-          <div className={styles.terms}>
-            <input type="checkbox" name="terms" ref={termsRef} />
-            <label htmlFor="terms">I am agree to Terms and Conditions</label>
-            {validationErrors.terms && (
-              <p className={styles.error}>{validationErrors.terms}</p>
+          <div className={styles.formField}>
+            {validationErrors.password ? (
+              <p className={styles.error}>{validationErrors.password}</p>
+            ) : (
+              <label htmlFor="password">password: </label>
+            )}
+            <input
+              className={styles.input}
+              type="password"
+              placeholder="password"
+              name="password"
+              autoComplete="on"
+              ref={passwordRef}
+            />
+          </div>
+
+          <div className={styles.formField}>
+            {validationErrors.confirmPassword ? (
+              <p className={styles.error}>{validationErrors.confirmPassword}</p>
+            ) : (
+              <label htmlFor="confirm">confirm password: </label>
+            )}
+            <input
+              className={styles.input}
+              type="password"
+              placeholder="confirm password"
+              name="confirm"
+              autoComplete="on"
+              ref={confirmPasswordRef}
+            />
+          </div>
+
+          <div className={styles.formField}>
+            {validationErrors.gender ? (
+              <p className={styles.error}>{validationErrors.gender}</p>
+            ) : (
+              <label htmlFor="gender">gender: </label>
+            )}
+            <input
+              className={styles.input}
+              type="select"
+              placeholder="gender"
+              name="gender"
+              ref={genderRef}
+            />
+          </div>
+
+          <div className={styles.formField}>
+            {validationErrors.country ? (
+              <p className={styles.error}>{validationErrors.country}</p>
+            ) : (
+              <label htmlFor="country">country: </label>
+            )}
+            <input
+              className={styles.input}
+              type="select"
+              placeholder="country"
+              name="country"
+              ref={countryRef}
+            />
+          </div>
+
+          <div className={styles.fileField}>
+            <input
+              type="file"
+              ref={fileRef}
+              name="file"
+              className={styles.file}
+              onChange={({ target: { files } }) => {
+                if (files) {
+                  files[0] && setFileName(files[0].name);
+                }
+              }}
+            />
+            {fileName ? (
+              <p className={styles.fileName}>{fileName}</p>
+            ) : (
+              <MdCloudUpload className={styles.uploadIcon} />
             )}
           </div>
-          <input type="text" ref={fileRef} />
-          <input type="select" placeholder="country" ref={countryRef} />
-          {validationErrors.country && (
-            <p className={styles.error}>{validationErrors.country}</p>
-          )}
 
+          <div className={styles.formField}>
+            <div className={styles.termsField}>
+              <div className={styles.terms}>
+                <input type="checkbox" name="terms" ref={termsRef} />
+                <label htmlFor="terms">
+                  I am agree to Terms and Conditions
+                </label>
+              </div>
+              {validationErrors.terms && (
+                <p className={styles.error}>{validationErrors.terms}</p>
+              )}
+            </div>
+          </div>
           <button type="submit" className={styles.button}>
             Submit
           </button>
