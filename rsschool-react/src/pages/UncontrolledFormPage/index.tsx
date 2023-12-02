@@ -1,13 +1,9 @@
 import { emailRegExp } from '@/constants';
+import { useActions } from '@/hooks/useActions';
 import { useAutocomplite } from '@/hooks/useAutocomplite';
-import {
-  setInputValue,
-  setSuggestions,
-} from '@/store/CountryAutocomplite/countryAutocomplite.slice';
 import { IUncontrolledForm } from '@/types';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
@@ -25,6 +21,8 @@ interface IValidationErrors {
 }
 const UncontrolledFormPage = (): React.ReactElement => {
   const [fileName, setFileName] = useState<string | null>(null);
+  const [isCountryFocused, setIsCountryFocused] = useState(false);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [validationErrors, setValidationErrors] = useState<IValidationErrors>(
     {}
   );
@@ -41,23 +39,38 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const getCharacterValidationError = (str: string): string => {
     return `Your password must have at least 1 ${str} character`;
   };
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
   const handleGenderChange = (): void => {
     forceUpdate();
   };
 
   const { inputValue, suggestions } = useAutocomplite();
-  console.log('suggestions', suggestions);
-
-  // const inputValue = useSelector((state) => state.autocomplite.inputValue);
-  // const suggestions = useSelector((state) => state.autocomplite.suggestions);
-  const dispatch = useDispatch();
+  const { setInputValue } = useActions();
 
   const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
-    dispatch(setInputValue(value));
-    dispatch(setSuggestions(suggestions));
+    setInputValue(value);
   };
+
+  const handleCountrySelect = (e: React.MouseEvent<HTMLLIElement>): void => {
+    const value = (e.target as HTMLLIElement).textContent;
+    console.log(value);
+
+    if (value) {
+      setInputValue(value);
+    }
+  };
+
+  const handleInputFocus = (): void => {
+    setIsCountryFocused(true);
+  };
+
+  const handleInputBlur = (): void => {
+    setTimeout(() => {
+      setIsCountryFocused(false);
+    }, 200);
+  };
+
   const formSchema: ObjectSchema<IUncontrolledForm> = object({
     name: string()
       .matches(/^[A-Z]/, 'First letter must be in uppercase')
@@ -119,6 +132,15 @@ const UncontrolledFormPage = (): React.ReactElement => {
     }
     // dispatch(setFormData({ ...formData, [e.target.name]: e.target.value }));
   };
+
+  // useEffect(() => {
+  //   if (
+  //     !suggestions.includes(inputValue) &&
+  //     document.activeElement === countryRef.current
+  //   ) {
+  //     setIsAutocomplete(true);
+  //   } else setIsAutocomplete(false);
+  // }, [inputValue, suggestions]);
 
   return (
     <main className={styles.main}>
@@ -247,21 +269,27 @@ const UncontrolledFormPage = (): React.ReactElement => {
               name="country"
               ref={countryRef}
               value={inputValue}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
               onChange={handleCountryChange}
             />
-            <ul className={styles.autocomplete}>
-              {suggestions
-                .filter((suggestion) => {
-                  const searchValue = suggestion
-                    .toLowerCase()
-                    .slice(0, inputValue.length);
-                  return searchValue === inputValue.toLowerCase();
-                })
-                .slice(0, 7)
-                .map((suggestion: string) => (
-                  <li key={suggestion}>{suggestion}</li>
-                ))}
-            </ul>
+            {isCountryFocused && (
+              <ul className={styles.autocomplete}>
+                {suggestions
+                  .filter((suggestion) => {
+                    const searchValue = suggestion
+                      .toLowerCase()
+                      .slice(0, inputValue.length);
+                    return searchValue === inputValue.toLowerCase();
+                  })
+                  .slice(0, 7)
+                  .map((suggestion: string) => (
+                    <li key={suggestion} onClick={handleCountrySelect}>
+                      {suggestion}
+                    </li>
+                  ))}
+              </ul>
+            )}
           </div>
 
           <div className={styles.fileField}>
