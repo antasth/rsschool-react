@@ -1,11 +1,10 @@
-import { emailRegExp } from '@/constants';
+import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { useAutocomplite } from '@/hooks/useAutocomplite';
-import { IUncontrolledForm, IValidationErrors } from '@/types';
+import { IValidationErrors } from '@/types';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import * as Yup from 'yup';
-import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
 
 const UncontrolledFormPage = (): React.ReactElement => {
@@ -24,10 +23,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const termsRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
-
-  const getCharacterValidationError = (str: string): string => {
-    return `Your password must have at least 1 ${str} character`;
-  };
 
   const handleGenderChange = (): void => {
     forceUpdate();
@@ -60,29 +55,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
     }, 200);
   };
 
-  const formSchema: ObjectSchema<IUncontrolledForm> = object({
-    name: string()
-      .matches(/^[A-Z]/, 'First letter must be in uppercase')
-      .required('Please enter your name'),
-    age: number().positive().typeError('Age must be a number').required(),
-    email: string().required().matches(emailRegExp, 'Must be valid email'),
-    password: string()
-      .matches(/[0-9]/, getCharacterValidationError('digit'))
-      .matches(/[a-z]/, getCharacterValidationError('lowercase'))
-      .matches(/[A-Z]/, getCharacterValidationError('uppercase'))
-      .matches(/[^(A-Za-z0-9 )]/, getCharacterValidationError('special'))
-      .required('Please enter a password'),
-    confirmPassword: string()
-      .required('Please confirm a password')
-      .oneOf([ref('password')], 'Passwords does not match'),
-    gender: string().oneOf(['male', 'female'], 'Select your gender').required(),
-    terms: boolean()
-      .oneOf([true], 'You must accept our Terms and Conditions to proceed!')
-      .required()
-      .default(false),
-    country: string().required(),
-    file: string().required('File is required'),
-  });
   const handleFormSubmit = async (
     e: FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -121,15 +93,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
     }
     // dispatch(setFormData({ ...formData, [e.target.name]: e.target.value }));
   };
-
-  // useEffect(() => {
-  //   if (
-  //     !suggestions.includes(inputValue) &&
-  //     document.activeElement === countryRef.current
-  //   ) {
-  //     setIsAutocomplete(true);
-  //   } else setIsAutocomplete(false);
-  // }, [inputValue, suggestions]);
 
   return (
     <main className={styles.main}>
