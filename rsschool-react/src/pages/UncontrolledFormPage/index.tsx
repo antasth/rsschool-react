@@ -1,24 +1,13 @@
 import { emailRegExp } from '@/constants';
 import { useActions } from '@/hooks/useActions';
 import { useAutocomplite } from '@/hooks/useAutocomplite';
-import { IUncontrolledForm } from '@/types';
+import { IUncontrolledForm, IValidationErrors } from '@/types';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import * as Yup from 'yup';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
 
-interface IValidationErrors {
-  name?: string;
-  age?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  gender?: string;
-  terms?: string;
-  country?: string;
-  file?: string;
-}
 const UncontrolledFormPage = (): React.ReactElement => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [isCountryFocused, setIsCountryFocused] = useState(false);
