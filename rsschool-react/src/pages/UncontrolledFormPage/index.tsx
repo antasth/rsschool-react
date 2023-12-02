@@ -46,11 +46,11 @@ const UncontrolledFormPage = (): React.ReactElement => {
     age: number().required().positive().typeError('Age must be a number'),
     email: string().required().matches(emailRegExp, 'Must be valid email'),
     password: string()
-      .required('Please enter a password')
       .matches(/[0-9]/, getCharacterValidationError('digit'))
       .matches(/[a-z]/, getCharacterValidationError('lowercase'))
       .matches(/[A-Z]/, getCharacterValidationError('uppercase'))
-      .matches(/[^(A-Za-z0-9 )]/, getCharacterValidationError('special')),
+      .matches(/[^(A-Za-z0-9 )]/, getCharacterValidationError('special'))
+      .required('Please enter a password'),
     confirmPassword: string()
       .required('Please confirm a password')
       .oneOf([ref('password')], 'Passwords does not match'),
@@ -60,7 +60,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
       .required()
       .default(false),
     country: string().required(),
-    file: string().required(),
+    file: string().required('File is required'),
   });
   const handleFormSubmit = async (
     e: FormEvent<HTMLFormElement>
@@ -242,6 +242,13 @@ const UncontrolledFormPage = (): React.ReactElement => {
                 }
               }}
             />
+            {validationErrors.file ? (
+              <p className={`${styles.error} ${styles.fileError}`}>
+                {validationErrors.file}
+              </p>
+            ) : (
+              ''
+            )}
             {fileName ? (
               <p className={styles.fileName}>{fileName}</p>
             ) : (
