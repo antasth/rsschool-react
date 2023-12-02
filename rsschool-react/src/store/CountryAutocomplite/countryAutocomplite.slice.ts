@@ -11,13 +11,9 @@ export const countryAutocompleteSlice = createSlice({
     setInputValue(state, action) {
       state.inputValue = action.payload;
     },
-    setSuggestions(state, action) {
-      state.suggestions = action.payload;
-    },
   },
 });
 
-export const { setInputValue, setSuggestions } =
-  countryAutocompleteSlice.actions;
+export const { setInputValue } = countryAutocompleteSlice.actions;
 export default countryAutocompleteSlice.reducer;
 export const { actions, reducer } = countryAutocompleteSlice;

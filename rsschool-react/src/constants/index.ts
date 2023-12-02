@@ -1,3 +1,7 @@
+export const MAX_FILE_SIZE = 1024000;
+
+export const SUPPORTED_FORMATS = ['image/png', 'image/jpeg'];
+
 export const EMAIL_REGEXP =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

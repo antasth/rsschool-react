@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
-export const useAutocomplite = (): {
+export const useAutoComplite = (): {
   inputValue: string;
   suggestions: string[];
 } => {

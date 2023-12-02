@@ -1,14 +1,15 @@
-import { IUncontrolledForm } from '@/types';
 import { getCharacterValidationError } from '@/utils';
-import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
-import { EMAIL_REGEXP } from '.';
+import * as yup from 'yup';
+import { boolean, number, object, ref, string } from 'yup';
+import { EMAIL_REGEXP, MAX_FILE_SIZE, SUPPORTED_FORMATS } from '.';
 
-export const formSchema: ObjectSchema<IUncontrolledForm> = object({
+export const formSchema = object({
   name: string()
     .matches(/^[A-Z]/, 'First letter must be in uppercase')
     .required('Please enter your name'),
   age: number().positive().typeError('Age must be a number').required(),
   email: string().required().matches(EMAIL_REGEXP, 'Must be valid email'),
+
   password: string()
     .matches(/[0-9]/, getCharacterValidationError('digit'))
     .matches(/[a-z]/, getCharacterValidationError('lowercase'))
@@ -24,5 +25,17 @@ export const formSchema: ObjectSchema<IUncontrolledForm> = object({
     .required()
     .default(false),
   country: string().required(),
-  file: string().required('File is required'),
+  file: yup
+    .mixed<FileList>()
+    .test('fileSize', 'File Size is too large', (files) => {
+      if (files && files[0]) return files[0].size <= MAX_FILE_SIZE;
+    })
+    .test('fileType', 'Unsupported File Format', (files) => {
+      return files && files[0]
+        ? SUPPORTED_FORMATS.includes(files[0].type)
+        : false;
+    })
+    .test('required', 'You need to provide a file', (files) => {
+      return files && files.length > 0;
+    }),
 });

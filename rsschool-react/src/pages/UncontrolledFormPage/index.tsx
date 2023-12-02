@@ -1,10 +1,10 @@
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
-import { useAutocomplite } from '@/hooks/useAutocomplite';
+import { useAutoComplite } from '@/hooks/useAutoComplite';
 import { IValidationErrors } from '@/types';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import styles from './UncontrolledFormPage.module.css';
 
 const UncontrolledFormPage = (): React.ReactElement => {
@@ -28,7 +28,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
     forceUpdate();
   };
 
-  const { inputValue, suggestions } = useAutocomplite();
+  const { inputValue, suggestions } = useAutoComplite();
   const { setInputValue } = useActions();
 
   const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -68,14 +68,15 @@ const UncontrolledFormPage = (): React.ReactElement => {
       confirmPassword: confirmPasswordRef.current?.value,
       gender: genderRef.current?.value,
       terms: termsRef.current?.checked,
-      file: fileRef.current?.value,
+      file: fileRef.current?.files,
       country: countryRef.current?.value,
     };
     try {
       await formSchema.validate(formInputs, { abortEarly: false });
       console.log('Form is valid');
     } catch (error) {
-      if (error instanceof Yup.ValidationError) {
+      if (error instanceof yup.ValidationError) {
+        console.log('submit', error);
         const errors: { [key: string]: string } = error.inner.reduce(
           (acc, err) => {
             return err.path
