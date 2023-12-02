@@ -30,12 +30,12 @@ export const formSchema = object({
     .test('fileSize', 'File Size is too large', (files) => {
       if (files && files[0]) return files[0].size <= MAX_FILE_SIZE;
     })
-    .test('fileType', 'Unsupported File Format', (files) => {
+    .test('fileType', 'Invalid File Format', (files) => {
       return files && files[0]
         ? SUPPORTED_FORMATS.includes(files[0].type)
         : false;
     })
-    .test('required', 'You need to provide a file', (files) => {
+    .test('required', 'You need to add a file', (files) => {
       return files && files.length > 0;
     }),
 });

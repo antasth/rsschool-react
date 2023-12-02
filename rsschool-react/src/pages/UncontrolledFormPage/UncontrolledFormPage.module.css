@@ -120,6 +120,7 @@
   align-items: center;
   border: 1px dashed #98c1ef58;
   border-radius: 5px;
+  background-color: transparent;
 }
 
 .file {
@@ -140,13 +141,13 @@
 
 .fileName {
   position: absolute;
-  z-index: -1;
+  right: 5px;
+  bottom: 5px;
   border-radius: 10px;
 }
 
 .fileError {
   position: absolute;
-  z-index: -5;
   top: 5px;
   left: 10px;
   cursor: pointer;

@@ -264,11 +264,14 @@ const UncontrolledFormPage = (): React.ReactElement => {
             ) : (
               ''
             )}
-            {fileName ? (
+            {fileName && <p className={styles.fileName}>{fileName}</p>}
+            <MdCloudUpload className={styles.uploadIcon} />
+
+            {/* {fileName ? (
               <p className={styles.fileName}>{fileName}</p>
             ) : (
               <MdCloudUpload className={styles.uploadIcon} />
-            )}
+            )} */}
           </div>
 
           <div className={styles.formField}>
