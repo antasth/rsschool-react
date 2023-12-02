@@ -247,3 +247,29 @@
   top: 5px;
   left: 10px;
 }
+
+.countryField {
+  position: relative;
+}
+.autocomplete {
+  position: absolute;
+  z-index: 5;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  border-radius: 10px;
+  padding: 10px;
+  top: 24px;
+  right: 410px;
+  border: 1px solid rgba(255, 255, 255, 0.214);
+}
+.autocomplete li {
+  width: 100%;
+  text-wrap: nowrap;
+  text-align: end;
+}
+.autocomplete li:hover {
+  background-color: #3b4767;
+  cursor: pointer;
+}

@@ -1,7 +1,13 @@
 import { emailRegExp } from '@/constants';
+import { useAutocomplite } from '@/hooks/useAutocomplite';
+import {
+  setInputValue,
+  setSuggestions,
+} from '@/store/CountryAutocomplite/countryAutocomplite.slice';
 import { IUncontrolledForm } from '@/types';
-import { FormEvent, useReducer, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { ObjectSchema, boolean, number, object, ref, string } from 'yup';
 import styles from './UncontrolledFormPage.module.css';
@@ -39,11 +45,24 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const handleGenderChange = (): void => {
     forceUpdate();
   };
+
+  const { inputValue, suggestions } = useAutocomplite();
+  console.log('suggestions', suggestions);
+
+  // const inputValue = useSelector((state) => state.autocomplite.inputValue);
+  // const suggestions = useSelector((state) => state.autocomplite.suggestions);
+  const dispatch = useDispatch();
+
+  const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value;
+    dispatch(setInputValue(value));
+    dispatch(setSuggestions(suggestions));
+  };
   const formSchema: ObjectSchema<IUncontrolledForm> = object({
     name: string()
-      .required()
-      .matches(/^[A-Z]/, 'First letter must be in uppercase'),
-    age: number().required().positive().typeError('Age must be a number'),
+      .matches(/^[A-Z]/, 'First letter must be in uppercase')
+      .required('Please enter your name'),
+    age: number().positive().typeError('Age must be a number').required(),
     email: string().required().matches(emailRegExp, 'Must be valid email'),
     password: string()
       .matches(/[0-9]/, getCharacterValidationError('digit'))
@@ -215,7 +234,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
             </select>
           </div>
 
-          <div className={styles.formField}>
+          <div className={`${styles.formField} ${styles.countryField}`}>
             {validationErrors.country ? (
               <p className={styles.error}>{validationErrors.country}</p>
             ) : (
@@ -223,11 +242,26 @@ const UncontrolledFormPage = (): React.ReactElement => {
             )}
             <input
               className={styles.input}
-              type="select"
+              type="text"
               placeholder="country"
               name="country"
               ref={countryRef}
+              value={inputValue}
+              onChange={handleCountryChange}
             />
+            <ul className={styles.autocomplete}>
+              {suggestions
+                .filter((suggestion) => {
+                  const searchValue = suggestion
+                    .toLowerCase()
+                    .slice(0, inputValue.length);
+                  return searchValue === inputValue.toLowerCase();
+                })
+                .slice(0, 7)
+                .map((suggestion: string) => (
+                  <li key={suggestion}>{suggestion}</li>
+                ))}
+            </ul>
           </div>
 
           <div className={styles.fileField}>
@@ -243,9 +277,9 @@ const UncontrolledFormPage = (): React.ReactElement => {
               }}
             />
             {validationErrors.file ? (
-              <p className={`${styles.error} ${styles.fileError}`}>
+              <label className={`${styles.error} ${styles.fileError}`}>
                 {validationErrors.file}
-              </p>
+              </label>
             ) : (
               ''
             )}
