@@ -1,21 +1,27 @@
+import { Autocomplete } from '@/components/Autocomplete/Autocomplete';
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
+import { useAutoComplite } from '@/hooks/useAutoComplite';
 import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { IForm } from '@/types';
 import { toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { ChangeEvent, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from './ReactHookFormPage.module.css';
 
 const ReactHookFormPage = (): React.ReactElement => {
-  const { setReactHookFormData } = useActions();
+  const [isCountryFocused, setIsCountryFocused] = useState(false);
+  const { inputValue } = useAutoComplite();
+  const { setInputValue, setReactHookFormData } = useActions();
   const { reactHookForms } = useReactHookForm();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    control,
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(formSchema),
     mode: 'onChange',
@@ -31,6 +37,43 @@ const ReactHookFormPage = (): React.ReactElement => {
       file: undefined,
     },
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleInputFocus = (): void => {
+    setIsCountryFocused(true);
+  };
+
+  const handleInputBlur = (): void => {
+    setTimeout(() => {
+      setIsCountryFocused(false);
+    }, 200);
+  };
+
+  // useEffect(() => {
+  //   if (inputRef.current?.value) {
+  //     setIsCountryFocused(true);
+  //   }
+  // }, []);
+
+  const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value;
+    setInputValue(value);
+    // setIsCountryFocused(true);
+    if (inputRef.current) {
+      inputRef.current.value = value;
+    }
+  };
+
+  const handleCountrySelect = (e: React.MouseEvent<HTMLLIElement>): void => {
+    const value = (e.target as HTMLLIElement).textContent;
+
+    if (value) {
+      setInputValue(value);
+      if (inputRef.current) {
+        inputRef.current.value = value;
+      }
+    }
+  };
 
   const onSubmit = async (formInputs: IForm): Promise<void> => {
     const file = formInputs.file ? formInputs.file[0] : '';
@@ -95,10 +138,47 @@ const ReactHookFormPage = (): React.ReactElement => {
           <p>{errors.gender?.message}</p>
         </div>
 
-        <div className={styles.formField}>
-          <label>country:</label>
-          <input {...register('country')} />
+        <div className={`${styles.formField} ${styles.countryField}`}>
+          <Controller
+            name="country"
+            control={control}
+            defaultValue={inputValue}
+            render={({ field, fieldState }) => (
+              <>
+                <label>country:</label>
+                <input
+                  {...field}
+                  type="text"
+                  defaultValue={inputValue}
+                  value={inputValue}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    handleCountryChange(e);
+                  }}
+                />
+                {fieldState?.error && <span>{fieldState.error.message}</span>}
+                {isCountryFocused && (
+                  <Autocomplete handleCountrySelect={handleCountrySelect} />
+                )}
+              </>
+            )}
+          />
+
+          {/* <label>country:</label>
+          <input
+            {...register('country')}
+            type="text"
+            value={inputValue}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            onChange={handleCountryChange}
+          />
           <p>{errors.country?.message}</p>
+          {isCountryFocused && (
+            <Autocomplete handleCountrySelect={handleCountrySelect} />
+          )} */}
         </div>
 
         <div className={styles.formField}>
@@ -113,7 +193,9 @@ const ReactHookFormPage = (): React.ReactElement => {
           <p>{errors.terms?.message}</p>
         </div>
 
-        <input type="submit" />
+        <button disabled={!isValid} type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

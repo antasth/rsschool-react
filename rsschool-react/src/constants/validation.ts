@@ -1,7 +1,12 @@
 import { getCharacterValidationError } from '@/utils';
 import * as yup from 'yup';
 import { boolean, number, object, ref, string } from 'yup';
-import { EMAIL_REGEXP, MAX_FILE_SIZE, SUPPORTED_FORMATS } from '.';
+import {
+  COUNTRIES_LIST,
+  EMAIL_REGEXP,
+  MAX_FILE_SIZE,
+  SUPPORTED_FORMATS,
+} from '.';
 
 export const formSchema = object({
   name: string()
@@ -15,6 +20,7 @@ export const formSchema = object({
     .matches(/[a-z]/, getCharacterValidationError('lowercase'))
     .matches(/[A-Z]/, getCharacterValidationError('uppercase'))
     .matches(/[^(A-Za-z0-9 )]/, getCharacterValidationError('special'))
+    .min(8, 'Low password strength')
     .required('Please enter a password'),
   confirmPassword: string()
     .required('Please confirm a password')
@@ -24,7 +30,9 @@ export const formSchema = object({
     .oneOf([true], 'You must accept our Terms and Conditions to proceed!')
     .required()
     .default(false),
-  country: string().required(),
+  country: string()
+    .required()
+    .oneOf([...COUNTRIES_LIST], 'This country is not found'),
   file: yup
     .mixed<FileList>()
     .test('fileSize', 'File Size is too large', (files) => {
