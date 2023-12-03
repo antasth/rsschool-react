@@ -1,6 +1,7 @@
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { IForm } from '@/types';
+import { toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styles from './ReactHookFormPage.module.css';
@@ -26,9 +27,17 @@ const ReactHookFormPage = (): React.ReactElement => {
     },
   });
 
-  const onSubmit = (data: IForm): void => {
-    console.log(data);
-    setReactHookFormData(data);
+  const onSubmit = async (formInputs: IForm): Promise<void> => {
+    const file = formInputs.file ? formInputs.file[0] : '';
+    try {
+      if (file instanceof File) {
+        const base64string = await toBase64Converter(file);
+        const submitData = { ...formInputs, file: base64string };
+        setReactHookFormData(submitData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const { setReactHookFormData } = useActions();
