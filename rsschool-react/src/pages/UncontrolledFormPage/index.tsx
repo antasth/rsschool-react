@@ -2,6 +2,7 @@ import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { useAutoComplite } from '@/hooks/useAutoComplite';
 import { IValidationErrors } from '@/types';
+import { toBase64Converter } from '@/utils';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import * as yup from 'yup';
@@ -74,6 +75,14 @@ const UncontrolledFormPage = (): React.ReactElement => {
     try {
       await formSchema.validate(formInputs, { abortEarly: false });
       console.log('Form is valid');
+      try {
+        if (formInputs.file) {
+          const base = await toBase64Converter(formInputs.file[0]);
+          console.log('base64', base);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         console.log('submit', error);
