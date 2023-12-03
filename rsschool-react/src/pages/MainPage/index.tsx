@@ -1,4 +1,4 @@
-import { FormCard } from '@/components/App/Form/FormCard';
+import { FormCard } from '@/components/Form/FormCard';
 import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { useUncontrolledForm } from '@/hooks/useUncontrolledForm';
 import { Link, useLocation } from 'react-router-dom';

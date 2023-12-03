@@ -1,3 +1,4 @@
+import { Autocomplete } from '@/components/Autocomplete/Autocomplete';
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { useAutoComplite } from '@/hooks/useAutoComplite';
@@ -18,7 +19,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
     {}
   );
 
-  const { inputValue, suggestions } = useAutoComplite();
+  const { inputValue } = useAutoComplite();
   const { setInputValue, setUncontrolledFormData } = useActions();
   const { uncontrolledForms } = useUncontrolledForm();
   const navigate = useNavigate();
@@ -247,21 +248,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
               onChange={handleCountryChange}
             />
             {isCountryFocused && (
-              <ul className={styles.autocomplete}>
-                {suggestions
-                  .filter((suggestion) => {
-                    const searchValue = suggestion
-                      .toLowerCase()
-                      .slice(0, inputValue.length);
-                    return searchValue === inputValue.toLowerCase();
-                  })
-                  .slice(0, 7)
-                  .map((suggestion: string) => (
-                    <li key={suggestion} onClick={handleCountrySelect}>
-                      {suggestion}
-                    </li>
-                  ))}
-              </ul>
+              <Autocomplete handleCountrySelect={handleCountrySelect} />
             )}
           </div>
 
