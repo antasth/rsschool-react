@@ -1,5 +1,6 @@
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
+import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { IForm } from '@/types';
 import { toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,6 +10,7 @@ import styles from './ReactHookFormPage.module.css';
 
 const ReactHookFormPage = (): React.ReactElement => {
   const { setReactHookFormData } = useActions();
+  const { reactHookForms } = useReactHookForm();
   const navigate = useNavigate();
   const {
     register,
@@ -35,9 +37,13 @@ const ReactHookFormPage = (): React.ReactElement => {
     try {
       if (file instanceof File) {
         const base64string = await toBase64Converter(file);
-        const submitData = { ...formInputs, file: base64string };
+        const submitData = {
+          ...formInputs,
+          id: reactHookForms.length,
+          file: base64string,
+        };
         setReactHookFormData(submitData);
-        navigate('/');
+        navigate('/', { state: submitData.id });
       }
     } catch (error) {
       console.log(error);

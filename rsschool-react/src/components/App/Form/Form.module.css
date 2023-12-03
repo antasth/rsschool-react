@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
   font-size: 12px;
   padding: 1rem;
   border: 1px solid rgba(114, 250, 125, 0.14);

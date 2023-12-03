@@ -26,3 +26,24 @@
   grid-template-columns: repeat(2, 50%);
   justify-content: center;
 }
+
+.lastSubmit {
+  animation: pulse;
+  animation-duration: 5s;
+}
+@keyframes pulse {
+  0% {
+    border: 3px solid red;
+  }
+  30% {
+    border: 3px solid rgb(242, 255, 0);
+  }
+
+  70% {
+    border: 3px solid rgb(0, 255, 68);
+  }
+
+  100% {
+    border: 3px solid rgb(0, 255, 208);
+  }
+}

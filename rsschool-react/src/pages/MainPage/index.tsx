@@ -1,12 +1,16 @@
 import { FormCard } from '@/components/App/Form/FormCard';
 import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { useUncontrolledForm } from '@/hooks/useUncontrolledForm';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './MainPage.module.css';
 
 const MainPage = (): React.ReactElement => {
   const { uncontrolledForms } = useUncontrolledForm();
   const { reactHookForms } = useReactHookForm();
+  const location = useLocation();
+  console.log(location.state);
+  const lastSubmit = location.state;
+
   return (
     <main className={styles.main}>
       <h1>MainPage</h1>
@@ -27,7 +31,12 @@ const MainPage = (): React.ReactElement => {
           <h3>Controlled forms</h3>
           <div className={styles.formsList}>
             {reactHookForms.map((form) => (
-              <FormCard key={form.email} form={form} />
+              <div
+                key={form.id}
+                className={form.id === lastSubmit ? styles.lastSubmit : ''}
+              >
+                <FormCard key={form.email} form={form} />
+              </div>
             ))}
           </div>
         </div>

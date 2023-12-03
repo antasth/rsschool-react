@@ -1,4 +1,5 @@
 export interface IForm {
+  id?: number;
   name?: string;
   age?: string | number;
   email?: string;
