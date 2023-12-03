@@ -1,13 +1,13 @@
 export interface IUncontrolledForm {
   name?: string;
-  age?: string;
+  age?: string | number;
   email?: string;
   password?: string;
   confirmPassword?: string;
   gender?: string;
   terms?: boolean;
   country?: string;
-  file?: string;
+  file?: string | FileList;
 }
 
 export interface IValidationErrors {
