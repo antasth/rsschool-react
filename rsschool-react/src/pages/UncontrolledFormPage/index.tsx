@@ -5,6 +5,7 @@ import { IValidationErrors } from '@/types';
 import { toBase64Converter } from '@/utils';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import styles from './UncontrolledFormPage.module.css';
 
@@ -15,6 +16,11 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const [validationErrors, setValidationErrors] = useState<IValidationErrors>(
     {}
   );
+
+  const { inputValue, suggestions } = useAutoComplite();
+  const { setInputValue, setUncontrolledFormData } = useActions();
+  const navigate = useNavigate();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -28,9 +34,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const handleGenderChange = (): void => {
     forceUpdate();
   };
-
-  const { inputValue, suggestions } = useAutoComplite();
-  const { setInputValue, setUncontrolledFormData } = useActions();
 
   const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
@@ -80,6 +83,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
           const base64 = await toBase64Converter(formInputs.file[0]);
           const submitData = { ...formInputs, file: base64 };
           setUncontrolledFormData(submitData);
+          navigate('/');
         }
       } catch (error) {
         console.log(error);
