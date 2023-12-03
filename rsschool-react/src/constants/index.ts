@@ -1,5 +1,5 @@
 export const MAX_FILE_SIZE = 1024000;
-
+export const AUTOCOMPLETE_SHOW_VALUES = 7;
 export const SUPPORTED_FORMATS = ['image/png', 'image/jpeg'];
 
 export const EMAIL_REGEXP =

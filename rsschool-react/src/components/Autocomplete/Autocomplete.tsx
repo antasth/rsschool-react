@@ -1,3 +1,4 @@
+import { AUTOCOMPLETE_SHOW_VALUES } from '@/constants';
 import { useAutoComplite } from '@/hooks/useAutoComplite';
 import React from 'react';
 import styles from './Autocomplete.module.css';
@@ -16,7 +17,7 @@ const Autocomplete = (props: {
             .slice(0, inputValue.length);
           return searchValue === inputValue.toLowerCase();
         })
-        .slice(0, 7)
+        .slice(0, AUTOCOMPLETE_SHOW_VALUES)
         .map((suggestion: string) => (
           <li key={suggestion} onClick={handleCountrySelect}>
             {suggestion}
