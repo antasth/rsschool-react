@@ -102,7 +102,7 @@ const ReactHookFormPage = (): React.ReactElement => {
         <div className={styles.formField}>
           <label>terms:</label>
           <input type="checkbox" {...register('terms')} />
-          <p>{errors.country?.message}</p>
+          <p>{errors.terms?.message}</p>
         </div>
 
         <input type="submit" />

@@ -20,3 +20,9 @@
   height: 100%;
   border: 1px solid salmon;
 }
+
+.formsList {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  justify-content: center;
+}

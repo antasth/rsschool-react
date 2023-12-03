@@ -1,3 +1,4 @@
+import { FormCard } from '@/components/App/Form/FormCard';
 import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { useUncontrolledForm } from '@/hooks/useUncontrolledForm';
 import { Link } from 'react-router-dom';
@@ -17,18 +18,16 @@ const MainPage = (): React.ReactElement => {
         <div className={styles.formSection}>
           <h3>Uncontrolled forms</h3>
           <div className={styles.formsList}>
-            <h4>formsList</h4>
             {uncontrolledForms.map((form) => (
-              <div key={form.password}>{form.name}</div>
+              <FormCard key={form.email} form={form} />
             ))}
           </div>
         </div>
         <div className={styles.formSection}>
           <h3>Controlled forms</h3>
           <div className={styles.formsList}>
-            <h4>formsList</h4>
             {reactHookForms.map((form) => (
-              <div key={form.password}>{form.name}</div>
+              <FormCard key={form.email} form={form} />
             ))}
           </div>
         </div>
