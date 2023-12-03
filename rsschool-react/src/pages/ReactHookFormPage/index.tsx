@@ -4,9 +4,12 @@ import { IForm } from '@/types';
 import { toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styles from './ReactHookFormPage.module.css';
 
 const ReactHookFormPage = (): React.ReactElement => {
+  const { setReactHookFormData } = useActions();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -34,13 +37,13 @@ const ReactHookFormPage = (): React.ReactElement => {
         const base64string = await toBase64Converter(file);
         const submitData = { ...formInputs, file: base64string };
         setReactHookFormData(submitData);
+        navigate('/');
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const { setReactHookFormData } = useActions();
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.formField}>
