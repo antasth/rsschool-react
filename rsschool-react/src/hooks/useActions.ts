@@ -1,16 +1,20 @@
 import { actions as autocompleteActions } from '@/store/CountryAutocomplite/countryAutocomplite.slice';
-// import { actions as uncontrolledFormActions } from '@/store/UncontrolledForm/uncontrolledForm.slice';
+import { actions as uncontrolledFormActions } from '@/store/UncontrolledForm/uncontrolledForm.slice';
+import { IUncontrolledForm } from '@/types';
 import { ActionCreatorWithPayload, bindActionCreators } from '@reduxjs/toolkit';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 const rootActions = {
-  // ...uncontrolledFormActions,
+  ...uncontrolledFormActions,
   ...autocompleteActions,
 };
 
 export const useActions = (): {
-  // setFormData: ActionCreatorWithPayload<string, 'uncontrolledForm/updateField'>;
+  setUncontrolledFormData: ActionCreatorWithPayload<
+    IUncontrolledForm,
+    'uncontrolledForm/setUncontrolledFormData'
+  >;
   setInputValue: ActionCreatorWithPayload<string>;
 } => {
   const dispatch = useDispatch();

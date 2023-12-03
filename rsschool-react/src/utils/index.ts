@@ -8,9 +8,6 @@ export const toBase64Converter = (file: File): Promise<string> => {
 
     reader.onload = (): void => {
       if (reader.result) {
-        // console.log('reader.result', reader.result);
-        // const base64String = reader.result.toString().split(',')[1];
-
         resolve(reader.result.toString());
       } else {
         reject(new Error('Failed to read file.'));

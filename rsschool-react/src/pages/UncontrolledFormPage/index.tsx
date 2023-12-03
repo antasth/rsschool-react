@@ -30,7 +30,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
   };
 
   const { inputValue, suggestions } = useAutoComplite();
-  const { setInputValue } = useActions();
+  const { setInputValue, setUncontrolledFormData } = useActions();
 
   const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
@@ -62,8 +62,8 @@ const UncontrolledFormPage = (): React.ReactElement => {
     e.preventDefault();
 
     const formInputs = {
-      name: nameRef.current?.value,
-      age: ageRef.current?.value,
+      name: nameRef?.current?.value,
+      age: ageRef?.current?.value,
       email: emailRef.current?.value,
       password: passwordRef.current?.value,
       confirmPassword: confirmPasswordRef.current?.value,
@@ -77,8 +77,9 @@ const UncontrolledFormPage = (): React.ReactElement => {
       console.log('Form is valid');
       try {
         if (formInputs.file) {
-          const base = await toBase64Converter(formInputs.file[0]);
-          console.log('base64', base);
+          const base64 = await toBase64Converter(formInputs.file[0]);
+          const submitData = { ...formInputs, file: base64 };
+          setUncontrolledFormData(submitData);
         }
       } catch (error) {
         console.log(error);
