@@ -6,8 +6,8 @@ import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { IForm } from '@/types';
 import { toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from './ReactHookFormPage.module.css';
 
@@ -20,7 +20,7 @@ const ReactHookFormPage = (): React.ReactElement => {
   const {
     register,
     handleSubmit,
-    control,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(formSchema),
@@ -38,7 +38,6 @@ const ReactHookFormPage = (): React.ReactElement => {
     },
   });
 
-  const inputRef = useRef<HTMLInputElement>(null);
   const handleInputFocus = (): void => {
     setIsCountryFocused(true);
   };
@@ -49,19 +48,9 @@ const ReactHookFormPage = (): React.ReactElement => {
     }, 200);
   };
 
-  // useEffect(() => {
-  //   if (inputRef.current?.value) {
-  //     setIsCountryFocused(true);
-  //   }
-  // }, []);
-
   const handleCountryChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     setInputValue(value);
-    // setIsCountryFocused(true);
-    if (inputRef.current) {
-      inputRef.current.value = value;
-    }
   };
 
   const handleCountrySelect = (e: React.MouseEvent<HTMLLIElement>): void => {
@@ -69,9 +58,7 @@ const ReactHookFormPage = (): React.ReactElement => {
 
     if (value) {
       setInputValue(value);
-      if (inputRef.current) {
-        inputRef.current.value = value;
-      }
+      setValue('country', value, { shouldValidate: true });
     }
   };
 
@@ -139,46 +126,23 @@ const ReactHookFormPage = (): React.ReactElement => {
         </div>
 
         <div className={`${styles.formField} ${styles.countryField}`}>
-          <Controller
-            name="country"
-            control={control}
-            defaultValue={inputValue}
-            render={({ field, fieldState }) => (
-              <>
-                <label>country:</label>
-                <input
-                  {...field}
-                  type="text"
-                  defaultValue={inputValue}
-                  value={inputValue}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    handleCountryChange(e);
-                  }}
-                />
-                {fieldState?.error && <span>{fieldState.error.message}</span>}
-                {isCountryFocused && (
-                  <Autocomplete handleCountrySelect={handleCountrySelect} />
-                )}
-              </>
-            )}
-          />
-
-          {/* <label>country:</label>
+          <label>country:</label>
           <input
             {...register('country')}
             type="text"
             value={inputValue}
-            onFocus={handleInputFocus}
+            onInput={handleInputFocus}
             onBlur={handleInputBlur}
-            onChange={handleCountryChange}
+            onChange={(e) => {
+              handleCountryChange(e);
+
+              setValue('country', e.target.value, { shouldValidate: true });
+            }}
           />
           <p>{errors.country?.message}</p>
           {isCountryFocused && (
             <Autocomplete handleCountrySelect={handleCountrySelect} />
-          )} */}
+          )}
         </div>
 
         <div className={styles.formField}>

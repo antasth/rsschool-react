@@ -243,7 +243,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
               name="country"
               ref={countryRef}
               value={inputValue}
-              onFocus={handleInputFocus}
+              onInput={handleInputFocus}
               onBlur={handleInputBlur}
               onChange={handleCountryChange}
             />

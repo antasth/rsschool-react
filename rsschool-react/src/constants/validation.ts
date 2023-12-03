@@ -16,11 +16,11 @@ export const formSchema = object({
   email: string().required().matches(EMAIL_REGEXP, 'Must be valid email'),
 
   password: string()
+    .min(8, 'Low password strength')
     .matches(/[0-9]/, getCharacterValidationError('digit'))
     .matches(/[a-z]/, getCharacterValidationError('lowercase'))
     .matches(/[A-Z]/, getCharacterValidationError('uppercase'))
     .matches(/[^(A-Za-z0-9 )]/, getCharacterValidationError('special'))
-    .min(8, 'Low password strength')
     .required('Please enter a password'),
   confirmPassword: string()
     .required('Please confirm a password')
