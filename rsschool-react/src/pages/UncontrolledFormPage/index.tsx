@@ -42,7 +42,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
 
   const handleCountrySelect = (e: React.MouseEvent<HTMLLIElement>): void => {
     const value = (e.target as HTMLLIElement).textContent;
-    console.log(value);
 
     if (value) {
       setInputValue(value);
@@ -75,13 +74,13 @@ const UncontrolledFormPage = (): React.ReactElement => {
       file: fileRef.current?.files,
       country: countryRef.current?.value,
     };
+
     try {
       await formSchema.validate(formInputs, { abortEarly: false });
-      console.log('Form is valid');
       try {
         if (formInputs.file) {
-          const base64 = await toBase64Converter(formInputs.file[0]);
-          const submitData = { ...formInputs, file: base64 };
+          const base64string = await toBase64Converter(formInputs.file[0]);
+          const submitData = { ...formInputs, file: base64string };
           setUncontrolledFormData(submitData);
           navigate('/');
         }
@@ -90,7 +89,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
       }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
-        console.log('submit', error);
         const errors: { [key: string]: string } = error.inner.reduce(
           (acc, err) => {
             return err.path
@@ -103,10 +101,8 @@ const UncontrolledFormPage = (): React.ReactElement => {
           {}
         );
         setValidationErrors(errors);
-        console.log('Validation errors:', errors);
       }
     }
-    // dispatch(setFormData({ ...formData, [e.target.name]: e.target.value }));
   };
 
   return (
@@ -134,6 +130,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
               ref={nameRef}
             />
           </div>
+
           <div className={styles.formField}>
             {validationErrors.age ? (
               <p className={styles.error}>{validationErrors.age}</p>
@@ -148,6 +145,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
               ref={ageRef}
             />
           </div>
+
           <div className={styles.formField}>
             {validationErrors.email ? (
               <p className={styles.error}>{validationErrors.email}</p>
@@ -280,12 +278,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
             )}
             {fileName && <p className={styles.fileName}>{fileName}</p>}
             <MdCloudUpload className={styles.uploadIcon} />
-
-            {/* {fileName ? (
-              <p className={styles.fileName}>{fileName}</p>
-            ) : (
-              <MdCloudUpload className={styles.uploadIcon} />
-            )} */}
           </div>
 
           <div className={styles.formField}>
@@ -301,6 +293,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
               )}
             </div>
           </div>
+
           <button type="submit" className={styles.button}>
             Submit
           </button>
