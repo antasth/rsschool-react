@@ -1,5 +1,6 @@
 import { formSchema } from '@/constants/validation';
-import { IUncontrolledForm } from '@/types';
+import { useActions } from '@/hooks/useActions';
+import { IForm } from '@/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styles from './ReactHookFormPage.module.css';
@@ -25,10 +26,12 @@ const ReactHookFormPage = (): React.ReactElement => {
     },
   });
 
-  const onSubmit = (data: IUncontrolledForm): void => {
+  const onSubmit = (data: IForm): void => {
     console.log(data);
+    setReactHookFormData(data);
   };
 
+  const { setReactHookFormData } = useActions();
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.formField}>

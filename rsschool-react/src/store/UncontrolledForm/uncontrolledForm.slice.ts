@@ -1,14 +1,11 @@
-import { IUncontrolledForm } from '@/types';
+import { IForm } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 export const uncontrolledFormSlice = createSlice({
   name: 'uncontrolledForm',
-  initialState: [] as IUncontrolledForm[],
+  initialState: [] as IForm[],
   reducers: {
-    setUncontrolledFormData: (
-      state,
-      { payload }: { payload: IUncontrolledForm }
-    ) => {
+    setUncontrolledFormData: (state, { payload }: { payload: IForm }) => {
       const submitObject = payload;
       state.push(submitObject);
     },

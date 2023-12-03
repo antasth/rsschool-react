@@ -1,4 +1,4 @@
-export interface IUncontrolledForm {
+export interface IForm {
   name?: string;
   age?: string | number;
   email?: string;
