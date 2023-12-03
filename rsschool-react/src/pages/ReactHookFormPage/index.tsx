@@ -43,7 +43,9 @@ const ReactHookFormPage = (): React.ReactElement => {
           file: base64string,
         };
         setReactHookFormData(submitData);
-        navigate('/', { state: submitData.id });
+        navigate('/', {
+          state: { formId: submitData.id, formType: 'controlled' },
+        });
       }
     } catch (error) {
       console.log(error);

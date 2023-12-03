@@ -1,6 +1,7 @@
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { useAutoComplite } from '@/hooks/useAutoComplite';
+import { useUncontrolledForm } from '@/hooks/useUncontrolledForm';
 import { IValidationErrors } from '@/types';
 import { toBase64Converter } from '@/utils';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
@@ -19,6 +20,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
 
   const { inputValue, suggestions } = useAutoComplite();
   const { setInputValue, setUncontrolledFormData } = useActions();
+  const { uncontrolledForms } = useUncontrolledForm();
   const navigate = useNavigate();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -80,9 +82,15 @@ const UncontrolledFormPage = (): React.ReactElement => {
       try {
         if (formInputs.file) {
           const base64string = await toBase64Converter(formInputs.file[0]);
-          const submitData = { ...formInputs, file: base64string };
+          const submitData = {
+            ...formInputs,
+            id: uncontrolledForms.length,
+            file: base64string,
+          };
           setUncontrolledFormData(submitData);
-          navigate('/');
+          navigate('/', {
+            state: { formId: submitData.id, formType: 'uncontrolled' },
+          });
         }
       } catch (error) {
         console.log(error);

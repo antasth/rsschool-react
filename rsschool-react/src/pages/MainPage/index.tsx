@@ -9,7 +9,7 @@ const MainPage = (): React.ReactElement => {
   const { reactHookForms } = useReactHookForm();
   const location = useLocation();
   console.log(location.state);
-  const lastSubmit = location.state;
+  const { formId, formType } = location.state;
 
   return (
     <main className={styles.main}>
@@ -23,7 +23,16 @@ const MainPage = (): React.ReactElement => {
           <h3>Uncontrolled forms</h3>
           <div className={styles.formsList}>
             {uncontrolledForms.map((form) => (
-              <FormCard key={form.email} form={form} />
+              <div
+                key={form.id}
+                className={
+                  form.id === formId && formType === 'uncontrolled'
+                    ? styles.lastSubmit
+                    : ''
+                }
+              >
+                <FormCard key={form.email} form={form} />
+              </div>
             ))}
           </div>
         </div>
@@ -33,7 +42,11 @@ const MainPage = (): React.ReactElement => {
             {reactHookForms.map((form) => (
               <div
                 key={form.id}
-                className={form.id === lastSubmit ? styles.lastSubmit : ''}
+                className={
+                  form.id === formId && formType === 'controlled'
+                    ? styles.lastSubmit
+                    : ''
+                }
               >
                 <FormCard key={form.email} form={form} />
               </div>
