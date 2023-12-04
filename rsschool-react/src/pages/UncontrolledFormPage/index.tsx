@@ -38,7 +38,6 @@ const UncontrolledFormPage = (): React.ReactElement => {
 
   const handlePassworChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const password = e.target.value;
-    console.log(password);
     const strength = getPasswordStrength(password);
     setPasswordStrength(strength);
   };

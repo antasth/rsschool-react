@@ -1,10 +1,11 @@
 import { Autocomplete } from '@/components/Autocomplete/Autocomplete';
+import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { IForm } from '@/types';
-import { toBase64Converter } from '@/utils';
+import { getPasswordStrength, toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -14,6 +15,7 @@ import styles from './ReactHookFormPage.module.css';
 
 const ReactHookFormPage = (): React.ReactElement => {
   const [isCountryFocused, setIsCountryFocused] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const { inputValue } = useAutoComplete();
   const { setInputValue, setReactHookFormData } = useActions();
   const { reactHookForms } = useReactHookForm();
@@ -50,6 +52,12 @@ const ReactHookFormPage = (): React.ReactElement => {
       setInputValue(value);
       setValue('country', value, { shouldValidate: true });
     }
+  };
+
+  const handlePassworChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const password = e.target.value;
+    const strength = getPasswordStrength(password);
+    setPasswordStrength(strength);
   };
 
   const onSubmit = async (formInputs: IForm): Promise<void> => {
@@ -115,7 +123,9 @@ const ReactHookFormPage = (): React.ReactElement => {
             type="password"
             className={styles.input}
             autoComplete="on"
+            onInput={handlePassworChange}
           />
+          <ProgressBar passwordStrength={passwordStrength} />
         </div>
 
         <div className={styles.formField}>
