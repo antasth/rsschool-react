@@ -1,7 +1,7 @@
 import { Autocomplete } from '@/components/Autocomplete/Autocomplete';
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
-import { useAutoComplite } from '@/hooks/useAutoComplite';
+import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { useUncontrolledForm } from '@/hooks/useUncontrolledForm';
 import { IValidationErrors } from '@/types';
 import { toBase64Converter } from '@/utils';
@@ -19,7 +19,7 @@ const UncontrolledFormPage = (): React.ReactElement => {
     {}
   );
 
-  const { inputValue } = useAutoComplite();
+  const { inputValue } = useAutoComplete();
   const { setInputValue, setUncontrolledFormData } = useActions();
   const { uncontrolledForms } = useUncontrolledForm();
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { AUTOCOMPLETE_SHOW_VALUES } from '@/constants';
-import { useAutoComplite } from '@/hooks/useAutoComplite';
+import { useAutoComplete } from '@/hooks/useAutoComplete';
 import React from 'react';
 import styles from './Autocomplete.module.css';
 
@@ -7,7 +7,7 @@ const Autocomplete = (props: {
   handleCountrySelect: (e: React.MouseEvent<HTMLLIElement>) => void;
 }): React.ReactElement => {
   const { handleCountrySelect } = props;
-  const { inputValue, suggestions } = useAutoComplite();
+  const { inputValue, suggestions } = useAutoComplete();
   return (
     <ul className={styles.autocomplete}>
       {suggestions

@@ -1,7 +1,7 @@
 import { Autocomplete } from '@/components/Autocomplete/Autocomplete';
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
-import { useAutoComplite } from '@/hooks/useAutoComplite';
+import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { useReactHookForm } from '@/hooks/useReactHookForm';
 import { IForm } from '@/types';
 import { toBase64Converter } from '@/utils';
@@ -14,7 +14,7 @@ import styles from './ReactHookFormPage.module.css';
 
 const ReactHookFormPage = (): React.ReactElement => {
   const [isCountryFocused, setIsCountryFocused] = useState(false);
-  const { inputValue } = useAutoComplite();
+  const { inputValue } = useAutoComplete();
   const { setInputValue, setReactHookFormData } = useActions();
   const { reactHookForms } = useReactHookForm();
   const navigate = useNavigate();
@@ -26,17 +26,6 @@ const ReactHookFormPage = (): React.ReactElement => {
   } = useForm({
     resolver: yupResolver(formSchema),
     mode: 'onChange',
-    defaultValues: {
-      name: '',
-      age: undefined,
-      email: '',
-      password: '',
-      confirmPassword: '',
-      gender: undefined,
-      country: '',
-      terms: false,
-      file: undefined,
-    },
   });
 
   const handleInputFocus = (): void => {
