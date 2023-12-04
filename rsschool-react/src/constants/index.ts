@@ -1,9 +1,17 @@
 export const MAX_FILE_SIZE = 1024000;
 export const AUTOCOMPLETE_SHOW_VALUES = 7;
 export const SUPPORTED_FORMATS = ['image/png', 'image/jpeg'];
-
+export const PROGRESSBAR_STEP = 20;
 export const EMAIL_REGEXP =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const passwordStrengthRules = [
+  /[A-Z]/,
+  /[a-z]/,
+  /\d/,
+  /^.{8,}$/,
+  /[!@#$%^&*()_+{}[\]:;<>,.?~\/-]/,
+];
 
 export const COUNTRIES_LIST = [
   'Afghanistan',

@@ -1,10 +1,11 @@
 import { Autocomplete } from '@/components/Autocomplete/Autocomplete';
+import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
 import { formSchema } from '@/constants/validation';
 import { useActions } from '@/hooks/useActions';
 import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { useUncontrolledForm } from '@/hooks/useUncontrolledForm';
 import { IValidationErrors } from '@/types';
-import { toBase64Converter } from '@/utils';
+import { getPasswordStrength, toBase64Converter } from '@/utils';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,7 @@ import styles from './UncontrolledFormPage.module.css';
 const UncontrolledFormPage = (): React.ReactElement => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [isCountryFocused, setIsCountryFocused] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [validationErrors, setValidationErrors] = useState<IValidationErrors>(
     {}
@@ -33,6 +35,13 @@ const UncontrolledFormPage = (): React.ReactElement => {
   const termsRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
+
+  const handlePassworChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const password = e.target.value;
+    console.log(password);
+    const strength = getPasswordStrength(password);
+    setPasswordStrength(strength);
+  };
 
   const handleGenderChange = (): void => {
     forceUpdate();
@@ -183,7 +192,9 @@ const UncontrolledFormPage = (): React.ReactElement => {
               name="password"
               autoComplete="on"
               ref={passwordRef}
+              onChange={handlePassworChange}
             />
+            <ProgressBar passwordStrength={passwordStrength} />
           </div>
 
           <div className={styles.formField}>
