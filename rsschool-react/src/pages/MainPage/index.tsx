@@ -8,8 +8,7 @@ const MainPage = (): React.ReactElement => {
   const { uncontrolledForms } = useUncontrolledForm();
   const { reactHookForms } = useReactHookForm();
   const location = useLocation();
-  console.log(location.state);
-  const { formId, formType } = location.state;
+  const { formId, formType } = location.state ? location.state : '';
 
   return (
     <main className={styles.main}>

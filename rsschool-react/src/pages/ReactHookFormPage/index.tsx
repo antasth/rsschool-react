@@ -8,6 +8,7 @@ import { toBase64Converter } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { MdCloudUpload } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import styles from './ReactHookFormPage.module.css';
 
@@ -84,41 +85,74 @@ const ReactHookFormPage = (): React.ReactElement => {
 
   return (
     <div className={styles.main}>
+      <h1 className={styles.title}>React Hook Form</h1>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.formField}>
-          <label>name:</label>
-          <input {...register('name')} />
-          <p>{errors.name?.message}</p>
+          {errors.name ? (
+            <p className={styles.error}>{errors.name?.message}</p>
+          ) : (
+            <label>name:</label>
+          )}
+
+          <input {...register('name')} className={styles.input} />
         </div>
 
         <div className={styles.formField}>
-          <label>age:</label>
-          <input {...register('age')} />
-          <p>{errors.age?.message}</p>
+          {errors.age ? (
+            <p className={styles.error}>{errors.age?.message}</p>
+          ) : (
+            <label>age:</label>
+          )}
+          <input {...register('age')} className={styles.input} />
         </div>
 
         <div className={styles.formField}>
-          <label>email:</label>
-          <input {...register('email')} />
-          <p>{errors.email?.message}</p>
+          {errors.email ? (
+            <p className={styles.error}>{errors.email?.message}</p>
+          ) : (
+            <label>email:</label>
+          )}
+          <input {...register('email')} className={styles.input} />
         </div>
 
         <div className={styles.formField}>
-          <label>password:</label>
-          <input {...register('password')} />
-          <p>{errors.password?.message}</p>
+          {errors.password ? (
+            <p className={styles.error}>{errors.password?.message}</p>
+          ) : (
+            <label>password:</label>
+          )}
+          <input
+            {...register('password')}
+            type="password"
+            className={styles.input}
+            autoComplete="on"
+          />
         </div>
 
         <div className={styles.formField}>
-          <label>confirm password:</label>
-          <input {...register('confirmPassword')} />
-          <p>{errors.confirmPassword?.message}</p>
+          {errors.confirmPassword ? (
+            <p className={styles.error}>{errors.confirmPassword?.message}</p>
+          ) : (
+            <label>confirm password:</label>
+          )}
+          <input
+            {...register('confirmPassword')}
+            className={styles.input}
+            type="password"
+            autoComplete="on"
+          />
         </div>
 
         <div className={styles.formField}>
           <label>gender:</label>
-          <select {...register('gender')}>
-            <option value="default">select gender</option>
+          <select
+            {...register('gender')}
+            defaultValue="default"
+            className={`${styles.input} ${styles.gender}`}
+          >
+            <option value="default" disabled>
+              select gender
+            </option>
             <option value="male">male</option>
             <option value="female">female</option>
           </select>
@@ -126,9 +160,14 @@ const ReactHookFormPage = (): React.ReactElement => {
         </div>
 
         <div className={`${styles.formField} ${styles.countryField}`}>
-          <label>country:</label>
+          {errors.country ? (
+            <p className={styles.error}>{errors.country?.message}</p>
+          ) : (
+            <label>country:</label>
+          )}
           <input
             {...register('country')}
+            className={styles.input}
             type="text"
             value={inputValue}
             onInput={handleInputFocus}
@@ -139,25 +178,35 @@ const ReactHookFormPage = (): React.ReactElement => {
               setValue('country', e.target.value, { shouldValidate: true });
             }}
           />
-          <p>{errors.country?.message}</p>
           {isCountryFocused && (
             <Autocomplete handleCountrySelect={handleCountrySelect} />
           )}
         </div>
 
-        <div className={styles.formField}>
-          <label>file:</label>
-          <input type="file" {...register('file')} />
-          <p>{errors.file?.message}</p>
+        <div className={styles.fileField}>
+          <input type="file" {...register('file')} className={styles.file} />
+          {errors.file ? (
+            <label className={`${styles.error} ${styles.fileError}`}>
+              {errors.file.message}
+            </label>
+          ) : (
+            ''
+          )}
+          <MdCloudUpload className={styles.uploadIcon} />
         </div>
 
         <div className={styles.formField}>
-          <label>terms:</label>
-          <input type="checkbox" {...register('terms')} />
-          <p>{errors.terms?.message}</p>
+          <div className={styles.termsField}>
+            <input type="checkbox" {...register('terms')} />
+            {errors.terms ? (
+              <p className={styles.error}>{errors.terms?.message}</p>
+            ) : (
+              <label>I am agree to Terms and Conditions:</label>
+            )}
+          </div>
         </div>
 
-        <button disabled={!isValid} type="submit">
+        <button className={styles.button} disabled={!isValid} type="submit">
           Submit
         </button>
       </form>
