@@ -1,0 +1,17 @@
+.progressbar {
+  display: flex;
+  width: 100%;
+  height: 5px;
+  position: relative;
+  background: transparent;
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  align-self: end;
+  display: block;
+  height: 100%;
+  background: linear-gradient(0deg, #92a1a9db, #98c1efd5);
+  border-radius: 2px;
+}
